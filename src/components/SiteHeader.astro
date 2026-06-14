@@ -1,0 +1,78 @@
+---
+const navItems = [
+  { href: "/", label: "Hem" },
+  { href: "/blog/", label: "Blogg" },
+  { href: "/projekt/", label: "Projekt" },
+  { href: "/amnen/", label: "Ämnen" },
+  { href: "/om/", label: "Om" },
+];
+---
+
+<header class="site-header">
+  <a class="brand" href="/">Philosophia</a>
+  <nav aria-label="Huvudnavigation">
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+  <button class="theme-button" type="button" data-theme-toggle>
+    <span data-theme-label>Mörkt</span>
+  </button>
+</header>
+
+<style>
+  .site-header {
+    width: min(var(--max), calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    color: var(--accent-strong);
+    font-size: 1.35rem;
+    font-weight: 850;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+  }
+
+  nav a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--accent-strong);
+  }
+
+  .theme-button {
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 750;
+  }
+
+  @media (max-width: 760px) {
+    .site-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    nav {
+      justify-content: flex-start;
+    }
+  }
+</style>

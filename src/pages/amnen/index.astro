@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getTagCounts } from "../../lib/content";
+
+const tags = await getTagCounts();
+---
+
+<BaseLayout title="Ämnen" description="Ämnen och taggar i Philosophias texter.">
+  <main>
+    <header class="page-heading">
+      <h1>Ämnen</h1>
+      <p class="lead">En ingång via återkommande begrepp, traditioner och personer.</p>
+    </header>
+    <section class="tag-cloud">
+      {tags.map((tag) => <a href={`/amnen/${tag.slug}/`}>{tag.tag} <span>({tag.count})</span></a>)}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    padding: 36px 0;
+  }
+
+  .tag-cloud a {
+    color: var(--accent-strong);
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  span {
+    color: var(--muted);
+  }
+</style>

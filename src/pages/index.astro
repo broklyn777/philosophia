@@ -1,0 +1,121 @@
+---
+import ArticleCard from "../components/ArticleCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getProjects, getPublishedPosts } from "../lib/content";
+
+const posts = (await getPublishedPosts()).slice(0, 4);
+const projects = (await getProjects()).filter((project) => project.data.featured).slice(0, 3);
+---
+
+<BaseLayout
+  title="Philosophia"
+  description="En webbplats för filosofi, teologi, andlig psykologi och längre studieprojekt."
+>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Filosofi och teologi</p>
+      <h1>Anteckningar om människan, Gud och det inre livet.</h1>
+      <p class="lead">
+        Philosophia samlar essäer, läsanteckningar och projekt om filosofi,
+        teologi, asketisk psykologi och praktisk självrannsakan.
+      </p>
+      <div class="actions">
+        <a href="/blog/">Läs bloggen</a>
+        <a href="/projekt/">Se projekt</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Projekt</p>
+        <h2>Pågående studier</h2>
+      </div>
+      <div class="project-grid">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Senaste</p>
+        <h2>Blogg</h2>
+      </div>
+      <div>
+        {posts.map((post) => <ArticleCard post={post} />)}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: 62vh;
+    display: grid;
+    align-content: center;
+    padding: 54px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  h1 {
+    max-width: 920px;
+    margin-bottom: 20px;
+    font-size: clamp(3rem, 8vw, 6.7rem);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .actions a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 18px;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .actions a + a {
+    background: transparent;
+    color: var(--accent-strong);
+  }
+
+  .section {
+    padding: 46px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-heading h2 {
+    margin-bottom: 22px;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      min-height: auto;
+      padding-top: 34px;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

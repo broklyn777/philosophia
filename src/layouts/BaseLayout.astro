@@ -1,0 +1,163 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      try {
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+  </head>
+  <body>
+    <SiteHeader />
+    <slot />
+    <SiteFooter />
+    <script is:inline>
+      const themeButton = document.querySelector("[data-theme-toggle]");
+      const themeLabel = document.querySelector("[data-theme-label]");
+
+      function updateThemeLabel() {
+        const isDark = document.documentElement.dataset.theme === "dark";
+        if (themeLabel) themeLabel.textContent = isDark ? "Ljust" : "Mörkt";
+        themeButton?.setAttribute("aria-label", isDark ? "Byt till ljust tema" : "Byt till mörkt tema");
+      }
+
+      updateThemeLabel();
+      themeButton?.addEventListener("click", () => {
+        const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch {}
+        updateThemeLabel();
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+    --bg: #ffffff;
+    --surface: #f8fafc;
+    --ink: #111827;
+    --muted: #5b6472;
+    --line: #d9dee7;
+    --accent: #2563eb;
+    --accent-strong: #1d4ed8;
+    --max: 1040px;
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #111827;
+    --surface: #172033;
+    --ink: #f8fafc;
+    --muted: #bdc7d5;
+    --line: #2d3a4f;
+    --accent: #8ab4ff;
+    --accent-strong: #bfdbfe;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  main {
+    width: min(var(--max), calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  .eyebrow {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .page-heading {
+    padding: 56px 0 28px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .page-heading h1 {
+    margin-bottom: 12px;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    max-width: 760px;
+    color: var(--muted);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.65;
+  }
+
+  .prose {
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.75;
+  }
+
+  .prose h2,
+  .prose h3 {
+    color: var(--ink);
+    line-height: 1.18;
+  }
+
+  .prose h2 {
+    margin-top: 42px;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+  }
+
+  .prose a {
+    color: var(--accent-strong);
+    font-weight: 700;
+    text-underline-offset: 3px;
+  }
+</style>

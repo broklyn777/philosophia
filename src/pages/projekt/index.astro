@@ -1,0 +1,36 @@
+---
+import ProjectCard from "../../components/ProjectCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getProjects } from "../../lib/content";
+
+const projects = await getProjects();
+---
+
+<BaseLayout title="Projekt" description="Längre studieprojekt och innehållsserier.">
+  <main>
+    <header class="page-heading">
+      <h1>Projekt</h1>
+      <p class="lead">
+        Projekt är längre serier med en innehållssida, läsordning och flera relaterade artiklar.
+      </p>
+    </header>
+    <section class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding-top: 32px;
+  }
+
+  @media (max-width: 760px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

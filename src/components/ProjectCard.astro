@@ -1,0 +1,80 @@
+---
+import { projectUrl } from "../lib/content";
+
+interface Props {
+  project: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      tags: string[];
+      status: string;
+      startHere: string;
+    };
+  };
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-card">
+  <p class="status">{project.data.status}</p>
+  <h2><a href={projectUrl(project.slug)}>{project.data.title}</a></h2>
+  <p>{project.data.description}</p>
+  <div class="tags">
+    {project.data.tags.map((tag) => <span>{tag}</span>)}
+  </div>
+  <a class="start" href={project.data.startHere}>Öppna innehåll</a>
+</article>
+
+<style>
+  .project-card {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .status {
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin-bottom: 12px;
+    font-size: 1.65rem;
+    line-height: 1.15;
+  }
+
+  h2 a,
+  .start {
+    text-decoration: none;
+  }
+
+  p {
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0;
+  }
+
+  .tags span {
+    color: var(--accent-strong);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .start {
+    color: var(--accent-strong);
+    font-weight: 800;
+  }
+</style>

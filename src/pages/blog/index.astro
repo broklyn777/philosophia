@@ -1,0 +1,19 @@
+---
+import ArticleCard from "../../components/ArticleCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedPosts } from "../../lib/content";
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="Blogg" description="Alla artiklar och essäer på Philosophia.">
+  <main>
+    <header class="page-heading">
+      <h1>Blogg</h1>
+      <p class="lead">Essäer, anteckningar och projekttexter om filosofi, teologi och andlig psykologi.</p>
+    </header>
+    <section aria-label="Artiklar">
+      {posts.map((post) => <ArticleCard post={post} />)}
+    </section>
+  </main>
+</BaseLayout>

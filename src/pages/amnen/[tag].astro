@@ -1,0 +1,31 @@
+---
+import ArticleCard from "../../components/ArticleCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedPosts, getTagCounts, slugifyTag } from "../../lib/content";
+
+export async function getStaticPaths() {
+  const tags = await getTagCounts();
+  return tags.map((tag) => ({
+    params: { tag: tag.slug },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const posts = (await getPublishedPosts()).filter((post) =>
+  post.data.tags.some((postTag) => slugifyTag(postTag) === tag.slug),
+);
+---
+
+<BaseLayout title={tag.tag} description={`Artiklar om ${tag.tag}.`}>
+  <main>
+    <header class="page-heading">
+      <p class="eyebrow">Ämne</p>
+      <h1>{tag.tag}</h1>
+      <p class="lead">{tag.count} texter i detta ämne.</p>
+    </header>
+    <section>
+      {posts.map((post) => <ArticleCard post={post} />)}
+    </section>
+  </main>
+</BaseLayout>

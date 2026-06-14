@@ -1,0 +1,86 @@
+---
+import { postUrl } from "../lib/content";
+
+interface Props {
+  post: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      date: Date;
+      tags: string[];
+    };
+  };
+}
+
+const { post } = Astro.props;
+const date = new Intl.DateTimeFormat("sv-SE", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format(post.data.date);
+---
+
+<article class="article-card">
+  <time datetime={post.data.date.toISOString()}>{date}</time>
+  <div>
+    <h2><a href={postUrl(post.slug)}>{post.data.title}</a></h2>
+    <p>{post.data.description}</p>
+    <div class="tags">
+      {post.data.tags.map((tag) => <span>{tag}</span>)}
+    </div>
+  </div>
+</article>
+
+<style>
+  .article-card {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  time {
+    color: var(--muted);
+    font-weight: 650;
+  }
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.15;
+  }
+
+  h2 a {
+    text-decoration: none;
+  }
+
+  p {
+    max-width: 760px;
+    margin-bottom: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tags span {
+    color: var(--accent-strong);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .article-card {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+</style>
