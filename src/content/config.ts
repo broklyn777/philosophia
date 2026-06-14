@@ -13,6 +13,7 @@ const blog = defineCollection({
     type: z.enum(["article", "index", "note"]).default("article"),
     featured: z.boolean().default(false),
     order: z.number().optional(),
+    plain: z.boolean().default(false),
   }),
 });
 
