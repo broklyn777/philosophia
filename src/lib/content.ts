@@ -11,7 +11,7 @@ export async function getProjects() {
 }
 
 export function postUrl(slug: string) {
-  return `/blog/${slug}/`;
+  return `/${slug.split("/").at(-1)}/`;
 }
 
 export function projectUrl(project: { slug: string; data: { path?: string } }) {
