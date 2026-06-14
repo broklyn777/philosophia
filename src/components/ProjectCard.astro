@@ -10,6 +10,7 @@ interface Props {
       tags: string[];
       status: string;
       startHere: string;
+      path?: string;
     };
   };
 }
@@ -19,7 +20,7 @@ const { project } = Astro.props;
 
 <article class="project-card">
   <p class="status">{project.data.status}</p>
-  <h2><a href={projectUrl(project.slug)}>{project.data.title}</a></h2>
+  <h2><a href={projectUrl(project)}>{project.data.title}</a></h2>
   <p>{project.data.description}</p>
   <div class="tags">
     {project.data.tags.map((tag) => <span>{tag}</span>)}

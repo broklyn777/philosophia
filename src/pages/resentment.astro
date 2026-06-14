@@ -1,16 +1,13 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntry, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-export async function getStaticPaths() {
-  const projects = await getCollection("projects", ({ data }) => !data.path);
-  return projects.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+const project = await getEntry("projects", "resentment");
+
+if (!project) {
+  throw new Error("Missing resentment project entry.");
 }
 
-const { project } = Astro.props;
 const { Content } = await render(project);
 ---
 

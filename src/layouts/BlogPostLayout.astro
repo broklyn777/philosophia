@@ -21,9 +21,10 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
   <main>
     <article class="article-shell">
       <header class="article-header">
-        <time datetime={date.toISOString()}>{formattedDate}</time>
+        <p class="eyebrow">Blogg</p>
         <h1>{title}</h1>
-        <p>{description}</p>
+        <p class="lead">{description}</p>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
         <div class="tags">
           {tags.map((tag) => <a href={`/amnen/${slugifyTag(tag)}/`}>{tag}</a>)}
         </div>
@@ -37,19 +38,20 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
 
 <style>
   .article-shell {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 42px;
-    padding: 48px 0 20px;
+    padding: 56px 0 20px;
   }
 
   .article-header {
+    max-width: 920px;
+    margin-bottom: 34px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
     color: var(--muted);
   }
 
   time {
     display: block;
-    margin-bottom: 18px;
+    margin-top: 18px;
     font-weight: 700;
   }
 
@@ -59,10 +61,6 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
     font-size: clamp(2.4rem, 6vw, 4.7rem);
     line-height: 1;
     letter-spacing: -0.04em;
-  }
-
-  .article-header p {
-    line-height: 1.65;
   }
 
   .tags {
@@ -79,12 +77,5 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
     letter-spacing: 0.04em;
     text-decoration: none;
     text-transform: uppercase;
-  }
-
-  @media (max-width: 840px) {
-    .article-shell {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
   }
 </style>

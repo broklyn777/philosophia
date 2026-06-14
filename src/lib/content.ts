@@ -14,8 +14,8 @@ export function postUrl(slug: string) {
   return `/blog/${slug}/`;
 }
 
-export function projectUrl(slug: string) {
-  return `/projekt/${slug}/`;
+export function projectUrl(project: { slug: string; data: { path?: string } }) {
+  return project.data.path ?? `/projekt/${project.slug}/`;
 }
 
 export function slugifyTag(tag: string) {
