@@ -1,0 +1,34 @@
+<aside class="greek-word" aria-label="Grekiskt begrepp">
+  <p class="greek-word__label">Grekiskt begrepp</p>
+  <div class="greek-word__content">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .greek-word {
+    margin: 34px 0;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .greek-word__label {
+    margin: 0 0 6px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .greek-word__content {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1em;
+  }
+
+  .greek-word__content :global(> :last-child) {
+    margin-bottom: 0;
+  }
+</style>

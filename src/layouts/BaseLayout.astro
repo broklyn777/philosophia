@@ -127,7 +127,7 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     margin: 0 0 12px;
     color: var(--accent);
     font-size: 0.78rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -155,12 +155,14 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     max-width: 760px;
     color: var(--muted);
     font-size: 1.18rem;
+    font-weight: 350;
     line-height: 1.82;
   }
 
   .prose h2,
   .prose h3 {
     color: var(--ink);
+    font-weight: 700;
     line-height: 1.18;
   }
 
@@ -179,12 +181,13 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     margin-top: 28px;
     color: var(--ink);
     font-size: 1.18rem;
+    font-weight: 700;
     line-height: 1.25;
   }
 
   .prose a {
     color: var(--accent);
-    font-weight: 500;
+    font-weight: 400;
     text-underline-offset: 3px;
   }
 
@@ -194,12 +197,42 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
 
   .prose .evagrios-index a {
     color: var(--accent);
-    font-weight: 500;
+    font-weight: 400;
     text-decoration-thickness: 1px;
   }
 
   .prose .evagrios-index a:hover {
     color: var(--accent-strong);
+  }
+
+  .prose .evagrios-index .section-overview {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 22px 0 24px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .prose .evagrios-index .section-overview span {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .prose .evagrios-index .section-overview a {
+    font-size: 1.05em;
+    text-decoration-thickness: 1px;
+  }
+
+  @media (max-width: 520px) {
+    .prose .evagrios-index .section-overview {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 4px;
+    }
   }
 
   .prose strong {

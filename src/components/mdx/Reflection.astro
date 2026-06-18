@@ -1,0 +1,29 @@
+<aside class="reflection" aria-label="Reflektion">
+  <p class="reflection__label">Reflektion</p>
+  <div class="reflection__content">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .reflection {
+    margin: 42px 0;
+    padding: 24px 0 24px 24px;
+    border-left: 1px solid var(--gray-400);
+    color: var(--ink);
+    font-size: 1.08em;
+  }
+
+  .reflection__label {
+    margin: 0 0 8px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .reflection__content :global(> :last-child) {
+    margin-bottom: 0;
+  }
+</style>

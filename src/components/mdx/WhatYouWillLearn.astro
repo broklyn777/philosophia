@@ -1,0 +1,32 @@
+<aside class="what-you-will-learn" aria-label="Frågor som texten undersöker">
+  <p class="what-you-will-learn__label">Texten undersöker</p>
+  <div class="what-you-will-learn__content">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .what-you-will-learn {
+    margin: 24px 0 44px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .what-you-will-learn__label {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .what-you-will-learn__content {
+    color: var(--ink);
+  }
+
+  .what-you-will-learn__content :global(> :last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -14,6 +14,16 @@ const blog = defineCollection({
     featured: z.boolean().default(false),
     order: z.number().optional(),
     plain: z.boolean().default(false),
+    seriesNavigation: z
+      .object({
+        indexHref: z.string(),
+        indexLabel: z.string().optional(),
+        previousHref: z.string().optional(),
+        previousLabel: z.string().optional(),
+        nextHref: z.string().optional(),
+        nextLabel: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 

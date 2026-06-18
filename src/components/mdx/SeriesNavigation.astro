@@ -1,0 +1,105 @@
+---
+interface Props {
+  previousHref?: string;
+  previousLabel?: string;
+  nextHref?: string;
+  nextLabel?: string;
+  indexHref: string;
+  indexLabel?: string;
+}
+
+const {
+  previousHref,
+  previousLabel,
+  nextHref,
+  nextLabel,
+  indexHref,
+  indexLabel = "Evagrios Pontikos",
+} = Astro.props;
+---
+
+<nav class="series-navigation" aria-label="Navigering i Evagrios-studien">
+  <a class="series-navigation__index" href={indexHref}>↑ {indexLabel}</a>
+  <div class="series-navigation__chapters">
+    {
+      previousHref && previousLabel ? (
+        <a class="series-navigation__previous" href={previousHref}>
+          <span>Föregående</span>
+          {previousLabel}
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      nextHref && nextLabel ? (
+        <a class="series-navigation__next" href={nextHref}>
+          <span>Nästa</span>
+          {nextLabel}
+        </a>
+      ) : null
+    }
+  </div>
+</nav>
+
+<style>
+  .series-navigation {
+    max-width: 760px;
+    margin-top: 56px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .series-navigation a {
+    color: var(--accent);
+    font-weight: 400;
+    text-decoration-thickness: 1px;
+  }
+
+  .series-navigation__index {
+    display: inline-block;
+    margin-bottom: 24px;
+  }
+
+  .series-navigation__chapters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .series-navigation__chapters a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .series-navigation__chapters a:hover {
+    color: var(--accent);
+  }
+
+  .series-navigation__chapters span {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .series-navigation__next {
+    text-align: right;
+  }
+
+  @media (max-width: 560px) {
+    .series-navigation__chapters {
+      grid-template-columns: 1fr;
+    }
+
+    .series-navigation__next {
+      text-align: left;
+    }
+  }
+</style>

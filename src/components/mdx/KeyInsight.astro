@@ -1,0 +1,29 @@
+<aside class="mdx-block key-insight" aria-label="Huvudtanke">
+  <p class="mdx-block__label">Huvudtanke</p>
+  <div class="mdx-block__content">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .key-insight {
+    --block-accent: var(--accent);
+    margin: 38px 0;
+    padding: 22px 24px;
+    border-left: 3px solid var(--block-accent);
+    background: color-mix(in srgb, var(--accent) 7%, var(--bg));
+  }
+
+  .mdx-block__label {
+    margin: 0 0 8px;
+    color: var(--block-accent);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .mdx-block__content :global(> :last-child) {
+    margin-bottom: 0;
+  }
+</style>
