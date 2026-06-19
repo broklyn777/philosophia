@@ -5,7 +5,7 @@ const resultTemplate = `
   <li class="pf-result philosophia-result">
     <div class="philosophia-result__body">
       <p class="philosophia-result__title">
-        <a href="{{ meta.url | default(url) | safeUrl }}">{{ meta.resultTitle }}</a>
+        <a href="{{ meta.url | default(url) | safeUrl }}">{{ meta.title }}</a>
       </p>
       {{#if excerpt}}
       <p class="philosophia-result__excerpt">{{+ excerpt +}}</p>
@@ -62,8 +62,23 @@ const resultTemplate = `
 
 <script>
   const shortcut = document.querySelector<HTMLElement>(".search-shortcut");
+  const results = document.querySelector("pagefind-results");
+
   if (shortcut && !navigator.userAgent.toLowerCase().includes("mac")) {
     shortcut.textContent = "Ctrl K";
+  }
+
+  const cleanResultTitles = () => {
+    results?.querySelectorAll<HTMLElement>(".philosophia-result__title a").forEach((link) => {
+      link.textContent = link.textContent?.replace(/\s+-\s+Philosophia$/, "") ?? "";
+    });
+  };
+
+  if (results) {
+    new MutationObserver(cleanResultTitles).observe(results, {
+      childList: true,
+      subtree: true,
+    });
   }
 </script>
 

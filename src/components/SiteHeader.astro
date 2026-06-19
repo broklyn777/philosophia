@@ -4,7 +4,6 @@ const navItems = [
   { href: "/blog/", label: "Blogg" },
   { href: "/projekt/", label: "Bibliotek" },
   { href: "/amnen/", label: "Ämnen" },
-  { href: "/sok/", label: "Sök" },
   { href: "/om/", label: "Om" },
 ];
 ---
@@ -14,12 +13,24 @@ const navItems = [
   <nav aria-label="Huvudnavigation">
     {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
-  <button class="theme-button" type="button" data-theme-toggle>
-    <span data-theme-label>Mörkt</span>
-  </button>
+  <div class="site-tools">
+    <a class="search-link" href="/sok/" aria-label="Sök i biblioteket">
+      <span class="search-link__icon" aria-hidden="true">⌕</span>
+      <span>Sök i biblioteket</span>
+      <kbd>⌘K</kbd>
+    </a>
+    <button class="theme-button" type="button" data-theme-toggle>
+      <span data-theme-label>Mörkt</span>
+    </button>
+  </div>
 </header>
 
 <script>
+  const searchShortcut = document.querySelector<HTMLElement>(".search-link kbd");
+  if (searchShortcut && !navigator.userAgent.toLowerCase().includes("mac")) {
+    searchShortcut.textContent = "Ctrl K";
+  }
+
   document.addEventListener("keydown", (event) => {
     if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "k") return;
     const target = event.target;
@@ -64,6 +75,52 @@ const navItems = [
     color: var(--accent);
   }
 
+  .site-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-link {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  .search-link:hover,
+  .search-link:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .search-link:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .search-link__icon {
+    color: var(--accent);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .search-link kbd {
+    padding: 2px 5px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
+
   .theme-button {
     min-height: 36px;
     padding: 0 12px;
@@ -84,6 +141,17 @@ const navItems = [
 
     nav {
       justify-content: flex-start;
+    }
+
+    .site-tools {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .search-link kbd {
+      display: none;
     }
   }
 </style>
