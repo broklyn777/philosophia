@@ -69,8 +69,9 @@ const date = new Intl.DateTimeFormat("sv-SE", {
     gap: 8px;
   }
 
-  .tags a {
-    color: var(--accent);
+  .tags a:link,
+  .tags a:visited {
+    color: rgb(20, 184, 166);
     font-size: 0.875rem;
     font-weight: 400;
     letter-spacing: 0;
@@ -78,7 +79,8 @@ const date = new Intl.DateTimeFormat("sv-SE", {
     text-transform: uppercase;
   }
 
-  .tags a:hover {
+  .tags a:hover,
+  .tags a:focus-visible {
     color: var(--accent-strong);
     text-decoration: underline;
     text-underline-offset: 3px;

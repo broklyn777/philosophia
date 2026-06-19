@@ -68,14 +68,16 @@ const { project } = Astro.props;
     margin: 18px 0;
   }
 
-  .tags a {
-    color: var(--accent);
+  .tags a:link,
+  .tags a:visited {
+    color: rgb(20, 184, 166);
     font-size: 0.875rem;
     font-weight: 400;
     text-decoration: none;
   }
 
-  .tags a:hover {
+  .tags a:hover,
+  .tags a:focus-visible {
     color: var(--accent-strong);
     text-decoration: underline;
     text-underline-offset: 3px;
