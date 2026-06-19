@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import ArticleAudioPlayer from "../components/ArticleAudioPlayer.astro";
 import SeriesNavigation from "../components/mdx/SeriesNavigation.astro";
 import { slugifyTag } from "../lib/content";
 
@@ -9,6 +10,7 @@ interface Props {
   date: Date;
   tags: string[];
   plain?: boolean;
+  audioEnabled?: boolean;
   seriesNavigation?: {
     indexHref: string;
     indexLabel?: string;
@@ -19,7 +21,15 @@ interface Props {
   };
 }
 
-const { title, description, date, tags, plain = false, seriesNavigation } = Astro.props;
+const {
+  title,
+  description,
+  date,
+  tags,
+  plain = false,
+  audioEnabled = false,
+  seriesNavigation,
+} = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("sv-SE", {
   day: "numeric",
   month: "long",
@@ -45,6 +55,7 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
           )
         }
       </header>
+      {audioEnabled && <ArticleAudioPlayer />}
       <div class="prose">
         <slot />
       </div>

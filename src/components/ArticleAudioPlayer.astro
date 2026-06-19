@@ -1,0 +1,339 @@
+<section class="article-reader" data-article-reader aria-label="Läs- och lyssningsläge">
+  <div class="article-reader__bar">
+    <p class="article-reader__time">
+      <span aria-hidden="true">📖</span>
+      <span data-reading-time>Beräknar lästid</span>
+    </p>
+
+    <div class="article-reader__modes" role="group" aria-label="Välj läsläge">
+      <button type="button" data-reader-mode="read" aria-pressed="true">📖 Läs</button>
+      <button type="button" data-reader-mode="listen" aria-pressed="false">🎧 Lyssna</button>
+    </div>
+  </div>
+
+  <div class="article-reader__audio" data-audio-controls hidden>
+    <div class="article-reader__buttons">
+      <button type="button" data-speech-action="play" aria-label="Spela uppläsning" title="Spela">
+        <span aria-hidden="true">▶</span>
+      </button>
+      <button type="button" data-speech-action="pause" aria-label="Pausa uppläsning" title="Pausa">
+        <span aria-hidden="true">Ⅱ</span>
+      </button>
+      <button type="button" data-speech-action="stop" aria-label="Stoppa uppläsning" title="Stoppa">
+        <span aria-hidden="true">■</span>
+      </button>
+    </div>
+    <p class="article-reader__status" data-speech-status aria-live="polite">Redo att lyssna</p>
+  </div>
+
+  <p class="article-reader__unsupported" data-speech-unsupported hidden>
+    Uppläsning stöds inte av den här webbläsaren.
+  </p>
+</section>
+
+<script>
+  const readers = document.querySelectorAll<HTMLElement>("[data-article-reader]");
+
+  readers.forEach((reader) => {
+    const article = reader.closest("article");
+    const prose = article?.querySelector<HTMLElement>(".prose");
+    const header = article?.querySelector<HTMLElement>(".article-header");
+    const readingTime = reader.querySelector<HTMLElement>("[data-reading-time]");
+    const audioControls = reader.querySelector<HTMLElement>("[data-audio-controls]");
+    const unsupported = reader.querySelector<HTMLElement>("[data-speech-unsupported]");
+    const status = reader.querySelector<HTMLElement>("[data-speech-status]");
+    const readMode = reader.querySelector<HTMLButtonElement>('[data-reader-mode="read"]');
+    const listenMode = reader.querySelector<HTMLButtonElement>('[data-reader-mode="listen"]');
+    const playButton = reader.querySelector<HTMLButtonElement>('[data-speech-action="play"]');
+    const pauseButton = reader.querySelector<HTMLButtonElement>('[data-speech-action="pause"]');
+    const stopButton = reader.querySelector<HTMLButtonElement>('[data-speech-action="stop"]');
+
+    if (!article || !prose || !readingTime || !audioControls || !status) return;
+
+    const statusElement = status;
+    const excludedSelectors = [
+      "[data-footnotes]",
+      ".mdx-block__label",
+      ".reflection__label",
+      ".greek-word__label",
+      ".what-you-will-learn__label",
+      ".sr-only",
+    ].join(",");
+
+    const candidates = [
+      ...(header?.querySelectorAll<HTMLElement>("h1, .lead") ?? []),
+      ...prose.querySelectorAll<HTMLElement>("h2, h3, h4, p, li, blockquote"),
+    ];
+
+    const blocks = candidates.filter((element) => {
+      if (element.closest(excludedSelectors)) return false;
+      if (element.matches(excludedSelectors)) return false;
+      return !candidates.some((candidate) => candidate !== element && element.contains(candidate));
+    });
+
+    const getBlockText = (element: HTMLElement) => {
+      const clone = element.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll("sup, [data-footnote-ref], .sr-only").forEach((node) => node.remove());
+      return clone.textContent?.replace(/\s+/g, " ").trim() ?? "";
+    };
+
+    const spokenBlocks = blocks
+      .map((element) => ({ element, text: getBlockText(element) }))
+      .filter(({ text }) => text.length > 0);
+
+    const wordCount = spokenBlocks.reduce(
+      (total, { text }) => total + text.split(/\s+/).filter(Boolean).length,
+      0,
+    );
+    const minutes = Math.max(1, Math.ceil(wordCount / 180));
+    readingTime.textContent = `${minutes} min läsning`;
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+      listenMode?.setAttribute("disabled", "");
+      unsupported?.removeAttribute("hidden");
+      return;
+    }
+
+    const synth = window.speechSynthesis;
+    let currentIndex = 0;
+    let stopped = true;
+    let finished = false;
+
+    const setMode = (mode: "read" | "listen") => {
+      const listening = mode === "listen";
+      readMode?.setAttribute("aria-pressed", String(!listening));
+      listenMode?.setAttribute("aria-pressed", String(listening));
+      audioControls.toggleAttribute("hidden", !listening);
+      if (!listening) stop();
+    };
+
+    const selectVoice = () => {
+      const voices = synth.getVoices();
+      const browserLanguage = navigator.language.toLocaleLowerCase();
+      return (
+        voices.find((voice) => voice.lang.toLocaleLowerCase() === "sv-se") ??
+        voices.find((voice) => voice.lang.toLocaleLowerCase().startsWith("sv")) ??
+        voices.find((voice) => voice.lang.toLocaleLowerCase() === browserLanguage) ??
+        voices.find((voice) => voice.default) ??
+        voices[0]
+      );
+    };
+
+    const clearHighlight = () => {
+      article.querySelectorAll(".speech-current").forEach((element) => {
+        element.classList.remove("speech-current");
+        element.removeAttribute("aria-current");
+      });
+    };
+
+    const highlight = (element: HTMLElement) => {
+      clearHighlight();
+      element.classList.add("speech-current");
+      element.setAttribute("aria-current", "true");
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    const speakCurrent = () => {
+      if (currentIndex >= spokenBlocks.length) {
+        finished = true;
+        stopped = true;
+        clearHighlight();
+        statusElement.textContent = "Uppläsningen är klar";
+        return;
+      }
+
+      const block = spokenBlocks[currentIndex];
+      const utterance = new SpeechSynthesisUtterance(block.text);
+      const voice = selectVoice();
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+      } else {
+        utterance.lang = navigator.language || "sv-SE";
+      }
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+
+      utterance.onstart = () => {
+        highlight(block.element);
+        statusElement.textContent = `Läser stycke ${currentIndex + 1} av ${spokenBlocks.length}`;
+      };
+      utterance.onend = () => {
+        if (stopped) return;
+        currentIndex += 1;
+        speakCurrent();
+      };
+      utterance.onerror = (event) => {
+        if (event.error === "canceled" || event.error === "interrupted") return;
+        stopped = true;
+        clearHighlight();
+        statusElement.textContent = "Uppläsningen kunde inte fortsätta";
+      };
+
+      synth.speak(utterance);
+    };
+
+    const play = () => {
+      if (synth.paused) {
+        synth.resume();
+        statusElement.textContent = `Läser stycke ${currentIndex + 1} av ${spokenBlocks.length}`;
+        return;
+      }
+      if (synth.speaking) return;
+      if (finished || currentIndex >= spokenBlocks.length) currentIndex = 0;
+      finished = false;
+      stopped = false;
+      speakCurrent();
+    };
+
+    const pause = () => {
+      if (!synth.speaking || synth.paused) return;
+      synth.pause();
+      statusElement.textContent = "Pausad";
+    };
+
+    function stop() {
+      stopped = true;
+      finished = false;
+      currentIndex = 0;
+      synth.cancel();
+      clearHighlight();
+      statusElement.textContent = "Redo att lyssna";
+    }
+
+    readMode?.addEventListener("click", () => setMode("read"));
+    listenMode?.addEventListener("click", () => setMode("listen"));
+    playButton?.addEventListener("click", play);
+    pauseButton?.addEventListener("click", pause);
+    stopButton?.addEventListener("click", stop);
+    window.addEventListener("pagehide", stop, { once: true });
+  });
+</script>
+
+<style>
+  .article-reader {
+    max-width: 760px;
+    margin: 0 0 38px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .article-reader__bar,
+  .article-reader__audio {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .article-reader__time,
+  .article-reader__status,
+  .article-reader__unsupported {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .article-reader__time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .article-reader__modes {
+    display: inline-flex;
+    gap: 18px;
+  }
+
+  .article-reader button {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .article-reader__modes button {
+    min-height: 34px;
+    padding: 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .article-reader__modes button[aria-pressed="true"] {
+    border-bottom-color: var(--accent);
+    color: var(--ink);
+  }
+
+  .article-reader button:hover,
+  .article-reader button:focus-visible {
+    color: var(--accent);
+  }
+
+  .article-reader button:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .article-reader button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  .article-reader__audio {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .article-reader__audio[hidden],
+  .article-reader__unsupported[hidden] {
+    display: none;
+  }
+
+  .article-reader__buttons {
+    display: flex;
+    gap: 6px;
+  }
+
+  .article-reader__buttons button {
+    width: 36px;
+    height: 36px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  .article-reader__buttons span {
+    line-height: 1;
+  }
+
+  :global(.speech-current) {
+    position: relative;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 10%, transparent);
+    color: var(--ink);
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  @media (max-width: 560px) {
+    .article-reader__bar,
+    .article-reader__audio {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.speech-current) {
+      transition: none;
+    }
+  }
+</style>
