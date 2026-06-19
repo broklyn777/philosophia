@@ -1,5 +1,5 @@
 ---
-import { postUrl } from "../lib/content";
+import { postUrl, slugifyTag } from "../lib/content";
 
 interface Props {
   post: {
@@ -26,9 +26,9 @@ const date = new Intl.DateTimeFormat("sv-SE", {
   <div>
     <h2><a href={postUrl(post.slug)}>{post.data.title}</a></h2>
     <p>{post.data.description}</p>
-    <div class="tags">
-      {post.data.tags.map((tag) => <span>{tag}</span>)}
-    </div>
+    <nav class="tags" aria-label={`Ämnen för ${post.data.title}`}>
+      {post.data.tags.map((tag) => <a href={`/amnen/${slugifyTag(tag)}/`}>{tag}</a>)}
+    </nav>
   </div>
 </article>
 
@@ -69,12 +69,25 @@ const date = new Intl.DateTimeFormat("sv-SE", {
     gap: 8px;
   }
 
-  .tags span {
+  .tags a {
     color: var(--accent);
     font-size: 0.875rem;
     font-weight: 400;
     letter-spacing: 0;
+    text-decoration: none;
     text-transform: uppercase;
+  }
+
+  .tags a:hover {
+    color: var(--accent-strong);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .tags a:focus-visible {
+    border-radius: 2px;
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
   }
 
   @media (max-width: 720px) {
