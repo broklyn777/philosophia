@@ -4,11 +4,12 @@ const navItems = [
   { href: "/blog/", label: "Blogg" },
   { href: "/projekt/", label: "Projekt" },
   { href: "/amnen/", label: "Ämnen" },
+  { href: "/sok/", label: "Sök" },
   { href: "/om/", label: "Om" },
 ];
 ---
 
-<header class="site-header">
+<header class="site-header" data-pagefind-ignore="all">
   <a class="brand" href="/">Philosophia</a>
   <nav aria-label="Huvudnavigation">
     {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
@@ -17,6 +18,16 @@ const navItems = [
     <span data-theme-label>Mörkt</span>
   </button>
 </header>
+
+<script>
+  document.addEventListener("keydown", (event) => {
+    if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "k") return;
+    const target = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) return;
+    event.preventDefault();
+    window.location.href = "/sok/";
+  });
+</script>
 
 <style>
   .site-header {

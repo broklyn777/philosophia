@@ -16,8 +16,10 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
+    <meta data-pagefind-meta="resultTitle[content]" content={title} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
+    <slot name="head" />
     <script is:inline>
       try {
         const storedTheme = localStorage.getItem("theme");
