@@ -10,7 +10,7 @@ const posts = await getPublishedPosts();
   <main>
     <header class="page-heading">
       <h1>Blogg</h1>
-      <p class="lead">Essäer, anteckningar och projekttexter om filosofi, teologi och andlig psykologi.</p>
+      <p class="lead">Essäer, anteckningar och studietexter om filosofi, teologi och andlig psykologi.</p>
     </header>
     <section aria-label="Artiklar">
       {posts.map((post) => <ArticleCard post={post} />)}
