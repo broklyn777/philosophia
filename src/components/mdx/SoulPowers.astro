@@ -1,0 +1,143 @@
+<figure class="soul-powers" aria-labelledby="soul-powers-caption">
+  <div class="soul-powers__grid">
+    <article>
+      <span class="soul-powers__number">I</span>
+      <p class="soul-powers__greek">λογιστικόν</p>
+      <h3>Logistikon</h3>
+      <p class="soul-powers__role">Den vägledande delen</p>
+      <p>Urskiljning, sanning och minne av Gud.</p>
+      <p class="soul-powers__risk"><span>Risk</span> Högmod, fåfänga och självbedrägeri.</p>
+    </article>
+
+    <article>
+      <span class="soul-powers__number">II</span>
+      <p class="soul-powers__greek">ἐπιθυμητικόν</p>
+      <h3>Epithymetikon</h3>
+      <p class="soul-powers__role">Den begärande delen</p>
+      <p>Längtan, hunger och sökande efter det goda.</p>
+      <p class="soul-powers__risk"><span>Risk</span> Frosseri, otukt och girighet.</p>
+    </article>
+
+    <article>
+      <span class="soul-powers__number">III</span>
+      <p class="soul-powers__greek">θυμικόν</p>
+      <h3>Thymikon</h3>
+      <p class="soul-powers__role">Den kraftfulla delen</p>
+      <p>Mod, kamp, gräns och motstånd mot det onda.</p>
+      <p class="soul-powers__risk"><span>Risk</span> Vrede, bitterhet och hämnd.</p>
+    </article>
+  </div>
+  <figcaption id="soul-powers-caption">
+    Logismoi förstör inte själen genom att skapa nya krafter, utan genom att vrida
+    själens gudgivna krafter ur deras rätta riktning.
+  </figcaption>
+</figure>
+
+<style>
+  .soul-powers {
+    width: min(1040px, calc(100vw - 32px));
+    margin: 48px 0 52px;
+  }
+
+  .soul-powers__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  article {
+    position: relative;
+    min-height: 330px;
+    padding: 28px 24px 24px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 42%),
+      var(--surface);
+  }
+
+  article::after {
+    position: absolute;
+    right: -22px;
+    bottom: -44px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    border-radius: 50%;
+    content: "";
+  }
+
+  .soul-powers__number {
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .soul-powers__greek {
+    margin: 26px 0 4px;
+    color: var(--accent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.95rem;
+  }
+
+  h3 {
+    margin: 0 0 8px !important;
+    font-size: clamp(1.35rem, 2.5vw, 1.7rem) !important;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin-bottom: 18px;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .soul-powers__role {
+    color: var(--ink);
+    font-weight: 650;
+  }
+
+  .soul-powers__risk {
+    margin: 24px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .soul-powers__risk span {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  figcaption {
+    max-width: 760px;
+    margin-top: 18px;
+    padding-left: 18px;
+    border-left: 2px solid var(--accent);
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 820px) {
+    .soul-powers {
+      width: 100%;
+    }
+
+    .soul-powers__grid {
+      grid-template-columns: 1fr;
+    }
+
+    article {
+      min-height: auto;
+    }
+  }
+</style>
