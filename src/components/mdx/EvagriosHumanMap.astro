@@ -1,0 +1,837 @@
+<figure class="human-map" data-human-map data-state="created" aria-labelledby="human-map-title">
+  <header class="human-map__header">
+    <p class="human-map__eyebrow">Människan enligt Evagrios</p>
+    <h2 id="human-map-title">Från enhet, genom splittring, mot läkedom</h2>
+    <p>
+      Den andliga vägen börjar inte i självförakt. Den börjar i minnet av vad
+      människan är skapad för.
+    </p>
+  </header>
+
+  <div class="human-map__steps" role="group" aria-label="Människans väg enligt Evagrios">
+    <button type="button" data-human-state="created" aria-pressed="true">
+      <span>I</span> Skapad för Gud
+    </button>
+    <button type="button" data-human-state="divided" aria-pressed="false">
+      <span>II</span> Splittrad av logismoi
+    </button>
+    <button type="button" data-human-state="healed" aria-pressed="false">
+      <span>III</span> Helad på vägen
+    </button>
+  </div>
+
+  <div class="human-map__body">
+    <div class="human-map__scene" aria-hidden="true">
+      <div class="human-map__light">
+        <span></span>
+        <p>Gud</p>
+      </div>
+      <div class="human-map__ray"></div>
+
+      <div class="human-map__person">
+        <span class="human-map__head"></span>
+        <span class="human-map__torso"></span>
+        <span class="human-map__heart"></span>
+        <span class="human-map__gaze"></span>
+      </div>
+
+      <div class="human-map__force human-map__force--reason">
+        <span class="human-map__force-mark"></span>
+        <p>förnuft<small data-created-label>klarhet</small></p>
+      </div>
+      <div class="human-map__force human-map__force--spirit">
+        <span class="human-map__force-mark"></span>
+        <p>kraft<small data-created-label>mod</small></p>
+      </div>
+      <div class="human-map__force human-map__force--desire">
+        <span class="human-map__force-mark"></span>
+        <p>begär<small data-created-label>längtan</small></p>
+      </div>
+
+      <div class="human-map__world">
+        <span class="human-map__horizon"></span>
+        <span class="human-map__other"></span>
+        <span class="human-map__creation"></span>
+        <p data-human-world>skapelsen som gåva</p>
+      </div>
+
+      <div class="human-map__distortions">
+        <span class="distortion distortion--desire">begär<small>den andre blir ett objekt</small></span>
+        <span class="distortion distortion--anger">vrede<small>den andre blir en fiende</small></span>
+        <span class="distortion distortion--vanity">fåfänga<small>livet blir en scen</small></span>
+        <span class="distortion distortion--acedia">akedia<small>det goda tycks tomt</small></span>
+      </div>
+
+      <div class="human-map__path">
+        <span>vaksamhet</span>
+        <span>askes</span>
+        <span>apatheia</span>
+        <span>bön</span>
+        <span>kärlek</span>
+        <span>renat nous</span>
+      </div>
+    </div>
+
+    <div class="human-map__texts" aria-live="polite">
+      <section data-human-panel="created">
+        <p class="human-map__number">I</p>
+        <h3>Skapad för Gud</h3>
+        <p class="human-map__lead">Människans krafter är från början gåvor.</p>
+        <p>
+          Människan är skapad för klarhet, kärlek och gemenskap med Gud.
+          Förnuft, kraft och begär är inte fiender, utan krafter som i sitt
+          friska tillstånd samverkar.
+        </p>
+        <blockquote>
+          Människan är i sitt djup inte skapad för kaos, utan för enhet.
+        </blockquote>
+      </section>
+
+      <section data-human-panel="divided" hidden>
+        <p class="human-map__number">II</p>
+        <h3>Splittrad av logismoi</h3>
+        <p class="human-map__lead">Passionen drar isär både kärleken och blicken.</p>
+        <p>
+          Människans problem är inte bara att hon gör fel. Logismoi förvränger
+          seendet, binder begäret och gör nästan till objekt, hot eller spegel
+          för jaget.
+        </p>
+        <blockquote>
+          Det stora problemet är inte bara moralisk skuld, utan förvrängt seende
+          och splittrad kärlek.
+        </blockquote>
+      </section>
+
+      <section data-human-panel="healed" hidden>
+        <p class="human-map__number">III</p>
+        <h3>Helad genom den andliga vägen</h3>
+        <p class="human-map__lead">Inte perfektion, utan ett långsamt återvändande.</p>
+        <p>
+          Genom vaksamhet, askes, bön och apatheia blir själen friare, seendet
+          klarare och människan mer samlad. Krafterna utplånas inte; de riktas
+          åter mot kärleken.
+        </p>
+        <blockquote>
+          Frälsningen är inte bara att få veta något nytt, utan att bli helad.
+        </blockquote>
+      </section>
+    </div>
+  </div>
+
+  <figcaption>
+    Evagrios karta börjar i skapelsen och slutar inte i tekniken, utan i en
+    människa som långsamt samlas inför Gud.
+  </figcaption>
+</figure>
+
+<script>
+  const humanWorldLabels = {
+    created: "skapelsen som gåva",
+    divided: "världen genom passionens blick",
+    healed: "skapelsen mottagen på nytt",
+  };
+
+  const forceLabels = {
+    created: ["klarhet", "mod", "längtan"],
+    divided: ["självbedrägeri", "vrede och flykt", "rastlös hunger"],
+    healed: ["urskiljning", "uthållighet", "längtan efter Gud"],
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-human-map]").forEach((map) => {
+    const buttons = map.querySelectorAll<HTMLButtonElement>("[data-human-state]");
+    const panels = map.querySelectorAll<HTMLElement>("[data-human-panel]");
+    const labels = map.querySelectorAll<HTMLElement>("[data-created-label]");
+    const world = map.querySelector<HTMLElement>("[data-human-world]");
+
+    const setState = (state: "created" | "divided" | "healed") => {
+      map.dataset.state = state;
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.humanState === state));
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.humanPanel !== state;
+      });
+      labels.forEach((label, index) => {
+        label.textContent = forceLabels[state][index] ?? "";
+      });
+      if (world) world.textContent = humanWorldLabels[state];
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const state = button.dataset.humanState;
+        if (state === "created" || state === "divided" || state === "healed") {
+          setState(state);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .human-map {
+    width: min(980px, calc(100vw - 32px));
+    margin: 38px 0 60px;
+    padding: clamp(22px, 4vw, 40px);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--line) 82%, var(--accent));
+    border-radius: 26px;
+    background:
+      radial-gradient(circle at 31% 48%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 34%),
+      linear-gradient(145deg, color-mix(in srgb, var(--gray-900) 92%, var(--accent)), var(--gray-900));
+    color: var(--gray-300);
+    box-shadow: 0 26px 70px color-mix(in srgb, var(--gray-900) 20%, transparent);
+    transition: background 1.4s ease;
+  }
+
+  .human-map__header {
+    max-width: 730px;
+  }
+
+  .human-map__eyebrow {
+    margin: 0 0 9px;
+    color: var(--primary-400);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .human-map h2 {
+    margin: 0 0 10px !important;
+    color: var(--gray-100) !important;
+    font-size: clamp(1.65rem, 3.8vw, 2.45rem) !important;
+    letter-spacing: -0.035em;
+  }
+
+  .human-map__header > p:last-child {
+    max-width: 650px;
+    margin: 0;
+    color: var(--gray-300);
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+
+  .human-map__steps {
+    display: flex;
+    margin: 30px 0 8px;
+    border-top: 1px solid var(--gray-700);
+    border-bottom: 1px solid var(--gray-700);
+  }
+
+  .human-map__steps button {
+    flex: 1;
+    padding: 14px 10px;
+    border: 0;
+    border-right: 1px solid var(--gray-700);
+    background: transparent;
+    color: var(--gray-400);
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition:
+      color 500ms ease,
+      background-color 500ms ease;
+  }
+
+  .human-map__steps button:last-child {
+    border-right: 0;
+  }
+
+  .human-map__steps button span {
+    margin-right: 7px;
+    color: var(--primary-400);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .human-map__steps button[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--primary-500) 8%, transparent);
+    color: var(--gray-100);
+  }
+
+  .human-map__steps button:focus-visible {
+    outline: 2px solid var(--primary-400);
+    outline-offset: -3px;
+  }
+
+  .human-map__body {
+    display: grid;
+    grid-template-columns: minmax(420px, 1.25fr) minmax(260px, 0.75fr);
+    gap: clamp(30px, 5vw, 60px);
+    align-items: center;
+    min-height: 510px;
+  }
+
+  .human-map__scene {
+    position: relative;
+    height: 455px;
+  }
+
+  .human-map__light {
+    position: absolute;
+    top: 23px;
+    left: 50%;
+    z-index: 6;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  .human-map__light span {
+    display: block;
+    width: 19px;
+    height: 19px;
+    margin: auto;
+    border: 1px solid color-mix(in srgb, var(--primary-400) 75%, white);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 10px color-mix(in srgb, var(--primary-400) 7%, transparent),
+      0 0 46px color-mix(in srgb, var(--primary-400) 32%, transparent);
+  }
+
+  .human-map__light p {
+    margin: 11px 0 0;
+    color: var(--gray-200);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.75rem;
+  }
+
+  .human-map__ray {
+    position: absolute;
+    top: 49px;
+    left: 50%;
+    z-index: 1;
+    width: 210px;
+    height: 275px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--primary-400) 13%, transparent),
+      transparent
+    );
+    clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%);
+    opacity: 0.9;
+    transform: translateX(-50%);
+    transition:
+      opacity 1.4s ease,
+      filter 1.4s ease;
+  }
+
+  .human-map__person {
+    position: absolute;
+    top: 136px;
+    left: 50%;
+    z-index: 5;
+    width: 112px;
+    height: 190px;
+    transform: translateX(-50%);
+  }
+
+  .human-map__head {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50px;
+    height: 59px;
+    border: 1px solid color-mix(in srgb, var(--gray-200) 58%, transparent);
+    border-radius: 48% 48% 43% 43%;
+    background: color-mix(in srgb, var(--gray-900) 76%, transparent);
+    transform: translateX(-50%);
+    transition:
+      filter 1.3s ease,
+      border-color 1.3s ease;
+  }
+
+  .human-map__torso {
+    position: absolute;
+    top: 66px;
+    left: 50%;
+    width: 90px;
+    height: 122px;
+    border: 1px solid color-mix(in srgb, var(--gray-300) 40%, transparent);
+    border-radius: 48% 48% 20% 20%;
+    background: color-mix(in srgb, var(--gray-900) 72%, transparent);
+    transform: translateX(-50%);
+  }
+
+  .human-map__heart {
+    position: absolute;
+    top: 98px;
+    left: 50%;
+    width: 13px;
+    height: 13px;
+    border: 1px solid var(--primary-400);
+    border-radius: 50%;
+    box-shadow: 0 0 24px color-mix(in srgb, var(--primary-400) 24%, transparent);
+    transform: translateX(-50%);
+    transition:
+      box-shadow 1.3s ease,
+      opacity 1.3s ease;
+  }
+
+  .human-map__gaze {
+    position: absolute;
+    top: 23px;
+    left: 50%;
+    width: 1px;
+    height: 82px;
+    background: linear-gradient(var(--primary-400), transparent);
+    transform: translate(-50%, -100%);
+    transform-origin: bottom;
+    transition:
+      opacity 1.3s ease,
+      transform 1.3s ease;
+  }
+
+  .human-map__force {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gray-300);
+    transition:
+      transform 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 1.2s ease;
+  }
+
+  .human-map__force--reason {
+    top: 156px;
+    left: 15%;
+  }
+
+  .human-map__force--spirit {
+    top: 250px;
+    left: 8%;
+  }
+
+  .human-map__force--desire {
+    top: 250px;
+    right: 8%;
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .human-map__force-mark {
+    position: relative;
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-400));
+  }
+
+  .human-map__force--desire .human-map__force-mark {
+    background: linear-gradient(90deg, var(--primary-400), transparent);
+  }
+
+  .human-map__force-mark::after {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--primary-400);
+    border-radius: 50%;
+    background: var(--gray-900);
+    content: "";
+  }
+
+  .human-map__force--desire .human-map__force-mark::after {
+    right: auto;
+    left: -3px;
+  }
+
+  .human-map__force p {
+    margin: 0;
+    color: var(--gray-200);
+    font-size: 0.74rem;
+    line-height: 1.25;
+  }
+
+  .human-map__force small {
+    display: block;
+    margin-top: 2px;
+    color: var(--gray-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.65rem;
+    font-style: italic;
+  }
+
+  .human-map__world {
+    position: absolute;
+    right: 5%;
+    bottom: 10px;
+    left: 5%;
+    z-index: 2;
+    height: 104px;
+    overflow: hidden;
+    border: 1px solid var(--gray-700);
+    border-radius: 50% 50% 15px 15px;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--primary-400) 3%, transparent), transparent);
+    transition:
+      filter 1.3s ease,
+      opacity 1.3s ease;
+  }
+
+  .human-map__horizon {
+    position: absolute;
+    right: 0;
+    bottom: 34px;
+    left: 0;
+    height: 1px;
+    background: var(--gray-700);
+  }
+
+  .human-map__other {
+    position: absolute;
+    bottom: 35px;
+    left: 37%;
+    width: 8px;
+    height: 25px;
+    border: 1px solid var(--gray-500);
+    border-radius: 50% 50% 35% 35%;
+  }
+
+  .human-map__other::before {
+    position: absolute;
+    top: -9px;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--gray-500);
+    border-radius: 50%;
+    content: "";
+  }
+
+  .human-map__creation {
+    position: absolute;
+    right: 35%;
+    bottom: 35px;
+    width: 1px;
+    height: 31px;
+    background: var(--gray-600);
+  }
+
+  .human-map__creation::before {
+    position: absolute;
+    top: -12px;
+    left: -11px;
+    width: 23px;
+    height: 23px;
+    border: 1px solid color-mix(in srgb, var(--primary-400) 38%, var(--gray-700));
+    border-radius: 50%;
+    content: "";
+  }
+
+  .human-map__world p {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    left: 0;
+    margin: 0;
+    color: var(--gray-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.69rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .human-map__distortions,
+  .human-map__path {
+    position: absolute;
+    inset: 85px 0 85px;
+    z-index: 8;
+    pointer-events: none;
+  }
+
+  .distortion {
+    position: absolute;
+    width: 158px;
+    padding: 8px 10px;
+    border: 1px solid color-mix(in srgb, var(--gray-500) 46%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--gray-900) 88%, transparent);
+    color: var(--gray-200);
+    font-size: 0.7rem;
+    opacity: 0;
+    filter: blur(7px);
+    transform: scale(0.92);
+    transition:
+      opacity 1.2s ease,
+      filter 1.4s ease,
+      transform 1.4s ease;
+  }
+
+  .distortion small {
+    display: block;
+    color: var(--gray-400);
+    font-size: 0.6rem;
+  }
+
+  .distortion::after {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 34px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gray-600), transparent);
+    content: "";
+  }
+
+  .distortion::before {
+    position: absolute;
+    top: calc(50% - 3px);
+    left: calc(100% + 28px);
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid var(--gray-500);
+    border-right: 1px solid var(--gray-500);
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .distortion--desire {
+    top: 45px;
+    left: 0;
+  }
+
+  .distortion--anger {
+    top: 5px;
+    right: 0;
+  }
+
+  .distortion--vanity {
+    right: 0;
+    bottom: 16px;
+  }
+
+  .distortion--acedia {
+    bottom: 0;
+    left: 0;
+  }
+
+  .distortion--anger::after,
+  .distortion--vanity::after {
+    right: 100%;
+    left: auto;
+    background: linear-gradient(90deg, transparent, var(--gray-600));
+  }
+
+  .distortion--anger::before,
+  .distortion--vanity::before {
+    right: calc(100% + 28px);
+    left: auto;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--gray-500);
+    border-left: 1px solid var(--gray-500);
+  }
+
+  .human-map__path span {
+    position: absolute;
+    color: var(--gray-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.68rem;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .human-map__path span:nth-child(1) { top: 18px; left: 7%; }
+  .human-map__path span:nth-child(2) { top: 15px; right: 9%; }
+  .human-map__path span:nth-child(3) { top: 47%; left: 1%; }
+  .human-map__path span:nth-child(4) { top: 45%; right: 2%; }
+  .human-map__path span:nth-child(5) { bottom: 5px; left: 13%; }
+  .human-map__path span:nth-child(6) { right: 10%; bottom: 5px; }
+
+  .human-map__texts section {
+    animation: human-text-enter 900ms ease both;
+  }
+
+  .human-map__number {
+    margin: 0 0 5px;
+    color: var(--primary-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.78rem;
+  }
+
+  .human-map__texts h3 {
+    margin: 0 0 8px !important;
+    color: var(--gray-100) !important;
+    font-size: clamp(1.28rem, 2.6vw, 1.62rem) !important;
+  }
+
+  .human-map__texts p {
+    margin-bottom: 14px;
+    color: var(--gray-300);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .human-map__lead {
+    color: var(--gray-100) !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem !important;
+  }
+
+  .human-map__texts blockquote {
+    margin: 20px 0 0 !important;
+    padding: 0 0 0 14px !important;
+    border-left: 1px solid var(--primary-400) !important;
+    color: var(--gray-200) !important;
+    font-size: 0.9rem !important;
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .human-map[data-state="divided"] {
+    background:
+      radial-gradient(circle at 31% 48%, color-mix(in srgb, var(--gray-500) 10%, transparent), transparent 31%),
+      var(--gray-900);
+  }
+
+  .human-map[data-state="divided"] .human-map__ray {
+    opacity: 0.16;
+    filter: blur(8px);
+  }
+
+  .human-map[data-state="divided"] .human-map__head {
+    border-color: var(--gray-600);
+    filter: blur(0.7px);
+  }
+
+  .human-map[data-state="divided"] .human-map__heart {
+    opacity: 0.42;
+    box-shadow: none;
+  }
+
+  .human-map[data-state="divided"] .human-map__gaze {
+    opacity: 0.22;
+    transform: translate(-50%, -100%) rotate(38deg);
+  }
+
+  .human-map[data-state="divided"] .human-map__force--reason {
+    transform: translate(-52px, -20px) rotate(-15deg);
+  }
+
+  .human-map[data-state="divided"] .human-map__force--spirit {
+    transform: translate(-40px, 54px) rotate(-26deg);
+  }
+
+  .human-map[data-state="divided"] .human-map__force--desire {
+    transform: translate(45px, 50px) rotate(25deg);
+  }
+
+  .human-map[data-state="divided"] .human-map__world {
+    filter: blur(2px) contrast(0.86);
+    opacity: 0.55;
+  }
+
+  .human-map[data-state="divided"] .distortion {
+    opacity: 0.96;
+    filter: blur(0);
+    transform: scale(1);
+  }
+
+  .human-map[data-state="healed"] .human-map__light span {
+    box-shadow:
+      0 0 0 12px color-mix(in srgb, var(--primary-400) 7%, transparent),
+      0 0 58px color-mix(in srgb, var(--primary-400) 38%, transparent);
+  }
+
+  .human-map[data-state="healed"] .human-map__ray {
+    opacity: 1;
+  }
+
+  .human-map[data-state="healed"] .human-map__heart {
+    box-shadow: 0 0 32px color-mix(in srgb, var(--primary-400) 34%, transparent);
+  }
+
+  .human-map[data-state="healed"] .human-map__path span {
+    opacity: 0.86;
+  }
+
+  figcaption {
+    max-width: 740px;
+    margin: 8px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--gray-700);
+    color: var(--gray-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.96rem;
+    font-style: italic;
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  @keyframes human-text-enter {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 790px) {
+    .human-map {
+      width: 100%;
+    }
+
+    .human-map__body {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .human-map__scene {
+      height: 445px;
+    }
+
+    .human-map__texts {
+      min-height: 285px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .human-map__steps {
+      flex-direction: column;
+    }
+
+    .human-map__steps button {
+      border-right: 0;
+      border-bottom: 1px solid var(--gray-700);
+      text-align: left;
+    }
+
+    .human-map__steps button:last-child {
+      border-bottom: 0;
+    }
+
+    .human-map__scene {
+      height: 430px;
+    }
+
+    .human-map__force--reason {
+      left: 4%;
+    }
+
+    .human-map__force--spirit {
+      left: 0;
+    }
+
+    .human-map__force--desire {
+      right: 0;
+    }
+
+    .human-map__force-mark {
+      width: 28px;
+    }
+
+    .distortion {
+      width: 136px;
+      padding: 7px 8px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .human-map *,
+    .human-map *::before,
+    .human-map *::after {
+      animation-duration: 1ms !important;
+      transition-duration: 1ms !important;
+    }
+  }
+</style>
