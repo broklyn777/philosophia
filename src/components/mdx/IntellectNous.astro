@@ -1,0 +1,165 @@
+<aside class="intellect-nous" aria-labelledby="intellect-nous-title">
+  <header>
+    <p>Två sätt att känna</p>
+    <h3 id="intellect-nous-title">Intellekt och nous</h3>
+  </header>
+
+  <div class="intellect-nous__comparison">
+    <section>
+      <p class="intellect-nous__term">Intellektet</p>
+      <p class="intellect-nous__question">“Vad betyder detta?”</p>
+      <p>
+        Betraktar, jämför och formulerar. Det kan veta mycket om kärlek, bön och
+        Gud utan att själv ha trätt in i relationen.
+      </p>
+      <span>Kunskap som hålls framför mig</span>
+    </section>
+
+    <div class="intellect-nous__threshold" aria-hidden="true">
+      <span></span>
+    </div>
+
+    <section>
+      <p class="intellect-nous__term">Nous</p>
+      <p class="intellect-nous__question">“Inför vem står jag?”</p>
+      <p>
+        Tar emot, känner igen och blir närvarande. Det ser inte Gud som ett
+        föremål, utan vaknar till att människan redan står inför honom.
+      </p>
+      <span>Kunskap som förändrar den som ser</span>
+    </section>
+  </div>
+
+  <p class="intellect-nous__closing">
+    Intellektet kan beskriva ljuset. Nous är det öga som måste öppnas för det.
+  </p>
+</aside>
+
+<style>
+  .intellect-nous {
+    margin: 46px 0 52px;
+    padding: clamp(22px, 4vw, 34px);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--accent) 4%, transparent),
+      transparent
+    );
+  }
+
+  header > p {
+    margin: 0 0 6px;
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0 0 26px !important;
+    font-size: clamp(1.4rem, 3vw, 1.9rem) !important;
+  }
+
+  .intellect-nous__comparison {
+    display: grid;
+    grid-template-columns: 1fr 44px 1fr;
+    gap: 18px;
+  }
+
+  section {
+    min-width: 0;
+  }
+
+  .intellect-nous__term {
+    margin: 0 0 9px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .intellect-nous__question {
+    margin: 0 0 13px;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.08rem, 2.5vw, 1.28rem);
+    font-style: italic;
+  }
+
+  section > p:not([class]) {
+    margin-bottom: 18px;
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+
+  section > span {
+    display: block;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.78rem;
+    font-style: italic;
+  }
+
+  .intellect-nous__threshold {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+  .intellect-nous__threshold::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(transparent, var(--line), transparent);
+    content: "";
+  }
+
+  .intellect-nous__threshold span {
+    z-index: 1;
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    background: var(--surface);
+  }
+
+  .intellect-nous__closing {
+    max-width: 620px;
+    margin: 28px auto 0;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  @media (max-width: 620px) {
+    .intellect-nous__comparison {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .intellect-nous__threshold {
+      height: 24px;
+    }
+
+    .intellect-nous__threshold::before {
+      top: 50%;
+      right: 0;
+      bottom: auto;
+      left: 0;
+      width: auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+    }
+  }
+</style>

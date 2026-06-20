@@ -1,0 +1,671 @@
+<figure class="nous-map" data-nous-map data-state="natural" aria-labelledby="nous-map-title">
+  <header class="nous-map__header">
+    <p class="nous-map__eyebrow">En karta över det inre seendet</p>
+    <h3 id="nous-map-title">Nous ser inte bara <em>något</em> — det ser på ett sätt</h3>
+    <p>
+      Verkligheten är densamma. Men själens blick kan ta emot den, förvränga den
+      eller åter lära sig att se.
+    </p>
+  </header>
+
+  <div class="nous-map__steps" role="group" aria-label="Nous tre tillstånd">
+    <button type="button" data-nous-state="natural" aria-pressed="true">
+      <span>1</span> Naturligt kall
+    </button>
+    <button type="button" data-nous-state="darkened" aria-pressed="false">
+      <span>2</span> Förmörkat
+    </button>
+    <button type="button" data-nous-state="cleansed" aria-pressed="false">
+      <span>3</span> Renas
+    </button>
+  </div>
+
+  <div class="nous-map__body">
+    <div class="nous-map__vision" aria-hidden="true">
+      <div class="nous-map__source">
+        <span></span>
+        <p>Gud</p>
+      </div>
+
+      <div class="nous-map__beam"></div>
+
+      <div class="nous-map__eye">
+        <div class="nous-map__iris">
+          <span class="nous-map__pupil"></span>
+        </div>
+      </div>
+
+      <div class="nous-map__world">
+        <span class="nous-map__horizon"></span>
+        <span class="nous-map__person"></span>
+        <span class="nous-map__tree"></span>
+        <p data-world-label>skapelsen som gåva</p>
+      </div>
+
+      <div class="nous-map__fog">
+        <span class="fog fog--desire">begär<small>den andre blir en bild</small></span>
+        <span class="fog fog--anger">vrede<small>den andre blir en fiende</small></span>
+        <span class="fog fog--vanity">fåfänga<small>livet blir en scen</small></span>
+        <span class="fog fog--acedia">akedia<small>det goda tycks tomt</small></span>
+      </div>
+
+      <div class="nous-map__cleansing">
+        <span>vaksamhet</span>
+        <span>askes</span>
+        <span>bön</span>
+        <span>apatheia</span>
+      </div>
+    </div>
+
+    <div class="nous-map__texts" aria-live="polite">
+      <section data-nous-panel="natural">
+        <p class="nous-map__number">I</p>
+        <h4>Nous i sitt naturliga kall</h4>
+        <p class="nous-map__lead">Klart, stilla och mottagligt.</p>
+        <p>
+          Själens öga står inte i centrum. Det tar emot ljus, riktas mot Gud och
+          låter det skapade framträda som gåva.
+        </p>
+        <blockquote>Att se sant är här en form av relation.</blockquote>
+      </section>
+
+      <section data-nous-panel="darkened" hidden>
+        <p class="nous-map__number">II</p>
+        <h4>Nous förmörkas av logismoi</h4>
+        <p class="nous-map__lead">Blicken ser fortfarande — men den ser skevt.</p>
+        <p>
+          Vrede, begär, fåfänga och akedia lägger sina egna betydelser över
+          verkligheten. Människan gör inte bara fel. Hon börjar uppfatta nästan,
+          världen och sig själv genom passionens lins.
+        </p>
+        <blockquote>Logismos övertygar blicken om att förvrängningen är verkligheten.</blockquote>
+      </section>
+
+      <section data-nous-panel="cleansed" hidden>
+        <p class="nous-map__number">III</p>
+        <h4>Nous renas</h4>
+        <p class="nous-map__lead">Dimman skingras; seendet återfår sin enkelhet.</p>
+        <p>
+          Vaksamhet avslöjar tanken. Askes löser dess grepp. Bön återvänder till
+          Gud. Apatheia gör blicken friare från passionens tvång.
+        </p>
+        <blockquote>Reningen skapar inte ett nytt öga. Den helar det öga människan redan fått.</blockquote>
+      </section>
+    </div>
+  </div>
+
+  <figcaption>
+    Logismoi förändrar inte först världen utanför människan. De förändrar den
+    blick genom vilken världen möts.
+  </figcaption>
+</figure>
+
+<script>
+  const worldLabels = {
+    natural: "skapelsen som gåva",
+    darkened: "verkligheten genom passionen",
+    cleansed: "skapelsen sedd på nytt",
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-nous-map]").forEach((map) => {
+    const buttons = map.querySelectorAll<HTMLButtonElement>("[data-nous-state]");
+    const panels = map.querySelectorAll<HTMLElement>("[data-nous-panel]");
+    const worldLabel = map.querySelector<HTMLElement>("[data-world-label]");
+
+    const setState = (state: "natural" | "darkened" | "cleansed") => {
+      map.dataset.state = state;
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.nousState === state));
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.nousPanel !== state;
+      });
+      if (worldLabel) worldLabel.textContent = worldLabels[state];
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const state = button.dataset.nousState;
+        if (state === "natural" || state === "darkened" || state === "cleansed") {
+          setState(state);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .nous-map {
+    width: min(960px, calc(100vw - 32px));
+    margin: 50px 0 56px;
+    padding: clamp(22px, 4vw, 38px);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 30% 46%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 34%),
+      var(--surface);
+    transition: background 1.4s ease;
+  }
+
+  .nous-map__header {
+    max-width: 690px;
+  }
+
+  .nous-map__eyebrow {
+    margin: 0 0 9px;
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .nous-map h3 {
+    margin: 0 0 10px !important;
+    font-size: clamp(1.55rem, 3.4vw, 2.25rem) !important;
+    letter-spacing: -0.03em;
+  }
+
+  .nous-map h3 em {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+  }
+
+  .nous-map__header > p:last-child {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .nous-map__steps {
+    display: flex;
+    gap: 0;
+    margin: 28px 0 8px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nous-map__steps button {
+    flex: 1;
+    padding: 13px 10px;
+    border: 0;
+    border-right: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition:
+      color 500ms ease,
+      background-color 500ms ease;
+  }
+
+  .nous-map__steps button:last-child {
+    border-right: 0;
+  }
+
+  .nous-map__steps button span {
+    margin-right: 6px;
+    color: var(--accent);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .nous-map__steps button[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    color: var(--ink);
+  }
+
+  .nous-map__steps button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -3px;
+  }
+
+  .nous-map__body {
+    display: grid;
+    grid-template-columns: minmax(390px, 1.25fr) minmax(260px, 0.75fr);
+    gap: clamp(28px, 5vw, 58px);
+    align-items: center;
+    min-height: 440px;
+  }
+
+  .nous-map__vision {
+    position: relative;
+    height: 390px;
+  }
+
+  .nous-map__source {
+    position: absolute;
+    top: 26px;
+    left: 50%;
+    z-index: 4;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  .nous-map__source span {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    border: 1px solid color-mix(in srgb, var(--accent) 72%, var(--ink));
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 9px color-mix(in srgb, var(--accent) 8%, transparent),
+      0 0 38px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .nous-map__source p {
+    margin: 11px 0 0;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.78rem;
+  }
+
+  .nous-map__beam {
+    position: absolute;
+    top: 52px;
+    left: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 215px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      color-mix(in srgb, var(--accent) 3%, transparent)
+    );
+    clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%);
+    opacity: 0.85;
+    transform: translateX(-50%);
+    transition:
+      opacity 1.3s ease,
+      filter 1.3s ease;
+  }
+
+  .nous-map__eye {
+    position: absolute;
+    top: 145px;
+    left: 50%;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 154px;
+    height: 88px;
+    border: 1px solid color-mix(in srgb, var(--ink) 28%, var(--line));
+    border-radius: 70% 12% 70% 12%;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    box-shadow: 0 10px 36px color-mix(in srgb, var(--ink) 6%, transparent);
+    transform: translateX(-50%) rotate(45deg);
+    transition:
+      filter 1.3s ease,
+      border-color 1.3s ease,
+      box-shadow 1.3s ease;
+  }
+
+  .nous-map__iris {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border: 1px solid color-mix(in srgb, var(--accent) 60%, var(--line));
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--accent) 18%, var(--bg)),
+      var(--bg) 68%
+    );
+    transform: rotate(-45deg);
+    transition:
+      transform 1.3s ease,
+      opacity 1.3s ease;
+  }
+
+  .nous-map__pupil {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--ink);
+    opacity: 0.78;
+  }
+
+  .nous-map__world {
+    position: absolute;
+    right: 5%;
+    bottom: 22px;
+    left: 5%;
+    z-index: 2;
+    height: 118px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 50% 50% 18px 18px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--accent) 4%, var(--bg)),
+      var(--bg)
+    );
+    transition:
+      filter 1.3s ease,
+      opacity 1.3s ease;
+  }
+
+  .nous-map__horizon {
+    position: absolute;
+    right: 0;
+    bottom: 38px;
+    left: 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .nous-map__person {
+    position: absolute;
+    bottom: 39px;
+    left: 39%;
+    width: 10px;
+    height: 29px;
+    border: 1px solid color-mix(in srgb, var(--ink) 48%, var(--line));
+    border-radius: 50% 50% 35% 35%;
+  }
+
+  .nous-map__person::before {
+    position: absolute;
+    top: -10px;
+    left: 1px;
+    width: 6px;
+    height: 6px;
+    border: 1px solid color-mix(in srgb, var(--ink) 48%, var(--line));
+    border-radius: 50%;
+    content: "";
+  }
+
+  .nous-map__tree {
+    position: absolute;
+    right: 34%;
+    bottom: 39px;
+    width: 1px;
+    height: 37px;
+    background: color-mix(in srgb, var(--ink) 36%, var(--line));
+  }
+
+  .nous-map__tree::before {
+    position: absolute;
+    top: -14px;
+    left: -13px;
+    width: 27px;
+    height: 27px;
+    border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+    border-radius: 50%;
+    content: "";
+  }
+
+  .nous-map__world p {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    left: 0;
+    margin: 0;
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.73rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .nous-map__fog,
+  .nous-map__cleansing {
+    position: absolute;
+    inset: 78px 0 88px;
+    z-index: 7;
+    pointer-events: none;
+  }
+
+  .fog {
+    position: absolute;
+    width: 150px;
+    padding: 8px 10px;
+    border: 1px solid color-mix(in srgb, var(--muted) 34%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    color: var(--ink);
+    font-size: 0.72rem;
+    opacity: 0;
+    filter: blur(7px);
+    transform: scale(0.92);
+    transition:
+      opacity 1.2s ease,
+      filter 1.4s ease,
+      transform 1.4s ease;
+  }
+
+  .fog small {
+    display: block;
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 0.62rem;
+  }
+
+  .fog--desire {
+    top: 42px;
+    left: 0;
+  }
+
+  .fog--anger {
+    top: 0;
+    right: 0;
+  }
+
+  .fog--vanity {
+    right: 2%;
+    bottom: 16px;
+  }
+
+  .fog--acedia {
+    bottom: 0;
+    left: 1%;
+  }
+
+  .nous-map__cleansing span {
+    position: absolute;
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.7rem;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .nous-map__cleansing span:nth-child(1) {
+    top: 22px;
+    left: 10%;
+  }
+
+  .nous-map__cleansing span:nth-child(2) {
+    top: 22px;
+    right: 12%;
+  }
+
+  .nous-map__cleansing span:nth-child(3) {
+    bottom: 12px;
+    left: 16%;
+  }
+
+  .nous-map__cleansing span:nth-child(4) {
+    right: 10%;
+    bottom: 12px;
+  }
+
+  .nous-map__texts section {
+    animation: nous-text-enter 900ms ease both;
+  }
+
+  .nous-map__number {
+    margin: 0 0 5px;
+    color: var(--accent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.78rem;
+  }
+
+  .nous-map__texts h4 {
+    margin: 0 0 8px !important;
+    font-size: clamp(1.25rem, 2.5vw, 1.55rem) !important;
+  }
+
+  .nous-map__texts p {
+    margin-bottom: 14px;
+    font-size: 0.94rem;
+    line-height: 1.58;
+  }
+
+  .nous-map__lead {
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.02rem !important;
+  }
+
+  .nous-map__texts blockquote {
+    margin: 20px 0 0 !important;
+    padding: 0 0 0 14px !important;
+    border-left: 1px solid var(--accent) !important;
+    color: var(--ink) !important;
+    font-size: 0.9rem !important;
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .nous-map[data-state="darkened"] {
+    background:
+      radial-gradient(circle at 30% 46%, color-mix(in srgb, var(--muted) 9%, transparent), transparent 32%),
+      var(--surface);
+  }
+
+  .nous-map[data-state="darkened"] .nous-map__beam {
+    opacity: 0.2;
+    filter: blur(8px);
+  }
+
+  .nous-map[data-state="darkened"] .nous-map__eye {
+    border-color: color-mix(in srgb, var(--muted) 50%, var(--line));
+    filter: blur(0.7px);
+    box-shadow: 0 12px 40px color-mix(in srgb, var(--ink) 13%, transparent);
+  }
+
+  .nous-map[data-state="darkened"] .nous-map__iris {
+    opacity: 0.55;
+    transform: rotate(-45deg) translate(8px, -5px) scale(0.85);
+  }
+
+  .nous-map[data-state="darkened"] .nous-map__world {
+    filter: blur(2px) contrast(0.88);
+    opacity: 0.64;
+  }
+
+  .nous-map[data-state="darkened"] .fog {
+    opacity: 0.94;
+    filter: blur(0);
+    transform: scale(1);
+  }
+
+  .nous-map[data-state="cleansed"] .nous-map__source span {
+    box-shadow:
+      0 0 0 11px color-mix(in srgb, var(--accent) 8%, transparent),
+      0 0 48px color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+
+  .nous-map[data-state="cleansed"] .nous-map__beam {
+    opacity: 1;
+  }
+
+  .nous-map[data-state="cleansed"] .nous-map__eye {
+    border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
+    box-shadow: 0 10px 42px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .nous-map[data-state="cleansed"] .nous-map__cleansing span {
+    opacity: 0.82;
+  }
+
+  figcaption {
+    max-width: 720px;
+    margin: 8px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.98rem;
+    font-style: italic;
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  @keyframes nous-text-enter {
+    from {
+      opacity: 0;
+      transform: translateY(7px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .nous-map {
+      width: 100%;
+    }
+
+    .nous-map__body {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .nous-map__vision {
+      height: 380px;
+    }
+
+    .nous-map__texts {
+      min-height: 285px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .nous-map__steps {
+      flex-direction: column;
+    }
+
+    .nous-map__steps button {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .nous-map__steps button:last-child {
+      border-bottom: 0;
+    }
+
+    .nous-map__vision {
+      height: 360px;
+    }
+
+    .fog {
+      width: 128px;
+      padding: 7px 8px;
+    }
+
+    .fog--desire {
+      left: -4px;
+    }
+
+    .fog--anger {
+      right: -4px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nous-map *,
+    .nous-map *::before,
+    .nous-map *::after {
+      animation-duration: 1ms !important;
+      transition-duration: 1ms !important;
+    }
+  }
+</style>
