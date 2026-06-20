@@ -191,10 +191,10 @@
     position: absolute;
     top: 36px;
     left: 50%;
-    width: 1px;
-    height: 180px;
-    background: linear-gradient(transparent, color-mix(in srgb, var(--accent) 48%, transparent));
-    opacity: 0.7;
+    width: 2px;
+    height: 188px;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--accent) 58%, transparent));
+    opacity: 0.76;
     transform: translateX(-50%);
     transition:
       opacity 900ms ease,
@@ -205,8 +205,8 @@
     position: absolute;
     top: -1px;
     left: -4px;
-    width: 9px;
-    height: 9px;
+    width: 10px;
+    height: 10px;
     border-top: 1px solid var(--accent);
     border-left: 1px solid var(--accent);
     content: "";
@@ -237,24 +237,25 @@
   }
 
   .soul-force--reason {
-    --unified-x: -146px;
-    --unified-y: 48px;
+    --unified-x: 0px;
+    --unified-y: -30px;
     --divided-x: -270px;
     --divided-y: -22px;
     --divided-rotation: -48deg;
+    z-index: 2;
   }
 
   .soul-force--spirit {
-    --unified-x: 0px;
-    --unified-y: 8px;
+    --unified-x: -170px;
+    --unified-y: 82px;
     --divided-x: 0px;
     --divided-y: 95px;
     --divided-rotation: 164deg;
   }
 
   .soul-force--desire {
-    --unified-x: 146px;
-    --unified-y: 48px;
+    --unified-x: 170px;
+    --unified-y: 82px;
     --divided-x: 270px;
     --divided-y: 12px;
     --divided-rotation: 54deg;
@@ -263,10 +264,13 @@
   .soul-force__arrow {
     position: relative;
     display: block;
-    width: 1px;
-    height: 52px;
-    margin: 0 auto 12px;
-    background: linear-gradient(transparent, var(--accent));
+    width: 2px;
+    height: 58px;
+    margin: 0 auto 14px;
+    background: linear-gradient(
+      transparent,
+      color-mix(in srgb, var(--accent) 88%, var(--ink))
+    );
     transform-origin: 50% calc(100% + 14px);
     transition:
       height 900ms ease,
@@ -277,8 +281,8 @@
     position: absolute;
     top: 0;
     left: -4px;
-    width: 9px;
-    height: 9px;
+    width: 10px;
+    height: 10px;
     border-top: 1px solid var(--accent);
     border-left: 1px solid var(--accent);
     content: "";
@@ -370,7 +374,7 @@
     }
 
     .soul-visual__stage {
-      height: 465px;
+      height: 485px;
       margin-top: 14px;
     }
 
@@ -385,20 +389,21 @@
     }
 
     .soul-force--reason {
-      --unified-x: calc(-1 * clamp(96px, 23vw, 150px));
-      --unified-y: 48px;
+      --unified-x: 0px;
+      --unified-y: -26px;
       --divided-x: calc(-1 * clamp(102px, 26vw, 175px));
       --divided-y: -36px;
     }
 
     .soul-force--spirit {
-      --unified-y: 14px;
+      --unified-x: calc(-1 * clamp(100px, 24vw, 155px));
+      --unified-y: 92px;
       --divided-y: 125px;
     }
 
     .soul-force--desire {
-      --unified-x: clamp(96px, 23vw, 150px);
-      --unified-y: 48px;
+      --unified-x: clamp(100px, 24vw, 155px);
+      --unified-y: 92px;
       --divided-x: clamp(102px, 26vw, 175px);
       --divided-y: 4px;
     }
