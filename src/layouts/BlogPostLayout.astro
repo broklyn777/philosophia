@@ -11,7 +11,6 @@ interface Props {
   tags: string[];
   plain?: boolean;
   audioEnabled?: boolean;
-  searchable?: boolean;
   seriesNavigation?: {
     indexHref: string;
     indexLabel?: string;
@@ -29,7 +28,6 @@ const {
   tags,
   plain = false,
   audioEnabled = false,
-  searchable = true,
   seriesNavigation,
 } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("sv-SE", {
@@ -41,13 +39,9 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
 
 <BaseLayout title={title} description={description}>
   <main>
-    <article
-      class:list={["article-shell", { "article-shell--plain": plain }]}
-      data-pagefind-body={searchable || undefined}
-    >
+    <article class:list={["article-shell", { "article-shell--plain": plain }]}>
       <header
         class:list={["article-header", { "article-header--plain": plain }]}
-        data-pagefind-ignore="all"
       >
         {!plain && <p class="eyebrow">Blogg</p>}
         <h1>{title}</h1>
@@ -67,7 +61,7 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
       <div class="prose">
         <slot />
       </div>
-      <div data-pagefind-ignore="all">
+      <div>
         {seriesNavigation && <SeriesNavigation {...seriesNavigation} />}
       </div>
     </article>

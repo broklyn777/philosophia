@@ -1,37 +1,43 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { postUrl, slugifyTag } from "../lib/content";
 
-const resultTemplate = `
-  <li class="pf-result philosophia-result">
-    <div class="philosophia-result__body">
-      <p class="philosophia-result__title">
-        <a href="{{ meta.url | default(url) | safeUrl }}">{{ meta.title }}</a>
-      </p>
-      {{#if excerpt}}
-      <p class="philosophia-result__excerpt">{{+ excerpt +}}</p>
-      {{/if}}
-    </div>
-    {{#if sub_results}}
-    <ul class="philosophia-result__sections">
-      {{#each sub_results as sub}}
-      <li>
-        <a href="{{ sub.url | safeUrl }}">{{ sub.title }}</a>
-      </li>
-      {{/each}}
-    </ul>
-    {{/if}}
-  </li>
-`;
+const stripMarkdown = (value: string) =>
+  value
+    .replace(/^import .+$/gm, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/^\[\^[^\]]+\]:.*$/gm, " ")
+    .replace(/\[\^[^\]]+\]/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[`*_>#|~-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const posts = await getCollection(
+  "blog",
+  ({ data }) => !data.draft && data.type === "article",
+);
+
+const searchIndex = posts.map((post) => ({
+  title: post.data.title,
+  description: post.data.description,
+  url: postUrl(post.slug),
+  tags: post.data.tags.map((tag) => ({
+    label: tag,
+    url: `/amnen/${slugifyTag(tag)}/`,
+  })),
+  text: stripMarkdown(post.body),
+}));
+const searchIndexJson = JSON.stringify(searchIndex).replace(/</g, "\\u003c");
 ---
 
 <BaseLayout
   title="Sök"
   description="Sök bland Philosophias essäer om filosofi, teologi och andlig psykologi."
 >
-  <link slot="head" href="/pagefind/pagefind-component-ui.css" rel="stylesheet" />
-  <script is:inline slot="head" src="/pagefind/pagefind-component-ui.js" type="module"></script>
-
-  <main data-pagefind-ignore="all">
+  <main>
     <header class="search-heading">
       <p class="eyebrow">Bibliotek</p>
       <h1>Sök</h1>
@@ -39,45 +45,175 @@ const resultTemplate = `
     </header>
 
     <section class="search-library" aria-label="Sök i Philosophia">
-      <pagefind-config excerpt-length="28"></pagefind-config>
-      <div class="search-field">
-        <pagefind-input
+      <form class="search-form" role="search" data-search-form>
+        <label class="sr-only" for="library-search">Sök i biblioteket</label>
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          id="library-search"
+          type="search"
+          name="q"
           placeholder="Sök efter ett namn, begrepp eller ämne"
+          autocomplete="off"
+          enterkeyhint="search"
           autofocus
-        ></pagefind-input>
-        <span class="search-shortcut" aria-hidden="true">⌘ K</span>
-      </div>
-      <pagefind-summary default-message="Börja skriva för att söka i biblioteket.">
-      </pagefind-summary>
-      <pagefind-results max-results="10" max-sub-results="2">
-        <script
-          is:inline
-          type="text/pagefind-template"
-          set:html={resultTemplate}
-        ></script>
-      </pagefind-results>
+          data-search-input
+        />
+        <button type="button" class="clear-search" data-search-clear hidden>Rensa</button>
+        <span class="search-shortcut" aria-hidden="true">⌘K</span>
+      </form>
+
+      <p class="search-summary" data-search-summary aria-live="polite">
+        Börja skriva för att söka i biblioteket.
+      </p>
+      <ol class="search-results" data-search-results aria-label="Sökresultat"></ol>
     </section>
   </main>
+
+  <script
+    is:inline
+    id="library-search-index"
+    type="application/json"
+    set:html={searchIndexJson}
+  ></script>
 </BaseLayout>
 
 <script>
+  interface SearchTag {
+    label: string;
+    url: string;
+  }
+
+  interface SearchRecord {
+    title: string;
+    description: string;
+    url: string;
+    tags: SearchTag[];
+    text: string;
+  }
+
+  const indexElement = document.querySelector<HTMLScriptElement>("#library-search-index");
+  const input = document.querySelector<HTMLInputElement>("[data-search-input]");
+  const clear = document.querySelector<HTMLButtonElement>("[data-search-clear]");
+  const summary = document.querySelector<HTMLElement>("[data-search-summary]");
+  const results = document.querySelector<HTMLOListElement>("[data-search-results]");
   const shortcut = document.querySelector<HTMLElement>(".search-shortcut");
-  const results = document.querySelector("pagefind-results");
+  const records: SearchRecord[] = indexElement?.textContent
+    ? JSON.parse(indexElement.textContent)
+    : [];
+
+  const normalize = (value: string) =>
+    value
+      .toLocaleLowerCase("sv")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const makeExcerpt = (record: SearchRecord, query: string) => {
+    const source = `${record.description} ${record.text}`;
+    const normalizedSource = normalize(source);
+    const index = normalizedSource.indexOf(query);
+    if (index < 0) return record.description;
+    const start = Math.max(0, index - 90);
+    const end = Math.min(source.length, index + query.length + 150);
+    return `${start > 0 ? "…" : ""}${source.slice(start, end).trim()}${end < source.length ? "…" : ""}`;
+  };
+
+  const scoreRecord = (record: SearchRecord, query: string) => {
+    const title = normalize(record.title);
+    const description = normalize(record.description);
+    const tags = normalize(record.tags.map((tag) => tag.label).join(" "));
+    const text = normalize(record.text);
+    let score = 0;
+
+    if (title === query) score += 120;
+    if (title.startsWith(query)) score += 70;
+    if (title.includes(query)) score += 45;
+    if (tags.includes(query)) score += 35;
+    if (description.includes(query)) score += 20;
+
+    const matches = text.split(query).length - 1;
+    score += Math.min(matches, 12);
+    return score;
+  };
+
+  const renderResults = (rawQuery: string) => {
+    if (!input || !clear || !summary || !results) return;
+    const query = normalize(rawQuery.trim());
+    clear.hidden = query.length === 0;
+    shortcut?.toggleAttribute("hidden", query.length > 0);
+    results.replaceChildren();
+
+    if (query.length < 2) {
+      summary.textContent =
+        query.length === 0
+          ? "Börja skriva för att söka i biblioteket."
+          : "Skriv minst två tecken.";
+      return;
+    }
+
+    const matches = records
+      .map((record) => ({ record, score: scoreRecord(record, query) }))
+      .filter(({ score }) => score > 0)
+      .sort(
+        (a, b) =>
+          b.score - a.score ||
+          a.record.title.localeCompare(b.record.title, "sv"),
+      );
+
+    summary.textContent =
+      matches.length === 1
+        ? `1 träff på “${rawQuery.trim()}”`
+        : `${matches.length} träffar på “${rawQuery.trim()}”`;
+
+    for (const { record } of matches.slice(0, 20)) {
+      const item = document.createElement("li");
+      item.className = "search-result";
+
+      const title = document.createElement("h2");
+      const titleLink = document.createElement("a");
+      titleLink.href = record.url;
+      titleLink.textContent = record.title;
+      title.append(titleLink);
+
+      const excerpt = document.createElement("p");
+      excerpt.textContent = makeExcerpt(record, query);
+
+      const tags = document.createElement("nav");
+      tags.className = "search-result__tags";
+      tags.setAttribute("aria-label", `Ämnen för ${record.title}`);
+      for (const tag of record.tags) {
+        const link = document.createElement("a");
+        link.href = tag.url;
+        link.textContent = tag.label;
+        tags.append(link);
+      }
+
+      item.append(title, excerpt, tags);
+      results.append(item);
+    }
+  };
 
   if (shortcut && !navigator.userAgent.toLowerCase().includes("mac")) {
     shortcut.textContent = "Ctrl K";
   }
 
-  const cleanResultTitles = () => {
-    results?.querySelectorAll<HTMLElement>(".philosophia-result__title a").forEach((link) => {
-      link.textContent = link.textContent?.replace(/\s+-\s+Philosophia$/, "") ?? "";
-    });
-  };
+  if (input && clear) {
+    const initialQuery = new URLSearchParams(window.location.search).get("q") ?? "";
+    input.value = initialQuery;
+    renderResults(initialQuery);
 
-  if (results) {
-    new MutationObserver(cleanResultTitles).observe(results, {
-      childList: true,
-      subtree: true,
+    input.addEventListener("input", () => {
+      renderResults(input.value);
+      const url = new URL(window.location.href);
+      if (input.value.trim()) url.searchParams.set("q", input.value.trim());
+      else url.searchParams.delete("q");
+      window.history.replaceState({}, "", url);
+    });
+
+    clear.addEventListener("click", () => {
+      input.value = "";
+      renderResults("");
+      input.focus();
+      window.history.replaceState({}, "", window.location.pathname);
     });
   }
 </script>
@@ -94,45 +230,86 @@ const resultTemplate = `
     color: var(--ink);
     font-size: clamp(2.5rem, 7vw, 5rem);
     line-height: 0.98;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
   }
 
   .search-library {
     max-width: 760px;
     min-height: 480px;
     padding: 38px 0 20px;
-    --pf-text: var(--ink);
-    --pf-text-secondary: var(--muted);
-    --pf-text-muted: var(--gray-500);
-    --pf-background: var(--bg);
-    --pf-border: var(--line);
-    --pf-border-focus: var(--accent);
-    --pf-hover: var(--surface);
-    --pf-mark: var(--accent-strong);
-    --pf-outline-focus: var(--accent);
-    --pf-font: inherit;
-    --pf-input-height: 54px;
-    --pf-input-font-size: 1.05rem;
-    --pf-summary-font-size: 0.84rem;
-    --pf-result-title-font-size: 1.25rem;
-    --pf-result-excerpt-font-size: 1rem;
-    --pf-border-radius: 4px;
-    --pf-results-gap: 0;
   }
 
-  .search-field {
+  .search-library .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .search-form {
     position: relative;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg);
   }
 
-  .search-field pagefind-input {
-    display: block;
+  .search-form:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .search-icon {
+    margin-left: 16px;
+    color: var(--accent);
+    font-size: 1.25rem;
+  }
+
+  .search-form input {
+    width: 100%;
+    min-width: 0;
+    height: 54px;
+    padding: 0 108px 0 10px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 1.05rem;
+  }
+
+  .search-form input::placeholder {
+    color: var(--gray-500);
+  }
+
+  .clear-search,
+  .search-shortcut {
+    position: absolute;
+    right: 14px;
+  }
+
+  .clear-search {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.84rem;
+  }
+
+  .clear-search:hover,
+  .clear-search:focus-visible {
+    color: var(--accent);
   }
 
   .search-shortcut {
-    position: absolute;
-    top: 50%;
-    right: 14px;
-    z-index: 2;
     padding: 3px 7px;
     border: 1px solid var(--line);
     border-radius: 3px;
@@ -140,79 +317,75 @@ const resultTemplate = `
     font-size: 0.72rem;
     line-height: 1.2;
     pointer-events: none;
-    transform: translateY(-50%);
   }
 
-  .search-field:has(.pf-input:not(:placeholder-shown)) .search-shortcut {
+  .search-shortcut[hidden],
+  .clear-search[hidden] {
     display: none;
   }
 
-  pagefind-summary {
-    display: block;
+  .search-summary {
     min-height: 34px;
+    margin: 0;
     padding: 14px 0 6px;
     color: var(--muted);
+    font-size: 0.84rem;
   }
 
-  pagefind-results {
-    display: block;
-  }
-
-  pagefind-results .pf-results {
+  .search-results {
     margin: 0;
     padding: 0;
-  }
-
-  pagefind-results .philosophia-result {
-    padding: 24px 0;
-    border-top: 1px solid var(--line);
     list-style: none;
   }
 
-  .philosophia-result__title {
+  .search-result {
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .search-result h2 {
     margin: 0 0 8px;
     color: var(--ink);
     font-size: 1.22rem;
     line-height: 1.3;
   }
 
-  .philosophia-result__title a {
+  .search-result h2 a {
     color: inherit;
     font-weight: 500;
     text-decoration: none;
   }
 
-  .philosophia-result__title a:hover,
-  .philosophia-result__title a:focus-visible {
+  .search-result h2 a:hover,
+  .search-result h2 a:focus-visible {
     color: var(--accent);
   }
 
-  .philosophia-result__excerpt {
+  .search-result p {
     margin: 0;
     color: var(--muted);
     font-size: 1rem;
     line-height: 1.68;
   }
 
-  .philosophia-result__excerpt mark {
-    background: transparent;
-    color: var(--accent-strong);
-    font-weight: 500;
-  }
-
-  .philosophia-result__sections {
+  .search-result__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 18px;
-    margin: 14px 0 0;
-    padding: 0;
-    list-style: none;
+    gap: 8px 16px;
+    margin-top: 14px;
   }
 
-  .philosophia-result__sections a {
-    color: var(--accent);
-    font-size: 0.88rem;
-    font-weight: 400;
+  .search-result__tags a:link,
+  .search-result__tags a:visited {
+    color: rgb(20, 184, 166);
+    font-size: 0.84rem;
+    text-decoration: none;
+  }
+
+  .search-result__tags a:hover,
+  .search-result__tags a:focus-visible {
+    color: var(--accent-strong);
+    text-decoration: underline;
     text-underline-offset: 3px;
   }
 
@@ -223,6 +396,10 @@ const resultTemplate = `
 
     .search-library {
       padding-top: 28px;
+    }
+
+    .search-form input {
+      padding-right: 72px;
     }
 
     .search-shortcut {

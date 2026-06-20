@@ -22,7 +22,6 @@ const { Content } = await render(post);
   tags={post.data.tags}
   plain={post.data.plain}
   audioEnabled={post.data.type === "article" && !post.data.plain}
-  searchable={post.data.type === "article"}
   seriesNavigation={post.data.seriesNavigation}
 >
   <Content />
