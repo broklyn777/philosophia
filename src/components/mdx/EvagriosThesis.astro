@@ -54,13 +54,16 @@
   }
 
   .evagrios-thesis__signature {
-    margin-top: 22px;
+    max-width: 650px;
+    margin-top: 30px;
     margin-bottom: 0 !important;
     color: var(--ink) !important;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.91rem !important;
+    font-size: clamp(1.05rem, 2.2vw, 1.16rem) !important;
+    font-weight: 600;
     font-style: italic;
-    opacity: 0.82;
+    line-height: 1.55 !important;
+    letter-spacing: -0.01em;
   }
 
   @media (max-width: 520px) {
@@ -71,8 +74,8 @@
     }
 
     .evagrios-thesis__signature {
-      margin-top: 19px;
-      font-size: 0.89rem !important;
+      margin-top: 25px;
+      font-size: 1.02rem !important;
       line-height: 1.6;
     }
   }
