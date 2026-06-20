@@ -1,143 +1,440 @@
-<figure class="soul-powers" aria-labelledby="soul-powers-caption">
-  <div class="soul-powers__grid">
-    <article>
-      <span class="soul-powers__number">I</span>
-      <p class="soul-powers__greek">λογιστικόν</p>
-      <h3>Logistikon</h3>
-      <p class="soul-powers__role">Den vägledande delen</p>
-      <p>Urskiljning, sanning och minne av Gud.</p>
-      <p class="soul-powers__risk"><span>Risk</span> Högmod, fåfänga och självbedrägeri.</p>
+<figure class="soul-visual" data-soul-visual data-state="unified" aria-labelledby="soul-visual-title">
+  <header class="soul-visual__header">
+    <div>
+      <p class="soul-visual__eyebrow">Själens tre krafter</p>
+      <h3 id="soul-visual-title" data-heading>När själen är samlad</h3>
+      <p class="soul-visual__description" data-description>
+        Förnuft, kraft och begär riktas mot samma mål.
+      </p>
+    </div>
+
+    <div class="soul-visual__toggle" role="group" aria-label="Visa själens tillstånd">
+      <button type="button" data-state-button="unified" aria-pressed="true">Samlad</button>
+      <button type="button" data-state-button="divided" aria-pressed="false">Splittrad</button>
+    </div>
+  </header>
+
+  <div class="soul-visual__stage" aria-live="polite">
+    <div class="soul-visual__axis" aria-hidden="true">
+      <span></span>
+    </div>
+
+    <article class="soul-force soul-force--reason">
+      <span class="soul-force__arrow" aria-hidden="true"></span>
+      <div class="soul-force__body">
+        <p class="soul-force__name">Förnuftet</p>
+        <p class="soul-force__greek">logistikon · λογιστικόν</p>
+        <p class="soul-force__meaning">
+          <span data-unified>urskiljning och bön</span>
+          <span data-divided hidden>högmod och självbedrägeri</span>
+        </p>
+      </div>
     </article>
 
-    <article>
-      <span class="soul-powers__number">II</span>
-      <p class="soul-powers__greek">ἐπιθυμητικόν</p>
-      <h3>Epithymetikon</h3>
-      <p class="soul-powers__role">Den begärande delen</p>
-      <p>Längtan, hunger och sökande efter det goda.</p>
-      <p class="soul-powers__risk"><span>Risk</span> Frosseri, otukt och girighet.</p>
+    <article class="soul-force soul-force--spirit">
+      <span class="soul-force__arrow" aria-hidden="true"></span>
+      <div class="soul-force__body">
+        <p class="soul-force__name">Vredeskraften</p>
+        <p class="soul-force__greek">thymikon · θυμικόν</p>
+        <p class="soul-force__meaning">
+          <span data-unified>mod och uthållighet</span>
+          <span data-divided hidden>vrede, bitterhet och flykt</span>
+        </p>
+      </div>
     </article>
 
-    <article>
-      <span class="soul-powers__number">III</span>
-      <p class="soul-powers__greek">θυμικόν</p>
-      <h3>Thymikon</h3>
-      <p class="soul-powers__role">Den kraftfulla delen</p>
-      <p>Mod, kamp, gräns och motstånd mot det onda.</p>
-      <p class="soul-powers__risk"><span>Risk</span> Vrede, bitterhet och hämnd.</p>
+    <article class="soul-force soul-force--desire">
+      <span class="soul-force__arrow" aria-hidden="true"></span>
+      <div class="soul-force__body">
+        <p class="soul-force__name">Begäret</p>
+        <p class="soul-force__greek">epithymetikon · ἐπιθυμητικόν</p>
+        <p class="soul-force__meaning">
+          <span data-unified>längtan efter Gud</span>
+          <span data-divided hidden>rastlös hunger, frosseri och girighet</span>
+        </p>
+      </div>
     </article>
   </div>
-  <figcaption id="soul-powers-caption">
-    Logismoi förstör inte själen genom att skapa nya krafter, utan genom att vrida
-    själens gudgivna krafter ur deras rätta riktning.
+
+  <figcaption>
+    Samma krafter finns kvar i båda lägena. Frågan är om de samlas i en riktning
+    eller dras isär av logismoi.
   </figcaption>
 </figure>
 
+<script>
+  const headings = {
+    unified: "När själen är samlad",
+    divided: "När logismoi splittrar själen",
+  };
+
+  const descriptions = {
+    unified: "Förnuft, kraft och begär riktas mot samma mål.",
+    divided: "Tankarna drar människans inre krafter åt olika håll.",
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-soul-visual]").forEach((visual) => {
+    const heading = visual.querySelector<HTMLElement>("[data-heading]");
+    const description = visual.querySelector<HTMLElement>("[data-description]");
+    const buttons = visual.querySelectorAll<HTMLButtonElement>("[data-state-button]");
+
+    const setState = (state: "unified" | "divided") => {
+      visual.dataset.state = state;
+      if (heading) heading.textContent = headings[state];
+      if (description) description.textContent = descriptions[state];
+
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.stateButton === state));
+      });
+
+      visual.querySelectorAll<HTMLElement>("[data-unified]").forEach((element) => {
+        element.hidden = state !== "unified";
+      });
+      visual.querySelectorAll<HTMLElement>("[data-divided]").forEach((element) => {
+        element.hidden = state !== "divided";
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setState(button.dataset.stateButton === "divided" ? "divided" : "unified");
+      });
+    });
+  });
+</script>
+
 <style>
-  .soul-powers {
-    width: min(1040px, calc(100vw - 32px));
-    margin: 48px 0 52px;
-  }
-
-  .soul-powers__grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-  }
-
-  article {
-    position: relative;
-    min-height: 330px;
-    padding: 28px 24px 24px;
+  .soul-visual {
+    width: min(920px, calc(100vw - 32px));
+    margin: 48px 0 54px;
+    padding: clamp(22px, 4vw, 36px);
     overflow: hidden;
     border: 1px solid var(--line);
-    border-radius: 18px;
+    border-radius: 22px;
     background:
-      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 42%),
+      radial-gradient(circle at 50% 54%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 36%),
       var(--surface);
   }
 
-  article::after {
-    position: absolute;
-    right: -22px;
-    bottom: -44px;
-    width: 120px;
-    height: 120px;
-    border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
-    border-radius: 50%;
-    content: "";
+  .soul-visual__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
   }
 
-  .soul-powers__number {
+  .soul-visual__eyebrow {
+    margin: 0 0 8px;
     color: var(--accent);
     font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
-  }
-
-  .soul-powers__greek {
-    margin: 26px 0 4px;
-    color: var(--accent);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.95rem;
-  }
-
-  h3 {
-    margin: 0 0 8px !important;
-    font-size: clamp(1.35rem, 2.5vw, 1.7rem) !important;
-    letter-spacing: -0.02em;
-  }
-
-  p {
-    margin-bottom: 18px;
-    font-size: 0.98rem;
-    line-height: 1.55;
-  }
-
-  .soul-powers__role {
-    color: var(--ink);
-    font-weight: 650;
-  }
-
-  .soul-powers__risk {
-    margin: 24px 0 0;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-  }
-
-  .soul-powers__risk span {
-    display: block;
-    margin-bottom: 3px;
-    color: var(--accent);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  figcaption {
-    max-width: 760px;
-    margin-top: 18px;
-    padding-left: 18px;
-    border-left: 2px solid var(--accent);
-    color: var(--muted);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.05rem;
-    font-style: italic;
-    line-height: 1.65;
+  .soul-visual h3 {
+    margin: 0 0 8px !important;
+    font-size: clamp(1.45rem, 3.2vw, 2rem) !important;
+    letter-spacing: -0.025em;
   }
 
-  @media (max-width: 820px) {
-    .soul-powers {
+  .soul-visual__description {
+    max-width: 520px;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .soul-visual__toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg);
+  }
+
+  .soul-visual__toggle button {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+      background-color 400ms ease,
+      color 400ms ease,
+      box-shadow 400ms ease;
+  }
+
+  .soul-visual__toggle button[aria-pressed="true"] {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .soul-visual__toggle button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .soul-visual__stage {
+    position: relative;
+    height: 430px;
+    margin-top: 22px;
+  }
+
+  .soul-visual__axis {
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    width: 1px;
+    height: 180px;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--accent) 48%, transparent));
+    opacity: 0.7;
+    transform: translateX(-50%);
+    transition:
+      opacity 900ms ease,
+      transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .soul-visual__axis::before {
+    position: absolute;
+    top: -1px;
+    left: -4px;
+    width: 9px;
+    height: 9px;
+    border-top: 1px solid var(--accent);
+    border-left: 1px solid var(--accent);
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .soul-visual__axis span {
+    position: absolute;
+    bottom: -5px;
+    left: -5px;
+    width: 11px;
+    height: 11px;
+    border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--line));
+    border-radius: 50%;
+    background: var(--surface);
+  }
+
+  .soul-force {
+    position: absolute;
+    top: 218px;
+    left: 50%;
+    width: 190px;
+    margin: 0;
+    color: var(--muted);
+    text-align: center;
+    transform: translate(-50%, -50%) translate(var(--unified-x), var(--unified-y));
+    transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .soul-force--reason {
+    --unified-x: -146px;
+    --unified-y: 48px;
+    --divided-x: -270px;
+    --divided-y: -22px;
+    --divided-rotation: -48deg;
+  }
+
+  .soul-force--spirit {
+    --unified-x: 0px;
+    --unified-y: 8px;
+    --divided-x: 0px;
+    --divided-y: 95px;
+    --divided-rotation: 164deg;
+  }
+
+  .soul-force--desire {
+    --unified-x: 146px;
+    --unified-y: 48px;
+    --divided-x: 270px;
+    --divided-y: 12px;
+    --divided-rotation: 54deg;
+  }
+
+  .soul-force__arrow {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 52px;
+    margin: 0 auto 12px;
+    background: linear-gradient(transparent, var(--accent));
+    transform-origin: 50% calc(100% + 14px);
+    transition:
+      height 900ms ease,
+      transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .soul-force__arrow::before {
+    position: absolute;
+    top: 0;
+    left: -4px;
+    width: 9px;
+    height: 9px;
+    border-top: 1px solid var(--accent);
+    border-left: 1px solid var(--accent);
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .soul-force__body {
+    min-height: 142px;
+    padding: 17px 14px 15px;
+    border: 1px solid color-mix(in srgb, var(--line) 88%, var(--accent));
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 5%, transparent);
+    transition:
+      border-color 800ms ease,
+      box-shadow 800ms ease;
+  }
+
+  .soul-force__name {
+    margin: 0 0 2px;
+    color: var(--ink);
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .soul-force__greek {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.7rem;
+    opacity: 0.72;
+  }
+
+  .soul-force__meaning {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .soul-visual[data-state="divided"] {
+    background:
+      radial-gradient(circle at 50% 54%, color-mix(in srgb, var(--muted) 7%, transparent), transparent 32%),
+      var(--surface);
+  }
+
+  .soul-visual[data-state="divided"] .soul-visual__axis {
+    opacity: 0.12;
+    transform: translateX(-50%) scaleY(0.72);
+  }
+
+  .soul-visual[data-state="divided"] .soul-force {
+    transform:
+      translate(-50%, -50%)
+      translate(var(--divided-x), var(--divided-y));
+  }
+
+  .soul-visual[data-state="divided"] .soul-force__arrow {
+    height: 64px;
+    transform: rotate(var(--divided-rotation));
+  }
+
+  .soul-visual[data-state="divided"] .soul-force__body {
+    border-color: color-mix(in srgb, var(--line) 94%, var(--muted));
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--ink) 7%, transparent);
+  }
+
+  figcaption {
+    max-width: 720px;
+    margin: 8px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.98rem;
+    font-style: italic;
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .soul-visual {
       width: 100%;
     }
 
-    .soul-powers__grid {
-      grid-template-columns: 1fr;
+    .soul-visual__header {
+      flex-direction: column;
+      gap: 18px;
     }
 
-    article {
-      min-height: auto;
+    .soul-visual__stage {
+      height: 465px;
+      margin-top: 14px;
+    }
+
+    .soul-visual__axis {
+      top: 25px;
+      height: 155px;
+    }
+
+    .soul-force {
+      top: 205px;
+      width: min(29%, 138px);
+    }
+
+    .soul-force--reason {
+      --unified-x: calc(-1 * clamp(96px, 23vw, 150px));
+      --unified-y: 48px;
+      --divided-x: calc(-1 * clamp(102px, 26vw, 175px));
+      --divided-y: -36px;
+    }
+
+    .soul-force--spirit {
+      --unified-y: 14px;
+      --divided-y: 125px;
+    }
+
+    .soul-force--desire {
+      --unified-x: clamp(96px, 23vw, 150px);
+      --unified-y: 48px;
+      --divided-x: clamp(102px, 26vw, 175px);
+      --divided-y: 4px;
+    }
+
+    .soul-force__body {
+      min-height: 154px;
+      padding: 14px 8px 12px;
+    }
+
+    .soul-force__name {
+      font-size: 0.86rem;
+    }
+
+    .soul-force__greek {
+      min-height: 28px;
+      font-size: 0.61rem;
+      line-height: 1.25;
+    }
+
+    .soul-force__meaning {
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .soul-visual {
+      padding-inline: 14px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .soul-visual *,
+    .soul-visual *::before,
+    .soul-visual *::after {
+      transition-duration: 1ms !important;
     }
   }
 </style>
