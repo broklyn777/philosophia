@@ -1,0 +1,577 @@
+<figure class="cosmic-map" data-cosmic-map data-state="fracture" aria-labelledby="cosmic-map-title">
+  <header class="cosmic-map__header">
+    <p class="cosmic-map__eyebrow">En karta över rörelsen mot Gud</p>
+    <h2 id="cosmic-map-title">Från splittring till förening i Logos</h2>
+    <p>
+      Maximos ser människans inre liv, Kristi verk och skapelsens mål som delar
+      av samma mysterium.
+    </p>
+  </header>
+
+  <div class="cosmic-map__steps" role="group" aria-label="Tre rörelser hos Maximos">
+    <button type="button" data-cosmic-state="fracture" aria-pressed="true">
+      <span>I</span> Splittring
+    </button>
+    <button type="button" data-cosmic-state="discernment" aria-pressed="false">
+      <span>II</span> Urskiljning
+    </button>
+    <button type="button" data-cosmic-state="union" aria-pressed="false">
+      <span>III</span> Förening
+    </button>
+  </div>
+
+  <div class="cosmic-map__body">
+    <div class="cosmic-map__scene" aria-hidden="true">
+      <div class="cosmic-map__logos">
+        <span></span>
+        <p>Logos</p>
+      </div>
+
+      <div class="cosmic-map__orbit cosmic-map__orbit--outer"></div>
+      <div class="cosmic-map__orbit cosmic-map__orbit--inner"></div>
+
+      <div class="cosmic-map__human">
+        <span class="cosmic-map__head"></span>
+        <span class="cosmic-map__body-mark"></span>
+        <span class="cosmic-map__heart"></span>
+      </div>
+
+      <div class="cosmic-map__logos-fragments">
+        <span class="fragment fragment--earth">jord<small>gåva</small></span>
+        <span class="fragment fragment--neighbor">nästan<small>gemenskap</small></span>
+        <span class="fragment fragment--body">kropp<small>förkroppsligande</small></span>
+        <span class="fragment fragment--mind">ande<small>kontemplation</small></span>
+      </div>
+
+      <div class="cosmic-map__divisions">
+        <span>jag / världen</span>
+        <span>ande / materia</span>
+        <span>människa / nästan</span>
+      </div>
+
+      <div class="cosmic-map__lines">
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="cosmic-map__texts" aria-live="polite">
+      <section data-cosmic-panel="fracture">
+        <p class="cosmic-map__number">I</p>
+        <h3>Splittring</h3>
+        <p class="cosmic-map__lead">Det skapade rycks loss från sin mening.</p>
+        <p>
+          När kärleken böjs in mot jaget blir världen material för begär,
+          kontroll och rädsla. Människan söndrar det hon är kallad att förena.
+        </p>
+        <blockquote>Synden gör relation till avstånd.</blockquote>
+      </section>
+
+      <section data-cosmic-panel="discernment" hidden>
+        <p class="cosmic-map__number">II</p>
+        <h3>Urskiljning av logoi</h3>
+        <p class="cosmic-map__lead">Skapelsen börjar åter framträda som gåva.</p>
+        <p>
+          Genom rening och kontemplation lär sig människan att se varje varelse
+          enligt dess gudgivna mening, inte bara enligt hennes eget bruk.
+        </p>
+        <blockquote>Att se en logos är att ana skapelsen i relation till Kristus.</blockquote>
+      </section>
+
+      <section data-cosmic-panel="union" hidden>
+        <p class="cosmic-map__number">III</p>
+        <h3>Förening i Logos</h3>
+        <p class="cosmic-map__lead">Det åtskilda samlas utan att skillnaderna utplånas.</p>
+        <p>
+          I Kristus helas människans vilja och kärlek. Hon blir en medlare som
+          tar emot världen, förenar det splittrade och bär skapelsen mot Gud.
+        </p>
+        <blockquote>Förening är inte sammanblandning, utan fullbordad gemenskap.</blockquote>
+      </section>
+    </div>
+  </div>
+
+  <figcaption>
+    Den andliga vägen är kosmisk: när människan lär sig älska rätt börjar också
+    hennes relation till hela skapelsen att helas.
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-cosmic-map]").forEach((map) => {
+    const buttons = map.querySelectorAll<HTMLButtonElement>("[data-cosmic-state]");
+    const panels = map.querySelectorAll<HTMLElement>("[data-cosmic-panel]");
+
+    const setState = (state: "fracture" | "discernment" | "union") => {
+      map.dataset.state = state;
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.cosmicState === state));
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.cosmicPanel !== state;
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const state = button.dataset.cosmicState;
+        if (state === "fracture" || state === "discernment" || state === "union") {
+          setState(state);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .cosmic-map {
+    width: min(980px, calc(100vw - 32px));
+    margin: 42px 0 60px;
+    padding: clamp(22px, 4vw, 40px);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--line) 78%, var(--accent));
+    border-radius: 26px;
+    background:
+      radial-gradient(circle at 31% 51%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 34%),
+      linear-gradient(145deg, color-mix(in srgb, var(--gray-900) 93%, var(--accent)), var(--gray-900));
+    color: var(--gray-300);
+    box-shadow: 0 26px 70px color-mix(in srgb, var(--gray-900) 20%, transparent);
+    transition: background 1.4s ease;
+  }
+
+  .cosmic-map__header {
+    max-width: 720px;
+  }
+
+  .cosmic-map__eyebrow {
+    margin: 0 0 9px;
+    color: var(--primary-400);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .cosmic-map h2 {
+    margin: 0 0 10px !important;
+    color: var(--gray-100) !important;
+    font-size: clamp(1.65rem, 3.8vw, 2.45rem) !important;
+    letter-spacing: -0.035em;
+  }
+
+  .cosmic-map__header > p:last-child {
+    margin: 0;
+    color: var(--gray-300);
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+
+  .cosmic-map__steps {
+    display: flex;
+    margin: 30px 0 8px;
+    border-top: 1px solid var(--gray-700);
+    border-bottom: 1px solid var(--gray-700);
+  }
+
+  .cosmic-map__steps button {
+    flex: 1;
+    padding: 14px 10px;
+    border: 0;
+    border-right: 1px solid var(--gray-700);
+    background: transparent;
+    color: var(--gray-400);
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition:
+      color 500ms ease,
+      background-color 500ms ease;
+  }
+
+  .cosmic-map__steps button:last-child {
+    border-right: 0;
+  }
+
+  .cosmic-map__steps button span {
+    margin-right: 7px;
+    color: var(--primary-400);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .cosmic-map__steps button[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--primary-500) 8%, transparent);
+    color: var(--gray-100);
+  }
+
+  .cosmic-map__steps button:focus-visible {
+    outline: 2px solid var(--primary-400);
+    outline-offset: -3px;
+  }
+
+  .cosmic-map__body {
+    display: grid;
+    grid-template-columns: minmax(420px, 1.25fr) minmax(260px, 0.75fr);
+    gap: clamp(30px, 5vw, 60px);
+    align-items: center;
+    min-height: 500px;
+  }
+
+  .cosmic-map__scene {
+    position: relative;
+    height: 440px;
+  }
+
+  .cosmic-map__logos {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    z-index: 6;
+    text-align: center;
+    transform: translate(-50%, -50%);
+  }
+
+  .cosmic-map__logos span {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: auto;
+    border: 1px solid color-mix(in srgb, var(--primary-400) 78%, white);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 13px color-mix(in srgb, var(--primary-400) 7%, transparent),
+      0 0 58px color-mix(in srgb, var(--primary-400) 32%, transparent);
+    transition: box-shadow 1.4s ease;
+  }
+
+  .cosmic-map__logos p {
+    margin: 12px 0 0;
+    color: var(--gray-100);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.78rem;
+  }
+
+  .cosmic-map__orbit {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    border: 1px solid var(--gray-700);
+    border-radius: 50%;
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+    transition:
+      border-color 1.4s ease,
+      opacity 1.4s ease,
+      transform 1.4s ease;
+  }
+
+  .cosmic-map__orbit--outer {
+    width: 360px;
+    height: 310px;
+  }
+
+  .cosmic-map__orbit--inner {
+    width: 235px;
+    height: 205px;
+  }
+
+  .cosmic-map__human {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    z-index: 5;
+    width: 70px;
+    height: 110px;
+    transform: translateX(-50%);
+  }
+
+  .cosmic-map__head {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 30px;
+    height: 34px;
+    border: 1px solid var(--gray-500);
+    border-radius: 48%;
+    transform: translateX(-50%);
+  }
+
+  .cosmic-map__body-mark {
+    position: absolute;
+    top: 42px;
+    left: 50%;
+    width: 58px;
+    height: 66px;
+    border: 1px solid var(--gray-600);
+    border-radius: 48% 48% 18% 18%;
+    transform: translateX(-50%);
+  }
+
+  .cosmic-map__heart {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--primary-400);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    transition: box-shadow 1.4s ease;
+  }
+
+  .fragment {
+    position: absolute;
+    z-index: 4;
+    min-width: 95px;
+    padding: 9px 12px;
+    border: 1px solid var(--gray-700);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--gray-900) 88%, transparent);
+    color: var(--gray-200);
+    font-size: 0.72rem;
+    text-align: center;
+    transition:
+      border-color 1.4s ease,
+      transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .fragment small {
+    display: block;
+    color: var(--gray-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.61rem;
+    font-style: italic;
+  }
+
+  .fragment--earth { top: 64px; left: 8%; }
+  .fragment--neighbor { top: 78px; right: 4%; }
+  .fragment--body { bottom: 92px; left: 2%; }
+  .fragment--mind { right: 4%; bottom: 84px; }
+
+  .cosmic-map__divisions span {
+    position: absolute;
+    z-index: 7;
+    color: var(--gray-500);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.68rem;
+    font-style: italic;
+    opacity: 0.9;
+    transition: opacity 1.2s ease;
+  }
+
+  .cosmic-map__divisions span:nth-child(1) { top: 48%; left: 2%; }
+  .cosmic-map__divisions span:nth-child(2) { top: 27%; right: 28%; }
+  .cosmic-map__divisions span:nth-child(3) { right: 1%; bottom: 39%; }
+
+  .cosmic-map__lines span {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    z-index: 2;
+    width: 1px;
+    height: 125px;
+    background: linear-gradient(var(--primary-400), transparent);
+    opacity: 0.12;
+    transform-origin: top;
+    transition:
+      opacity 1.4s ease,
+      height 1.4s ease;
+  }
+
+  .cosmic-map__lines span:nth-child(1) { transform: rotate(-51deg); }
+  .cosmic-map__lines span:nth-child(2) { transform: rotate(48deg); }
+  .cosmic-map__lines span:nth-child(3) { transform: rotate(-127deg); }
+  .cosmic-map__lines span:nth-child(4) { transform: rotate(132deg); }
+
+  .cosmic-map__number {
+    margin: 0 0 5px;
+    color: var(--primary-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.78rem;
+  }
+
+  .cosmic-map__texts section {
+    animation: cosmic-text-enter 900ms ease both;
+  }
+
+  .cosmic-map__texts h3 {
+    margin: 0 0 8px !important;
+    color: var(--gray-100) !important;
+    font-size: clamp(1.28rem, 2.6vw, 1.62rem) !important;
+  }
+
+  .cosmic-map__texts p {
+    margin-bottom: 14px;
+    color: var(--gray-300);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .cosmic-map__lead {
+    color: var(--gray-100) !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem !important;
+  }
+
+  .cosmic-map__texts blockquote {
+    margin: 20px 0 0 !important;
+    padding: 0 0 0 14px !important;
+    border-left: 1px solid var(--primary-400) !important;
+    color: var(--gray-200) !important;
+    font-size: 0.9rem !important;
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .cosmic-map[data-state="fracture"] .cosmic-map__orbit {
+    border-color: var(--gray-800);
+    opacity: 0.38;
+  }
+
+  .cosmic-map[data-state="fracture"] .fragment--earth {
+    transform: translate(-22px, -13px) rotate(-5deg);
+  }
+
+  .cosmic-map[data-state="fracture"] .fragment--neighbor {
+    transform: translate(23px, -8px) rotate(6deg);
+  }
+
+  .cosmic-map[data-state="fracture"] .fragment--body {
+    transform: translate(-28px, 16px) rotate(5deg);
+  }
+
+  .cosmic-map[data-state="fracture"] .fragment--mind {
+    transform: translate(28px, 17px) rotate(-6deg);
+  }
+
+  .cosmic-map[data-state="discernment"] .cosmic-map__orbit {
+    border-color: color-mix(in srgb, var(--primary-400) 34%, var(--gray-700));
+    opacity: 0.78;
+  }
+
+  .cosmic-map[data-state="discernment"] .fragment {
+    border-color: color-mix(in srgb, var(--primary-400) 28%, var(--gray-700));
+  }
+
+  .cosmic-map[data-state="discernment"] .cosmic-map__divisions span,
+  .cosmic-map[data-state="union"] .cosmic-map__divisions span {
+    opacity: 0;
+  }
+
+  .cosmic-map[data-state="discernment"] .cosmic-map__lines span {
+    height: 135px;
+    opacity: 0.42;
+  }
+
+  .cosmic-map[data-state="union"] {
+    background:
+      radial-gradient(circle at 31% 51%, color-mix(in srgb, var(--primary-400) 14%, transparent), transparent 38%),
+      var(--gray-900);
+  }
+
+  .cosmic-map[data-state="union"] .cosmic-map__logos span {
+    box-shadow:
+      0 0 0 16px color-mix(in srgb, var(--primary-400) 8%, transparent),
+      0 0 72px color-mix(in srgb, var(--primary-400) 42%, transparent);
+  }
+
+  .cosmic-map[data-state="union"] .cosmic-map__orbit {
+    border-color: color-mix(in srgb, var(--primary-400) 45%, var(--gray-700));
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+
+  .cosmic-map[data-state="union"] .fragment {
+    border-color: color-mix(in srgb, var(--primary-400) 44%, var(--gray-700));
+    transform: translate(0, 0);
+  }
+
+  .cosmic-map[data-state="union"] .cosmic-map__lines span {
+    height: 142px;
+    opacity: 0.68;
+  }
+
+  .cosmic-map[data-state="union"] .cosmic-map__heart {
+    box-shadow: 0 0 30px color-mix(in srgb, var(--primary-400) 38%, transparent);
+  }
+
+  figcaption {
+    max-width: 740px;
+    margin: 8px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--gray-700);
+    color: var(--gray-400);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.96rem;
+    font-style: italic;
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  @keyframes cosmic-text-enter {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 790px) {
+    .cosmic-map {
+      width: 100%;
+    }
+
+    .cosmic-map__body {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .cosmic-map__scene {
+      height: 440px;
+    }
+
+    .cosmic-map__texts {
+      min-height: 280px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .cosmic-map__steps {
+      flex-direction: column;
+    }
+
+    .cosmic-map__steps button {
+      border-right: 0;
+      border-bottom: 1px solid var(--gray-700);
+      text-align: left;
+    }
+
+    .cosmic-map__steps button:last-child {
+      border-bottom: 0;
+    }
+
+    .cosmic-map__orbit--outer {
+      width: 300px;
+      height: 280px;
+    }
+
+    .cosmic-map__orbit--inner {
+      width: 190px;
+      height: 180px;
+    }
+
+    .fragment {
+      min-width: 82px;
+      padding: 8px 9px;
+    }
+
+    .fragment--earth { left: 0; }
+    .fragment--neighbor { right: 0; }
+    .fragment--body { left: 0; }
+    .fragment--mind { right: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cosmic-map *,
+    .cosmic-map *::before,
+    .cosmic-map *::after {
+      animation-duration: 1ms !important;
+      transition-duration: 1ms !important;
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+<aside class="maximos-vision" aria-labelledby="maximos-vision-title">
+  <p class="maximos-vision__eyebrow">Studiens vision</p>
+
+  <p class="maximos-vision__thesis" id="maximos-vision-title">
+    Skapelsen är inte ett virrvarr av ting. Varje varelse bär en gudgiven mening
+    — en <em>logos</em> — och alla dessa meningar har sitt ursprung och mål i
+    Kristus, Logos.
+  </p>
+
+  <p>
+    Människans splittring är därför större än ett privat moraliskt problem. När
+    viljan vänds in i sig själv förlorar hon förmågan att älska skapelsen utan
+    att äga, använda eller söndra den.
+  </p>
+
+  <p class="maximos-vision__closing">
+    Hos Maximos blir den andliga vägen en rörelse mot förening: människan helas
+    i Kristus och lär sig bära världen tillbaka till Gud i kärlek.
+  </p>
+</aside>
+
+<style>
+  .maximos-vision {
+    max-width: 780px;
+    margin: 30px 0 48px;
+    padding: clamp(23px, 4vw, 32px);
+    border-left: 3px solid var(--accent);
+    background:
+      radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 42%),
+      color-mix(in srgb, var(--accent) 4%, var(--bg));
+    color: var(--muted);
+  }
+
+  .maximos-vision__eyebrow {
+    margin: 0 0 13px;
+    color: var(--accent);
+    font-size: 0.73rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .maximos-vision p {
+    margin-bottom: 17px;
+    font-size: 1rem;
+    line-height: 1.67;
+  }
+
+  .maximos-vision__thesis {
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.08rem, 2.3vw, 1.24rem) !important;
+    line-height: 1.58 !important;
+  }
+
+  .maximos-vision__closing {
+    max-width: 690px;
+    margin-top: 26px;
+    margin-bottom: 0 !important;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.02rem, 2vw, 1.12rem) !important;
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  @media (max-width: 520px) {
+    .maximos-vision {
+      padding-right: 19px;
+      padding-left: 21px;
+    }
+  }
+</style>
