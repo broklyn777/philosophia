@@ -1,0 +1,251 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Om människan"
+  description="Frågor och studier om frihet, tankar, vilja och människans möjlighet till förändring."
+>
+  <main>
+    <header class="page-heading">
+      <p class="eyebrow">Bibliotek</p>
+      <h1>Om människan</h1>
+      <p class="lead">
+        Frågor om frihet, tankar, vilja och människans möjlighet till inre
+        förändring.
+      </p>
+    </header>
+
+    <section class="content-section" aria-labelledby="fragor">
+      <div class="section-heading">
+        <p class="eyebrow">Börja här</p>
+        <h2 id="fragor">Frågor om människan</h2>
+        <p>
+          En serie texter som börjar i den levda erfarenheten och öppnar vägen
+          mot en djupare förståelse av människans inre liv.
+        </p>
+      </div>
+
+      <ol class="reading-list">
+        <li class="reading-item reading-item--published">
+          <span class="number">01</span>
+          <div>
+            <p class="state">Publicerad</p>
+            <h3>
+              <a href="/varfor-gor-vi-sadant-vi-inte-vill-gora/">
+                Varför gör vi sådant vi inte vill göra?
+              </a>
+            </h3>
+            <p>Om frihetens paradox och avståndet mellan vilja och handling.</p>
+          </div>
+          <a
+            class="arrow"
+            href="/varfor-gor-vi-sadant-vi-inte-vill-gora/"
+            aria-label="Läs Varför gör vi sådant vi inte vill göra?"
+          >
+            Läs <span aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li class="reading-item reading-item--published">
+          <span class="number">02</span>
+          <div>
+            <p class="state">Publicerad</p>
+            <h3><a href="/ar-jag-mina-tankar/">Är jag mina tankar?</a></h3>
+            <p>
+              Om människan är identisk med sina tankar, vem är det då som
+              observerar dem?
+            </p>
+          </div>
+          <a
+            class="arrow"
+            href="/ar-jag-mina-tankar/"
+            aria-label="Läs Är jag mina tankar?"
+          >
+            Läs <span aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li class="reading-item reading-item--published">
+          <span class="number">03</span>
+          <div>
+            <p class="state">Publicerad</p>
+            <h3>
+              <a href="/kan-manniskan-forandras/">Kan människan förändras?</a>
+            </h3>
+            <p>Om vana, frihet och möjligheten att bli en annan än den man varit.</p>
+          </div>
+          <a
+            class="arrow"
+            href="/kan-manniskan-forandras/"
+            aria-label="Läs Kan människan förändras?"
+          >
+            Läs <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <section class="content-section studies" aria-labelledby="studier">
+      <div class="section-heading">
+        <p class="eyebrow">Fördjupning</p>
+        <h2 id="studier">Studier</h2>
+        <p>
+          Två sammanhållna studier som belyser människans inre liv och hennes
+          plats i skapelsen.
+        </p>
+      </div>
+
+      <div class="study-grid">
+        <article>
+          <p class="tradition">Asketisk psykologi</p>
+          <h3><a href="/evagrios-pontikos/">Evagrios Pontikos</a></h3>
+          <p>
+            Om tankarnas rörelser, passionernas makt och vägen mot stillhet,
+            klarhet och bön.
+          </p>
+          <a class="study-link" href="/evagrios-pontikos/">Öppna studien →</a>
+        </article>
+        <article>
+          <p class="tradition">Kosmisk teologi</p>
+          <h3><a href="/maximos-bekannaren/">Maximos Bekännaren</a></h3>
+          <p>
+            Om vilja, Logos och logoi, människan som medlare och föreningen av
+            det splittrade i Kristus.
+          </p>
+          <a class="study-link" href="/maximos-bekannaren/">Öppna studien →</a>
+        </article>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .page-heading {
+    max-width: 940px;
+  }
+
+  .content-section {
+    padding: 48px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-heading {
+    max-width: 760px;
+    margin-bottom: 28px;
+  }
+
+  .section-heading h2 {
+    margin-bottom: 12px;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .section-heading > p:last-child {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .reading-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .reading-item {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr) auto;
+    gap: 22px;
+    align-items: start;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .number,
+  .state,
+  .tradition {
+    color: var(--accent);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .state {
+    margin-bottom: 7px;
+  }
+
+  .reading-item h3,
+  .study-grid h3 {
+    margin-bottom: 8px;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .reading-item h3 a,
+  .study-grid h3 a,
+  .arrow,
+  .study-link {
+    text-decoration: none;
+  }
+
+  .reading-item div > p:last-child,
+  .study-grid article > p:not(.tradition) {
+    max-width: 720px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .arrow,
+  .study-link {
+    color: var(--accent);
+  }
+
+  .reading-item--planned {
+    opacity: 0.68;
+  }
+
+  .reading-item--planned .state {
+    color: var(--muted);
+  }
+
+  .studies {
+    padding-bottom: 16px;
+  }
+
+  .study-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .study-grid article {
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .tradition {
+    margin-bottom: 14px;
+  }
+
+  .study-link {
+    display: inline-block;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 720px) {
+    .reading-item {
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .arrow {
+      grid-column: 2;
+    }
+
+    .study-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
