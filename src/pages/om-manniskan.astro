@@ -115,6 +115,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </article>
       </div>
     </section>
+
+    <section class="content-section related" aria-labelledby="vidare-lasning">
+      <div class="section-heading">
+        <p class="eyebrow">Vidare läsning</p>
+        <h2 id="vidare-lasning">Fortsätt utforska</h2>
+      </div>
+
+      <article class="related-card">
+        <div>
+          <p class="tradition">Existentiella frågor</p>
+          <h3>
+            <a href="/fragor-som-vagrar-forsvinna">
+              Frågor som vägrar försvinna
+            </a>
+          </h3>
+          <p>
+            De stora existentiella frågor som människor återvänt till genom
+            århundradena.
+          </p>
+        </div>
+        <a class="related-link" href="/fragor-som-vagrar-forsvinna">
+          Utforska frågorna <span aria-hidden="true">→</span>
+        </a>
+      </article>
+    </section>
   </main>
 </BaseLayout>
 
@@ -175,7 +200,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .reading-item h3,
-  .study-grid h3 {
+  .study-grid h3,
+  .related-card h3 {
     margin-bottom: 8px;
     font-size: clamp(1.4rem, 3vw, 2rem);
     line-height: 1.15;
@@ -183,8 +209,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .reading-item h3 a,
   .study-grid h3 a,
+  .related-card h3 a,
   .arrow,
-  .study-link {
+  .study-link,
+  .related-link {
     text-decoration: none;
   }
 
@@ -196,7 +224,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .arrow,
-  .study-link {
+  .study-link,
+  .related-link {
     color: var(--accent);
   }
 
@@ -234,6 +263,36 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     margin-top: 20px;
   }
 
+  .related {
+    padding-bottom: 16px;
+  }
+
+  .related-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 36px;
+    align-items: flex-end;
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .related-card h3 {
+    margin-bottom: 8px;
+  }
+
+  .related-card div > p:last-child {
+    max-width: 650px;
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .related-link {
+    flex: 0 0 auto;
+  }
+
   @media (max-width: 720px) {
     .reading-item {
       grid-template-columns: 38px minmax(0, 1fr);
@@ -246,6 +305,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     .study-grid {
       grid-template-columns: 1fr;
+    }
+
+    .related-card {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 24px;
     }
   }
 </style>

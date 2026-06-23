@@ -1,0 +1,423 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const questions = [
+  {
+    title: "Om Gud finns, varför finns lidande?",
+    thinkers: "Augustinus · Irenaeus · Gregorios · Evagrios · Maximos",
+    paragraphs: [
+      "Detta har kallats den svåraste frågan inom både filosofi och teologi. Om Gud är god, varför finns då sjukdom, ondska och död?",
+      "Augustinus hävdade att Gud inte skapar ondskan. Det onda är snarare en brist på det goda – privatio boni – som uppstår när fria varelser vänder sig bort från sitt rätta mål. Irenaeus och Gregorios av Nyssa betonade istället att människan skapades för att mogna, och att lidandet ibland kan bli en del av denna process.",
+      "I den östliga kristna traditionen beskrev Evagrios Pontikos världen som en plats för andlig kamp. Maximos Bekännaren såg lidandet mot bakgrund av en större kosmisk splittring som ytterst skall helas i Kristus. Frågan förblir omstridd, men dessa perspektiv har format stora delar av den kristna idéhistorien.",
+    ],
+    related: [
+      { label: "Teodicéproblemet" },
+      { label: "Evagrios Pontikos", href: "/evagrios-pontikos/" },
+      { label: "Maximos Bekännaren", href: "/maximos-bekannaren/" },
+    ],
+  },
+  {
+    title: "Vad händer när vi dör?",
+    thinkers: "Platon · Gregorios av Nyssa · Maximos Bekännaren",
+    paragraphs: [
+      "Frågan om döden har följt människan så länge hon har begravt sina döda. Är döden slutet på medvetandet, eller början på något annat?",
+      "Platon menade att själen är odödlig och överlever kroppens död. Många senare filosofer och religiösa traditioner har utvecklat liknande tankar. Den kristna traditionen har däremot oftast betonat något mer än själens fortsatta existens: hoppet om uppståndelsen. Människan är inte en själ som råkar ha en kropp, utan en kroppslig och andlig helhet som ytterst är kallad till förnyelse.",
+      "Gregorios av Nyssa, Maximos Bekännaren och andra kyrkofäder såg därför döden som både en tragedi och en övergång. Den skiljer människan från det liv hon är skapad för, men har enligt kristen tro inte sista ordet. Frågan om döden blir därmed också en fråga om hopp, identitet och människans slutliga mål.",
+    ],
+    related: [
+      { label: "Uppståndelsen i den kristna traditionen" },
+      { label: "Gregorios av Nyssa" },
+      { label: "Maximos Bekännaren", href: "/maximos-bekannaren/" },
+    ],
+  },
+  {
+    title: "Är människan i grunden god?",
+    thinkers: "Sokrates · Platon · Rousseau · Evagrios",
+    paragraphs: [
+      "Människan är kapabel till både osjälvisk kärlek och stor grymhet. Därför har filosofer och teologer länge varit oense om hur hennes natur bäst skall förstås.",
+      "Sokrates och Platon menade att människan ytterst söker det goda, men ofta handlar fel därför att hon saknar sann kunskap. Rousseau hävdade senare att människan föds god men korrumperas av samhället. Andra tänkare har betonat människans benägenhet till själviskhet, maktbegär och våld.",
+      "Den kristna traditionen håller vanligtvis samman båda perspektiven. Människan är skapad till Guds avbild – imago Dei – och bär därför en inneboende värdighet och godhet. Samtidigt är hon sårad och splittrad. För Evagrios ligger problemet inte i hennes natur, utan i att uppmärksamheten fångas av logismoi (λογισμοί): tankemönster som drar henne bort från det liv hon är skapad för.",
+    ],
+    related: [
+      { label: "Om människan", href: "/om-manniskan/" },
+      { label: "Evagrios Pontikos", href: "/evagrios-pontikos/" },
+      { label: "Logismoi", href: "/logismoi-enligt-evagrios/" },
+    ],
+  },
+  {
+    title: "Kan människan förändras?",
+    thinkers: "Paulus · Augustinus · Evagrios · theosis",
+    paragraphs: [
+      "Människans erfarenhet tycks tala i två riktningar. Hon kan förstå vad som är gott och ändå upprepa samma destruktiva handlingar. Samtidigt vittnar både filosofi och andliga traditioner om att vanor kan brytas och livet få en ny riktning.",
+      "Paulus beskrev människan som splittrad mellan det hon vill och det hon faktiskt gör. Augustinus såg hur viljan formas av kärleken: människan blir lik det hon riktar sitt begär mot. Hos Evagrios är förändring därför inte en plötslig självuppfinning, utan en lång övning i uppmärksamhet, urskiljning och frihet från de tankemönster som har blivit till vana.",
+      "Den kristna askesen syftar inte till att förneka människans natur, utan till att hela och rikta den. I den östliga traditionen når denna tanke sin fulla form i läran om theosis: människan är inte fångad i det hon har varit, utan kallad att genom nåd bli mer verkligt mänsklig.",
+    ],
+    related: [
+      { label: "Kan människan förändras?", href: "/kan-manniskan-forandras/" },
+      { label: "Evagrios om praktike", href: "/evagrios-praktike/" },
+      { label: "Theosis", href: "/maximos-theosis/" },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Frågor som vägrar försvinna"
+  description="De stora existentiella, filosofiska och teologiska frågor som återkommer genom mänsklighetens historia."
+>
+  <main>
+    <header class="page-heading">
+      <p class="eyebrow">Filosofiska frågor</p>
+      <h1>Frågor som vägrar försvinna</h1>
+      <p class="lead">
+        De viktigaste frågorna i livet försvinner inte. Generation efter generation
+        har filosofer, teologer och mystiker försökt förstå dem – inte för att ge
+        enkla svar, utan för att se djupare.
+      </p>
+    </header>
+
+    <section class="introduction" aria-label="Introduktion">
+      <div class="intro-text">
+        <p>
+          Vissa frågor kan inte besvaras en gång för alla. De återkommer därför
+          att de är sammanvävda med vad det innebär att vara människa.
+        </p>
+        <p>
+          Genom historien har filosofer, teologer och mystiker närmat sig dessa
+          frågor från olika håll. Inte för att avsluta samtalet, utan för att
+          fördjupa det.
+        </p>
+        <p>
+          Här samlar Philosophia några av de frågor som fortsätter att utmana,
+          fascinera och forma människans sökande efter sanning.
+        </p>
+      </div>
+    </section>
+
+    <section class="questions-section" aria-labelledby="fragor">
+      <div class="section-heading">
+        <p class="eyebrow">Essäer och studier</p>
+        <h2 id="fragor">Frågorna</h2>
+        <p>
+          Öppna en fråga för en kort idéhistorisk introduktion och vägar till
+          vidare läsning.
+        </p>
+      </div>
+
+      <div class="question-list">
+        {
+          questions.map((question, index) => (
+            <details class="question">
+              <summary>
+                <span class="question-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span class="question-overview">
+                  <h3>{question.title}</h3>
+                  <span class="thinkers">{question.thinkers}</span>
+                </span>
+                <span class="toggle" aria-hidden="true" />
+              </summary>
+
+              <div class="question-content">
+                <p class="question-subtitle">
+                  Hur har filosofer, teologer och mystiker försökt förstå denna
+                  fråga?
+                </p>
+                <div class="answer">
+                  {question.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                </div>
+                <div class="further-reading">
+                  <h4>Läs vidare</h4>
+                  <ul>
+                    {
+                      question.related.map((item) => (
+                        <li>
+                          {item.href ? (
+                            <a href={item.href}>
+                              <span aria-hidden="true">→</span> {item.label}
+                            </a>
+                          ) : (
+                            <span class="planned">
+                              <span aria-hidden="true">→</span> {item.label}
+                              <small>Kommer snart</small>
+                            </span>
+                          )}
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .page-heading {
+    max-width: 940px;
+  }
+
+  .introduction {
+    padding: 46px 0 54px;
+  }
+
+  .intro-text {
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 1.18rem;
+    font-weight: 350;
+    line-height: 1.82;
+  }
+
+  .intro-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .questions-section {
+    padding: 48px 0 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-heading {
+    max-width: 760px;
+    margin-bottom: 32px;
+  }
+
+  .section-heading h2 {
+    margin-bottom: 12px;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .section-heading > p:last-child {
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .question-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .question {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .question summary {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 28px;
+    gap: 20px;
+    align-items: center;
+    margin: 0 -16px;
+    padding: 25px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    list-style: none;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .question summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .question summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .question summary:hover,
+  .question summary:focus-visible {
+    background: var(--surface);
+  }
+
+  .question summary:hover h3,
+  .question summary:focus-visible h3 {
+    color: var(--accent);
+  }
+
+  .question-number {
+    color: var(--accent);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .question-overview {
+    min-width: 0;
+  }
+
+  .question h3 {
+    margin-bottom: 6px;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .thinkers {
+    display: block;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .toggle {
+    position: relative;
+    width: 22px;
+    height: 22px;
+  }
+
+  .toggle::before,
+  .toggle::after {
+    position: absolute;
+    top: 10px;
+    left: 3px;
+    width: 16px;
+    height: 1px;
+    background: var(--accent);
+    content: "";
+    transition: transform 180ms ease;
+  }
+
+  .toggle::after {
+    transform: rotate(90deg);
+  }
+
+  .question summary:hover .toggle,
+  .question summary:focus-visible .toggle {
+    transform: scale(1.12);
+  }
+
+  .toggle {
+    transition: transform 160ms ease;
+  }
+
+  .question[open] .toggle::after {
+    transform: rotate(0);
+  }
+
+  .question[open] {
+    margin: 0 -24px;
+    padding: 0 24px;
+    background: var(--surface);
+  }
+
+  .question-content {
+    max-width: 760px;
+    margin-left: 68px;
+    padding: 2px 0 34px;
+  }
+
+  .question-subtitle {
+    margin-bottom: 26px;
+    color: var(--ink);
+    font-size: clamp(1.08rem, 2vw, 1.25rem);
+    line-height: 1.55;
+  }
+
+  .answer {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.78;
+  }
+
+  .answer p:last-child {
+    margin-bottom: 0;
+  }
+
+  .further-reading {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  .further-reading h4 {
+    margin: 0 0 12px;
+    color: var(--ink);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .further-reading ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .further-reading li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .further-reading a,
+  .planned {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    text-decoration: none;
+  }
+
+  .further-reading a {
+    color: var(--accent);
+  }
+
+  .planned {
+    color: var(--muted);
+  }
+
+  .planned small {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .introduction {
+      padding: 36px 0 42px;
+    }
+
+    .question summary {
+      grid-template-columns: 32px minmax(0, 1fr) 24px;
+      gap: 12px;
+      padding: 22px 0;
+    }
+
+    .question[open] {
+      margin: 0 -16px;
+      padding: 0 16px;
+    }
+
+    .question-content {
+      margin-left: 44px;
+      padding-bottom: 30px;
+    }
+
+    .thinkers {
+      font-size: 0.76rem;
+    }
+
+    .planned {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .planned small {
+      width: 100%;
+      margin-left: 22px;
+    }
+  }
+</style>
