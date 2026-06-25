@@ -6,7 +6,10 @@ export async function getPublishedPosts() {
 }
 
 export async function getProjects() {
-  const projects = await getCollection("projects");
+  const projects = await getCollection(
+    "projects",
+    ({ data }) => !import.meta.env.PROD || data.status !== "draft",
+  );
   return projects.sort((a, b) => a.data.title.localeCompare(b.data.title, "sv"));
 }
 
