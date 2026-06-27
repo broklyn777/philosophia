@@ -196,6 +196,21 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     color: var(--accent);
   }
 
+  .prose .pull-quote {
+    margin: 34px 0;
+    padding: 20px 0 20px 22px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+  }
+
+  .prose .pull-quote p {
+    max-width: 640px;
+    margin: 0;
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
   .prose .evagrios-index a {
     color: var(--accent);
     font-weight: 400;
@@ -249,6 +264,58 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     font-weight: 400;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+  }
+
+  .prose .history-index .essay-list {
+    display: grid;
+    gap: 18px;
+    margin: 28px 0 36px;
+  }
+
+  .prose .history-index .essay-item {
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .prose .history-index .essay-item h4 {
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-size: clamp(1.25rem, 3vw, 1.65rem);
+    line-height: 1.15;
+  }
+
+  .prose .history-index .essay-kicker {
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .prose .history-index .essay-item span {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .prose .history-index details {
+    margin: 16px 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .prose .history-index summary {
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .prose .history-index .essay-ending {
+    margin-bottom: 0;
+    color: var(--ink);
+    font-style: italic;
   }
 
   @media (max-width: 520px) {
