@@ -2,7 +2,7 @@ import mdx from "@astrojs/mdx";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://philosophia.example.com",
+  site: "https://philosophia-eta.vercel.app",
   integrations: [mdx()],
   markdown: {
     remarkRehype: {
