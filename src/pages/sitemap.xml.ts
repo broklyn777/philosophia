@@ -7,6 +7,7 @@ const staticPaths = [
   "/projekt/",
   "/amnen/",
   "/sok/",
+  "/boner/",
   "/om/",
   "/om-manniskan/",
   "/fragor-som-vagrar-forsvinna/",

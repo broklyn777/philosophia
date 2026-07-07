@@ -1,0 +1,164 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const prayers = [
+  {
+    title: "Korsbönen",
+    description:
+      "En kort bön sjungen i bysantinskt färgad stil för stilla lyssning och återkommande bruk.",
+    category: "Bön",
+    tradition: "Bysantinsk sångstil",
+    duration: "3:05",
+    fileSize: "4 MB",
+    src: "/audio/boner/korsbonen.mp3",
+  },
+];
+---
+
+<BaseLayout
+  title="Inlästa böner och sånger"
+  description="Inlästa böner och sånger för lyssning, stillhet och daglig bön."
+>
+  <main>
+    <header class="page-heading prayer-heading">
+      <p class="eyebrow">Ortodox bön</p>
+      <h1>Inlästa böner och sånger</h1>
+      <p class="lead">
+        En enkel samling böner och sånger för stilla lyssning. Ljudet laddas
+        först när du väljer att spela, så sidan kan växa utan att kännas tung.
+      </p>
+    </header>
+
+    <section class="prayer-library" aria-labelledby="boner">
+      <div class="section-heading">
+        <p class="eyebrow">Ljudbibliotek</p>
+        <h2 id="boner">Lyssna</h2>
+      </div>
+
+      <div class="prayer-list">
+        {
+          prayers.map((prayer) => (
+            <article class="prayer-item">
+              <div class="prayer-copy">
+                <p class="prayer-meta">
+                  {prayer.category} · {prayer.tradition} · {prayer.duration} · {prayer.fileSize}
+                </p>
+                <h3>{prayer.title}</h3>
+                <p>{prayer.description}</p>
+              </div>
+              <div class="prayer-player">
+                <audio controls preload="metadata" src={prayer.src}>
+                  Din webbläsare stöder inte ljudspelaren.
+                </audio>
+                <a href={prayer.src} download>Ladda ned MP3</a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="guidance" aria-labelledby="praktiskt">
+      <h2 id="praktiskt">Under uppbyggnad</h2>
+      <p>
+        Samlingen kan senare ordnas efter kategorier, till exempel morgonböner,
+        aftonböner, psaltartexter och sånger. När texterna finns inlagda kan
+        varje ljudspår också få en knapp som visar bönens text.
+      </p>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const audioPlayers = document.querySelectorAll<HTMLAudioElement>("audio");
+
+  audioPlayers.forEach((player) => {
+    player.addEventListener("play", () => {
+      audioPlayers.forEach((otherPlayer) => {
+        if (otherPlayer !== player) otherPlayer.pause();
+      });
+    });
+  });
+</script>
+
+<style>
+  .prayer-heading {
+    max-width: 900px;
+  }
+
+  .prayer-library {
+    padding: 44px 0 10px;
+  }
+
+  .section-heading h2,
+  .guidance h2 {
+    margin-bottom: 18px;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+
+  .prayer-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .prayer-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+    gap: 28px;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .prayer-meta {
+    margin-bottom: 10px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    font-size: clamp(1.5rem, 3vw, 2.15rem);
+    line-height: 1.12;
+  }
+
+  .prayer-copy p:last-child,
+  .guidance p {
+    max-width: 720px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .prayer-player {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+  }
+
+  audio {
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .prayer-player a {
+    color: var(--accent);
+    font-size: 0.95rem;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .guidance {
+    max-width: 760px;
+    padding: 40px 0 8px;
+  }
+
+  @media (max-width: 760px) {
+    .prayer-item {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+  }
+</style>
