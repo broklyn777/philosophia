@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const prayers = [
   {
+    id: "korsbonen",
     title: "Korsbönen",
     description:
       "En kort bön sjungen i bysantinskt färgad stil för stilla lyssning och återkommande bruk.",
@@ -11,6 +12,121 @@ const prayers = [
     duration: "3:05",
     fileSize: "4 MB",
     src: "/audio/boner/korsbonen.mp3",
+    text: [
+      ["I Faderns och Sonens och den Helige Andes namn. Amen."],
+      [
+        "Genom våra heliga fäders förböner, Herre Jesus Kristus, vår Gud, förbarma Dig över oss. Amen.",
+      ],
+      [
+        "Må Gud stå upp,",
+        "och Hans fiender varda förskingrade,",
+        "och de som hata Honom fly för Hans ansikte.",
+      ],
+      [
+        "Såsom röken försvinner, så må de försvinna;",
+        "likasom vaxet smälter för elden,",
+        "så förgås demonerna inför dem som älska Gud",
+        "och teckna sig med det heliga korsets tecken",
+        "och i glädje säga:",
+      ],
+      [
+        "Hell dig, du ärevördiga och livgivande Herrens kors,",
+        "ty du fördriver demonerna genom kraften från vår Herre Jesus Kristus,",
+      ],
+      [
+        "Han som blev korsfäst på dig,",
+        "nedsteg i dödsriket,",
+        "övervann djävulens makt",
+        "och gav oss sitt ärevördiga och livgivande kors",
+        "till att fördriva varje vedersakare.",
+      ],
+      [
+        "O du ärevördiga och livgivande Herrens kors,",
+        "hjälp mig genom förbönerna av den allraheligaste Gudaföderskan, Jungfru Maria,",
+        "och alla helgon.",
+      ],
+      ["Amen."],
+      [
+        "Ära vare Fadern och Sonen och den Helige Ande,",
+        "nu och alltid",
+        "och i evigheters evighet. Amen.",
+      ],
+      ["Herre, förbarma Dig.", "Herre, förbarma Dig.", "Herre, förbarma Dig."],
+      [
+        "Genom våra heliga fäders förböner,",
+        "Herre Jesus Kristus, vår Gud,",
+        "förbarma Dig över oss. Amen.",
+      ],
+    ],
+  },
+  {
+    id: "lar-oss-herre",
+    title: "Lär oss, Herre",
+    description:
+      "En stilla bön om omvändelse, rening och Guds ledning på fridens väg.",
+    category: "Bön",
+    tradition: "Bysantinsk sångstil",
+    duration: "2:58",
+    fileSize: "3,9 MB",
+    src: "/audio/boner/lar-oss-herre.mp3",
+    text: [
+      [
+        "Herre Jesus Kristus,",
+        "Guds Son,",
+        "förbarma Dig över oss.",
+      ],
+      ["Herre, förbarma Dig över oss."],
+      [
+        "Led oss till sann omvändelse, Herre.",
+        "Rena våra hjärtan.",
+        "Rena våra tankar.",
+        "Rena vår tunga.",
+      ],
+      ["Herre, förbarma Dig över oss."],
+      [
+        "Bevara oss, Herre, från högmod.",
+        "Bevara oss från vrede.",
+        "Bevara oss från själviskhet.",
+        "Bevara oss från modlöshet.",
+        "Bevara oss från alla onda tankar.",
+      ],
+      ["Herre, förbarma Dig över oss."],
+      [
+        "Lär oss ödmjukhet.",
+        "Lär oss tålamod.",
+        "Lär oss kärlek.",
+        "Lär oss urskillning.",
+      ],
+      ["Herre, förbarma Dig över oss."],
+      [
+        "Lär oss att söka Din vilja, Herre.",
+        "Stärk oss i kampen mot synden.",
+        "Res oss upp när vi faller.",
+        "Överge oss inte.",
+      ],
+      ["Herre, förbarma Dig över oss."],
+      [
+        "Beskydda oss",
+        "och alla dem",
+        "Du har anförtrott åt vår omsorg.",
+      ],
+      [
+        "Sänd Dina heliga änglar",
+        "att vaka över oss.",
+        "Led oss på fridens väg.",
+      ],
+      ["Led oss på fridens väg."],
+      [
+        "Ty Du är god",
+        "och människovänlig,",
+        "och Dig uppsänder vi ära,",
+        "tillsammans med Fadern",
+        "och den Helige Ande,",
+        "nu och alltid",
+        "och i evigheters evighet.",
+      ],
+      ["Amen."],
+    ],
   },
 ];
 ---
@@ -50,8 +166,36 @@ const prayers = [
                 <audio controls preload="metadata" src={prayer.src}>
                   Din webbläsare stöder inte ljudspelaren.
                 </audio>
-                <a href={prayer.src} download>Ladda ned MP3</a>
+                <div class="prayer-actions">
+                  <button type="button" data-open-prayer={prayer.id}>Visa text</button>
+                  <a href={prayer.src} download>Ladda ned MP3</a>
+                </div>
               </div>
+              <dialog class="prayer-dialog" data-prayer-dialog={prayer.id}>
+                <div class="dialog-shell">
+                  <header class="dialog-heading">
+                    <div>
+                      <p class="eyebrow">{prayer.tradition}</p>
+                      <h2>{prayer.title}</h2>
+                    </div>
+                    <button type="button" data-close-prayer aria-label="Stäng texten">
+                      Stäng
+                    </button>
+                  </header>
+                  <div class="prayer-text">
+                    {prayer.text.map((stanza) => (
+                      <p>
+                        {stanza.map((line) => (
+                          <>
+                            {line}
+                            <br />
+                          </>
+                        ))}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </dialog>
             </article>
           ))
         }
@@ -62,8 +206,8 @@ const prayers = [
       <h2 id="praktiskt">Under uppbyggnad</h2>
       <p>
         Samlingen kan senare ordnas efter kategorier, till exempel morgonböner,
-        aftonböner, psaltartexter och sånger. När texterna finns inlagda kan
-        varje ljudspår också få en knapp som visar bönens text.
+        aftonböner, psaltartexter och sånger. Varje ljudspår kan också få sin
+        egen text, så att man kan växla mellan att lyssna och läsa.
       </p>
     </section>
   </main>
@@ -77,6 +221,30 @@ const prayers = [
       audioPlayers.forEach((otherPlayer) => {
         if (otherPlayer !== player) otherPlayer.pause();
       });
+    });
+  });
+
+  const dialogs = document.querySelectorAll<HTMLDialogElement>("[data-prayer-dialog]");
+
+  dialogs.forEach((dialog) => {
+    const closeButton = dialog.querySelector<HTMLButtonElement>("[data-close-prayer]");
+
+    closeButton?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-open-prayer]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.openPrayer;
+      const dialog = document.querySelector<HTMLDialogElement>(`[data-prayer-dialog="${id}"]`);
+      if (!dialog) return;
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute("open", "");
+      }
     });
   });
 </script>
@@ -143,11 +311,115 @@ const prayers = [
     max-width: 380px;
   }
 
+  .prayer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+  }
+
+  .prayer-actions button {
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .prayer-actions button:hover,
+  .prayer-actions button:focus-visible {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+  }
+
+  .prayer-actions button:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+  }
+
   .prayer-player a {
     color: var(--accent);
     font-size: 0.95rem;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
+  }
+
+  .prayer-dialog {
+    width: min(720px, calc(100% - 28px));
+    max-height: min(82vh, 820px);
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    box-shadow: 0 24px 80px rgb(0 0 0 / 0.24);
+  }
+
+  .prayer-dialog::backdrop {
+    background: rgb(0 0 0 / 0.54);
+  }
+
+  .dialog-shell {
+    max-height: min(82vh, 820px);
+    overflow: auto;
+  }
+
+  .dialog-heading {
+    position: sticky;
+    top: 0;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+
+  .dialog-heading h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .dialog-heading button {
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+  }
+
+  .dialog-heading button:hover,
+  .dialog-heading button:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .prayer-text {
+    padding: 24px;
+    color: var(--muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.1rem, 2vw, 1.28rem);
+    line-height: 1.72;
+  }
+
+  .prayer-text p {
+    margin-bottom: 22px;
+  }
+
+  .prayer-text p:last-child {
+    margin-bottom: 0;
   }
 
   .guidance {
@@ -159,6 +431,12 @@ const prayers = [
     .prayer-item {
       grid-template-columns: 1fr;
       gap: 18px;
+    }
+
+    .dialog-heading {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 14px;
     }
   }
 </style>
