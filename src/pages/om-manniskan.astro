@@ -84,6 +84,30 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </ol>
     </section>
 
+    <section class="content-section" aria-labelledby="det-osynliga-kriget">
+      <article class="series-feature">
+        <div>
+          <p class="eyebrow">Ortodox kristen antropologi</p>
+          <h2 id="det-osynliga-kriget">
+            <a href="/det-osynliga-kriget/">Det osynliga kriget</a>
+          </h2>
+          <p>
+            En växande serie om kropp, själ och ande — och om hur människans
+            inre krafter splittras, samverkar och återställs i det andliga
+            livet.
+          </p>
+        </div>
+        <div class="series-feature__chapters" aria-label="Publicerade delar">
+          <a href="/vad-ar-kroppen/"><span>01</span> Vad är kroppen?</a>
+          <a href="/vad-ar-sjalen/"><span>02</span> Vad är själen?</a>
+          <a href="/vad-ar-anden/"><span>03</span> Vad är anden?</a>
+        </div>
+        <a class="series-feature__link" href="/det-osynliga-kriget/">
+          Öppna hela serien <span aria-hidden="true">→</span>
+        </a>
+      </article>
+    </section>
+
     <section class="content-section studies" aria-labelledby="studier">
       <div class="section-heading">
         <p class="eyebrow">Fördjupning</p>
@@ -241,6 +265,63 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     padding-bottom: 16px;
   }
 
+  .series-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+    gap: 28px 42px;
+    padding: clamp(26px, 5vw, 46px);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 9%, transparent), transparent 54%),
+      var(--surface);
+  }
+
+  .series-feature h2 {
+    margin-bottom: 14px;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  .series-feature h2 a,
+  .series-feature__chapters a,
+  .series-feature__link {
+    text-decoration: none;
+  }
+
+  .series-feature div > p:last-child {
+    max-width: 650px;
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .series-feature__chapters {
+    display: grid;
+    align-content: center;
+    border-top: 1px solid var(--line);
+  }
+
+  .series-feature__chapters a {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .series-feature__chapters span {
+    color: var(--accent);
+    font-size: 0.76rem;
+  }
+
+  .series-feature__link {
+    grid-column: 1 / -1;
+    width: fit-content;
+    color: var(--accent);
+  }
+
   .study-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -304,6 +385,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     .study-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .series-feature {
       grid-template-columns: 1fr;
     }
 

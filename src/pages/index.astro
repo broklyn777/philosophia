@@ -27,6 +27,26 @@ const projects = (await getProjects()).filter((project) => project.data.featured
       </div>
     </section>
 
+    <section class="section featured-series" aria-labelledby="det-osynliga-kriget">
+      <div>
+        <p class="eyebrow">Ny serie · Ortodox antropologi</p>
+        <h2 id="det-osynliga-kriget">Det osynliga kriget</h2>
+        <p>
+          Vad är kroppen, själen och anden — och hur återställs människans
+          inre ordning? Följ en sammanhängande väg från antropologins grunder
+          till den andliga vardagens praktik.
+        </p>
+      </div>
+      <ol aria-label="Publicerade delar">
+        <li><a href="/vad-ar-kroppen/"><span>01</span> Vad är kroppen?</a></li>
+        <li><a href="/vad-ar-sjalen/"><span>02</span> Vad är själen?</a></li>
+        <li><a href="/vad-ar-anden/"><span>03</span> Vad är anden?</a></li>
+      </ol>
+      <a class="featured-series__action" href="/det-osynliga-kriget/">
+        Öppna serien <span aria-hidden="true">→</span>
+      </a>
+    </section>
+
     <section class="section audio-entry" aria-labelledby="inlasta-boner">
       <div>
         <p class="eyebrow">Stillhet</p>
@@ -116,6 +136,64 @@ const projects = (await getProjects()).filter((project) => project.data.featured
     letter-spacing: -0.035em;
   }
 
+  .featured-series {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+    gap: 30px 48px;
+    padding: clamp(30px, 6vw, 56px);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 56%),
+      var(--surface);
+  }
+
+  .featured-series h2 {
+    margin-bottom: 16px;
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+  }
+
+  .featured-series div > p:last-child {
+    max-width: 660px;
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .featured-series ol {
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .featured-series li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .featured-series li a {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+    padding: 13px 0;
+    text-decoration: none;
+  }
+
+  .featured-series li span {
+    color: var(--accent);
+    font-size: 0.76rem;
+  }
+
+  .featured-series__action {
+    grid-column: 1 / -1;
+    width: fit-content;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
   .audio-entry {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) auto;
@@ -162,6 +240,10 @@ const projects = (await getProjects()).filter((project) => project.data.featured
     }
 
     .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-series {
       grid-template-columns: 1fr;
     }
 

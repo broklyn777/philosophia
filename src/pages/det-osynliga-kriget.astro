@@ -1,0 +1,296 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const chapters = [
+  {
+    number: "01",
+    title: "Vad är kroppen?",
+    description:
+      "Kroppen som skapad verklighet, personens uttryck och deltagare i askes, sakrament och uppståndelse.",
+    href: "/vad-ar-kroppen/",
+    status: "Publicerad",
+  },
+  {
+    number: "02",
+    title: "Vad är själen?",
+    description:
+      "Själens krafter, hennes splittring och hennes möjlighet till rening, läkedom och gudsgemenskap.",
+    href: "/vad-ar-sjalen/",
+    status: "Publicerad",
+  },
+  {
+    number: "03",
+    title: "Vad är anden?",
+    description:
+      "Människans gudsöppna djup, samvetet, nous och mottagligheten för den helige Andes nåd.",
+    href: "/vad-ar-anden/",
+    status: "Publicerad",
+  },
+  {
+    number: "04",
+    title: "Hur påverkar de varandra?",
+    description:
+      "Hur kropp, själ och ande hör samman i en enda person och formar människans sätt att leva.",
+    status: "Kommande",
+  },
+  {
+    number: "05",
+    title: "Vad är en passion?",
+    description:
+      "Hur naturliga krafter förvrids, hur vanor binder viljan och varför passionen inte är människans sanna natur.",
+    status: "Kommande",
+  },
+  {
+    number: "06",
+    title: "Hur återställs den inre ordningen?",
+    description:
+      "Om nåd, omvändelse, urskiljning och dygd som läkedom för den splittrade människan.",
+    status: "Kommande",
+  },
+  {
+    number: "07",
+    title: "Hur praktiseras detta i vardagen?",
+    description:
+      "En konkret väg genom bön, vaksamhet, fasta, relationer, arbete och återkommande självrannsakan.",
+    status: "Kommande",
+  },
+];
+---
+
+<BaseLayout
+  title="Det osynliga kriget"
+  description="En serie om kropp, själ och ande i ortodox kristen antropologi och om den inre ordningens läkedom."
+>
+  <main>
+    <header class="series-hero">
+      <p class="eyebrow"><a href="/om-manniskan/">Om människan</a> · Ortodox antropologi</p>
+      <h1>Det osynliga kriget</h1>
+      <p class="lead">
+        En väg genom kropp, själ och ande — från människans skapade natur till
+        passionernas kamp, den inre ordningens läkedom och vardagens andliga
+        praktik.
+      </p>
+      <a class="start-link" href="/vad-ar-kroppen/">
+        Börja med kroppen <span aria-hidden="true">→</span>
+      </a>
+    </header>
+
+    <section class="series-intro" aria-labelledby="om-serien">
+      <div>
+        <p class="eyebrow">Om serien</p>
+        <h2 id="om-serien">En människa, flera dimensioner</h2>
+      </div>
+      <div class="series-intro__text">
+        <p>
+          Det osynliga kriget utspelar sig inte mellan kroppen och själen som
+          om den ena vore god och den andra ond. Det gäller hela människans
+          riktning: vad hon ser som gott, vad hon längtar efter och hur hon
+          använder sina skapade krafter.
+        </p>
+        <p>
+          Serien börjar därför med antropologins grundfrågor och går sedan
+          vidare till passionerna, läkningen och den konkreta praktiken. Den
+          ortodoxa traditionens texter — däribland <em>Unseen Warfare</em> —
+          fungerar som vägvisare för denna rörelse från splittring till samling.
+        </p>
+      </div>
+    </section>
+
+    <section class="chapters" aria-labelledby="kapitel">
+      <div class="chapters__heading">
+        <p class="eyebrow">Läsordning</p>
+        <h2 id="kapitel">Sju frågor</h2>
+      </div>
+      <ol>
+        {
+          chapters.map((chapter) => (
+            <li class:list={[{ "chapter--planned": !chapter.href }]}>
+              <span class="chapter__number">{chapter.number}</span>
+              <div>
+                <p class="chapter__status">{chapter.status}</p>
+                <h3>
+                  {chapter.href ? <a href={chapter.href}>{chapter.title}</a> : chapter.title}
+                </h3>
+                <p>{chapter.description}</p>
+              </div>
+              {chapter.href ? (
+                <a class="chapter__link" href={chapter.href} aria-label={`Läs ${chapter.title}`}>
+                  Läs <span aria-hidden="true">→</span>
+                </a>
+              ) : (
+                <span class="chapter__coming">Under arbete</span>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <nav class="back-link" aria-label="Tillbaka till överordnad studie">
+      <a href="/om-manniskan/">← Till Om människan</a>
+    </nav>
+  </main>
+</BaseLayout>
+
+<style>
+  .series-hero {
+    min-height: 66vh;
+    display: grid;
+    align-content: center;
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .series-hero .eyebrow a {
+    text-decoration: none;
+  }
+
+  h1 {
+    max-width: 930px;
+    margin-bottom: 22px;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.88;
+    letter-spacing: -0.06em;
+  }
+
+  .start-link {
+    width: fit-content;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 0 19px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .series-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: 44px;
+    padding: 54px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .series-intro h2,
+  .chapters__heading h2 {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  .series-intro__text {
+    max-width: 680px;
+    color: var(--muted);
+    font-size: 1.12rem;
+    line-height: 1.75;
+  }
+
+  .series-intro__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .chapters {
+    padding: 54px 0 24px;
+  }
+
+  .chapters__heading {
+    margin-bottom: 28px;
+  }
+
+  .chapters ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .chapters li {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    gap: 22px;
+    align-items: start;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .chapter--planned {
+    opacity: 0.62;
+  }
+
+  .chapter__number,
+  .chapter__status {
+    color: var(--accent);
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .chapter__status {
+    margin-bottom: 7px;
+  }
+
+  .chapters h3 {
+    margin-bottom: 8px;
+    font-size: clamp(1.5rem, 3.5vw, 2.35rem);
+    line-height: 1.1;
+  }
+
+  .chapters h3 a,
+  .chapter__link,
+  .back-link a {
+    text-decoration: none;
+  }
+
+  .chapters li div > p:last-child {
+    max-width: 720px;
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .chapter__link,
+  .chapter__coming {
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .chapter__coming {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .back-link {
+    padding: 32px 0 56px;
+  }
+
+  .back-link a {
+    color: var(--accent);
+  }
+
+  @media (max-width: 720px) {
+    .series-hero {
+      min-height: auto;
+      padding: 44px 0;
+    }
+
+    .series-intro {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .chapters li {
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .chapter__link,
+    .chapter__coming {
+      grid-column: 2;
+    }
+  }
+</style>
