@@ -209,6 +209,80 @@ const prayers = [
       ["Lord...", "Have mercy...", "Light...", "Eternal...", "Amen..."],
     ],
   },
+  {
+    id: "lar-mig-att-forlata",
+    title: "Lär mig att förlåta",
+    description:
+      "En bön om mildhet, barmhärtighet och hjärtats djupa förlåtelse.",
+    category: "Bön",
+    tradition: "Bysantinsk sångstil",
+    duration: "4:19",
+    fileSize: "5,6 MB",
+    src: "/audio/boner/lar-mig-att-forlata.mp3",
+    text: [
+      ["Herre Jesus Kristus...", "Guds Son...", "förbarma Dig över mig..."],
+      ["Herre, förbarma Dig...", "Herre, förbarma Dig...", "Herre, förbarma Dig..."],
+      [
+        "Herre...",
+        "Du som förlåter mina synder...",
+        "lär mig att förlåta...",
+      ],
+      ["Där jag bär vrede...", "giv mig mildhet..."],
+      ["Där jag bär bitterhet...", "giv mig barmhärtighet..."],
+      ["Där jag minns det onda...", "låt mig minnas Din nåd..."],
+      [
+        "Lär mig att förlåta, Herre...",
+        "Lär mig att förlåta, Herre...",
+        "Lär mig att förlåta...",
+      ],
+      [
+        "Låt mig icke döma",
+        "den som har sårat mig.",
+      ],
+      [
+        "Låt mig icke nära",
+        "det onda i mitt hjärta.",
+      ],
+      [
+        "Låt mig icke söka hämnd...",
+        "Låt mig icke återgälda ont med ont...",
+      ],
+      ["Men giv mig tålamod...", "giv mig ödmjukhet...", "giv mig frid..."],
+      ["Rena mitt hjärta, Herre...", "Rena mitt hjärta, Herre...", "Rena mitt hjärta..."],
+      ["När minnet återvänder...", "förbarma Dig över mig..."],
+      ["När vreden vaknar...", "förbarma Dig över mig..."],
+      ["När jag icke förmår förlåta...", "övergiv mig icke..."],
+      ["Övergiv mig icke, Herre...", "Övergiv mig icke, Herre...", "Övergiv mig icke..."],
+      ["Kristus...", "Du som förlät Dina fiender..."],
+      [
+        "mjukna mitt hjärta...",
+        "lossa bitterhetens bojor...",
+        "hela det som blivit sårat...",
+      ],
+      [
+        "Lär mig att förlåta...",
+        "icke med läpparna allenast...",
+        "utan i hjärtats djup...",
+      ],
+      [
+        "Lär mig att förlåta, Herre...",
+        "Lär mig att förlåta, Herre...",
+        "Giv frid åt min själ...",
+      ],
+      ["Herre, förbarma Dig...", "Herre, förbarma Dig...", "Herre, förbarma Dig..."],
+    ],
+  },
+  {
+    id: "christ-is-risen",
+    title: "Christ is risen",
+    description:
+      "En påsksång om Kristi uppståndelse och segern över döden.",
+    category: "Sång",
+    tradition: "Bysantinsk sångstil",
+    duration: "4:13",
+    fileSize: "5,7 MB",
+    src: "/audio/boner/christ-is-risen.mp3",
+  },
 ];
 ---
 
@@ -248,35 +322,37 @@ const prayers = [
                   Din webbläsare stöder inte ljudspelaren.
                 </audio>
                 <div class="prayer-actions">
-                  <button type="button" data-open-prayer={prayer.id}>Visa text</button>
+                  {prayer.text && <button type="button" data-open-prayer={prayer.id}>Visa text</button>}
                   <a href={prayer.src} download>Ladda ned MP3</a>
                 </div>
               </div>
-              <dialog class="prayer-dialog" data-prayer-dialog={prayer.id}>
-                <div class="dialog-shell">
-                  <header class="dialog-heading">
-                    <div>
-                      <p class="eyebrow">{prayer.tradition}</p>
-                      <h2>{prayer.title}</h2>
+              {prayer.text && (
+                <dialog class="prayer-dialog" data-prayer-dialog={prayer.id}>
+                  <div class="dialog-shell">
+                    <header class="dialog-heading">
+                      <div>
+                        <p class="eyebrow">{prayer.tradition}</p>
+                        <h2>{prayer.title}</h2>
+                      </div>
+                      <button type="button" data-close-prayer aria-label="Stäng texten">
+                        Stäng
+                      </button>
+                    </header>
+                    <div class="prayer-text">
+                      {prayer.text.map((stanza) => (
+                        <p>
+                          {stanza.map((line) => (
+                            <>
+                              {line}
+                              <br />
+                            </>
+                          ))}
+                        </p>
+                      ))}
                     </div>
-                    <button type="button" data-close-prayer aria-label="Stäng texten">
-                      Stäng
-                    </button>
-                  </header>
-                  <div class="prayer-text">
-                    {prayer.text.map((stanza) => (
-                      <p>
-                        {stanza.map((line) => (
-                          <>
-                            {line}
-                            <br />
-                          </>
-                        ))}
-                      </p>
-                    ))}
                   </div>
-                </div>
-              </dialog>
+                </dialog>
+              )}
             </article>
           ))
         }
