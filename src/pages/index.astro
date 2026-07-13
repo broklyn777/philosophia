@@ -23,7 +23,20 @@ const projects = (await getProjects()).filter((project) => project.data.featured
       <div class="actions">
         <a href="/blog/">Läs bloggen</a>
         <a href="/projekt/">Öppna biblioteket</a>
+        <a href="/boner/">Lyssna på böner</a>
       </div>
+    </section>
+
+    <section class="section audio-entry" aria-labelledby="inlasta-boner">
+      <div>
+        <p class="eyebrow">Stillhet</p>
+        <h2 id="inlasta-boner">Inlästa böner och sånger</h2>
+      </div>
+      <p>
+        Lyssna på ortodoxa böner och sånger i bysantinsk stil, med texter och
+        möjlighet att ladda ned MP3.
+      </p>
+      <a href="/boner/">Öppna ljudbiblioteket</a>
     </section>
 
     <section class="section">
@@ -103,6 +116,39 @@ const projects = (await getProjects()).filter((project) => project.data.featured
     letter-spacing: -0.035em;
   }
 
+  .audio-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .audio-entry h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .audio-entry p:not(.eyebrow) {
+    max-width: 620px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .audio-entry a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
   .project-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -117,6 +163,15 @@ const projects = (await getProjects()).filter((project) => project.data.featured
 
     .project-grid {
       grid-template-columns: 1fr;
+    }
+
+    .audio-entry {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .audio-entry a {
+      width: fit-content;
     }
   }
 </style>
