@@ -1,0 +1,505 @@
+---
+const states = [
+  {
+    id: "frosseri",
+    label: "Frosseri",
+    greek: "gastrimargia",
+    angle: -90,
+    short: "Begäret gör det nödvändiga omåttligt.",
+    pattern:
+      "Frosseriet låter kroppens goda behov växa till ett krav på ständig tillfredsställelse. Hungern börjar styra uppmärksamheten i stället för att tjäna livet.",
+    movement: "Öva måttfullhet och ta emot det du behöver med tacksamhet.",
+    prayer: "Herre, lär mig att ta emot Dina gåvor utan att bli deras fånge.",
+    href: "/evagrios-frosseri/",
+    linkLabel: "Läs om frosseri",
+  },
+  {
+    id: "otukt",
+    label: "Otukt",
+    greek: "porneia",
+    angle: -45,
+    short: "Den andre blir en bild för mitt begär.",
+    pattern:
+      "Porneia skiljer kroppen från personen och låter fantasin göra den andre till ett medel. Blicken förlorar vördnaden för människans helhet.",
+    movement: "Återför blicken till personen och möt kroppen med kyskhet och vördnad.",
+    prayer: "Kristus, rena min blick och lär mig att se varje människa i Dig.",
+    href: "/evagrios-otukt/",
+    linkLabel: "Läs om otukt",
+  },
+  {
+    id: "girighet",
+    label: "Girighet",
+    greek: "philargyria",
+    angle: 0,
+    short: "Tryggheten binds vid det jag kan äga.",
+    pattern:
+      "Girigheten gör framtiden till ett hot som bara mer kan skydda oss mot. Ägandet upphör att vara ett redskap och blir ett löfte om säkerhet.",
+    movement: "Öva generositet och skilj verklig omsorg från rädslans samlande.",
+    prayer: "Herre, Du är min trygghet; öppna min hand för den som behöver.",
+    href: "/evagrios-girighet/",
+    linkLabel: "Läs om girighet",
+  },
+  {
+    id: "vrede",
+    label: "Vrede",
+    greek: "orge",
+    angle: 90,
+    short: "Minnet håller fast vid oförrätten.",
+    pattern:
+      "Vrede låser blicken vid den andre och låter såret bli en inre domstol. Hos Evagrios stör den särskilt bönen, eftersom nous binds till oförrätten.",
+    movement: "Öva mildhet, tystnad och förbön innan du svarar.",
+    prayer: "Herre, förbarma Dig över mig och över den jag dömer.",
+    href: "/evagrios-vrede/",
+    linkLabel: "Läs om vrede",
+  },
+  {
+    id: "sorg",
+    label: "Sorg",
+    greek: "lype",
+    angle: 45,
+    short: "Förlusten vill bli hela verkligheten.",
+    pattern:
+      "Sorg kan vara sann och helig, men passionerad sorg stänger människan kring det förlorade och gör hoppet svårt att se.",
+    movement: "Låt sorgen tala inför Gud utan att göra mörkret absolut.",
+    prayer: "Kristus, bär det jag inte kan bära ensam.",
+    href: "/evagrios-sorg/",
+    linkLabel: "Läs om sorg",
+  },
+  {
+    id: "akedia",
+    label: "Modlöshet",
+    greek: "akedia",
+    angle: 135,
+    short: "Allt gott känns tungt, långt borta och meningslöst.",
+    pattern:
+      "Akedia viskar att platsen, bönen och arbetet är outhärdliga. Den vill få människan att fly just när uthållighet behövs.",
+    movement: "Stanna kvar i det lilla goda: bön, arbete, vila och nästa trogna steg.",
+    prayer: "Herre, överge mig inte när min vilja blir svag.",
+    href: "/evagrios-akedia/",
+    linkLabel: "Läs om akedia",
+  },
+  {
+    id: "fafanga",
+    label: "Fåfänga",
+    greek: "kenodoxia",
+    angle: 180,
+    short: "Det goda börjar söka publik.",
+    pattern:
+      "Fåfängan gör även dygden speglande. Den vill att människan ska se sig själv som bedjande, god, klok eller andlig.",
+    movement: "Gör en god handling i det fördolda och låt den försvinna.",
+    prayer: "Herre, befria mig från behovet att bli sedd.",
+    href: "/evagrios-fafanga/",
+    linkLabel: "Läs om fåfänga",
+  },
+  {
+    id: "hogmod",
+    label: "Högmod",
+    greek: "hyperephania",
+    angle: 225,
+    short: "Jagets bild av sig själv blir centrum.",
+    pattern:
+      "Högmodet kan gömma sig både i upphöjdhet och förtvivlan. Det är chocken över att just jag kunde falla.",
+    movement: "Minns svagheten utan självhat och ta emot nåden utan anspråk.",
+    prayer: "Gud, var mig syndare nådig.",
+    href: "/evagrios-hogmod/",
+    linkLabel: "Läs om högmod",
+  },
+];
+
+const activeState = states[0];
+---
+
+<section class="inner-map" aria-labelledby="inner-map-title" data-inner-map>
+  <div class="inner-map__intro">
+    <p class="eyebrow">Inre karta</p>
+    <h2 id="inner-map-title">När tanken blir en kamp</h2>
+    <p>
+      Välj en av Evagrios åtta grundläggande logismoi och se dess rörelse i
+      människan: från tanke, till passion, till en möjlig motrörelse.
+    </p>
+  </div>
+
+  <div class="inner-map__surface">
+    <div class="inner-map__diagram" aria-label="Andliga tillstånd">
+      <div class="inner-map__rings" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <strong>nous</strong>
+      </div>
+      {
+        states.map((state, index) => (
+          <button
+            type="button"
+            class:list={["inner-map__node", { "is-active": index === 0 }]}
+            style={`--angle: ${state.angle}deg`}
+            aria-pressed={index === 0 ? "true" : "false"}
+            data-state-id={state.id}
+          >
+            <span>{state.label}</span>
+            <small>{state.greek}</small>
+          </button>
+        ))
+      }
+    </div>
+
+    <article class="inner-map__reading" aria-live="polite">
+      <p class="inner-map__state" data-map-label>{activeState.label}</p>
+      <h3 data-map-short>{activeState.short}</h3>
+      <div class="inner-map__lines">
+        <p><span>Mönster</span><strong data-map-pattern>{activeState.pattern}</strong></p>
+        <p><span>Motrörelse</span><strong data-map-movement>{activeState.movement}</strong></p>
+        <p><span>Kort bön</span><strong data-map-prayer>{activeState.prayer}</strong></p>
+      </div>
+      <a href={activeState.href} data-map-link>{activeState.linkLabel}</a>
+    </article>
+  </div>
+
+  <script is:inline type="application/json" data-inner-map-data set:html={JSON.stringify(states)} />
+</section>
+
+<script>
+  type InnerMapState = {
+    id: string;
+    label: string;
+    short: string;
+    pattern: string;
+    movement: string;
+    prayer: string;
+    href: string;
+    linkLabel: string;
+  };
+
+  const map = document.querySelector("[data-inner-map]");
+  const dataNode = map?.querySelector("[data-inner-map-data]");
+
+  if (map && dataNode?.textContent) {
+    const states = JSON.parse(dataNode.textContent) as InnerMapState[];
+    const nodes = [...map.querySelectorAll("[data-state-id]")];
+    const label = map.querySelector("[data-map-label]");
+    const short = map.querySelector("[data-map-short]");
+    const pattern = map.querySelector("[data-map-pattern]");
+    const movement = map.querySelector("[data-map-movement]");
+    const prayer = map.querySelector("[data-map-prayer]");
+    const link = map.querySelector("[data-map-link]");
+    const reading = map.querySelector(".inner-map__reading");
+
+    function showState(id: string | null) {
+      const state = states.find((item) => item.id === id);
+      if (!state || !(link instanceof HTMLAnchorElement)) return;
+
+      nodes.forEach((node) => {
+        const isActive = node.getAttribute("data-state-id") === id;
+        node.classList.toggle("is-active", isActive);
+        node.setAttribute("aria-pressed", String(isActive));
+      });
+
+      reading?.classList.add("is-changing");
+
+      window.setTimeout(() => {
+        if (label) label.textContent = state.label;
+        if (short) short.textContent = state.short;
+        if (pattern) pattern.textContent = state.pattern;
+        if (movement) movement.textContent = state.movement;
+        if (prayer) prayer.textContent = state.prayer;
+        link.textContent = state.linkLabel;
+        link.href = state.href;
+        reading?.classList.remove("is-changing");
+      }, 170);
+    }
+
+    nodes.forEach((node) => {
+      node.addEventListener("click", () => {
+        showState(node.getAttribute("data-state-id"));
+      });
+    });
+  }
+</script>
+
+<style>
+  .inner-map {
+    margin: 32px 0 40px;
+    padding: 0;
+  }
+
+  .inner-map__intro {
+    max-width: 760px;
+    margin-bottom: 28px;
+  }
+
+  .inner-map__intro h2 {
+    margin-bottom: 14px;
+    font-size: clamp(2.35rem, 6vw, 4.9rem);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+  }
+
+  .inner-map__intro p:not(.eyebrow) {
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+
+  .inner-map__surface {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.08fr);
+    gap: clamp(22px, 5vw, 46px);
+    align-items: stretch;
+    padding: clamp(22px, 5vw, 42px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 28% 45%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34%),
+      linear-gradient(135deg, color-mix(in srgb, var(--surface) 88%, var(--accent)), var(--surface));
+    overflow: hidden;
+  }
+
+  .inner-map__diagram {
+    position: relative;
+    height: 520px;
+    isolation: isolate;
+  }
+
+  .inner-map__rings {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: min(82vw, 330px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+    border-radius: 50%;
+  }
+
+  .inner-map__rings::before,
+  .inner-map__rings span {
+    position: absolute;
+    inset: 14%;
+    content: "";
+    border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+    border-radius: 50%;
+  }
+
+  .inner-map__rings span:first-child {
+    inset: 30%;
+  }
+
+  .inner-map__rings span:last-child {
+    inset: 46%;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .inner-map__rings strong {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .inner-map__node {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 96px;
+    min-height: 50px;
+    display: grid;
+    gap: 2px;
+    place-items: center;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    color: var(--ink);
+    cursor: pointer;
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--angle))
+      translate(0, -150px)
+      rotate(calc(-1 * var(--angle)));
+    transition:
+      border-color 180ms ease,
+      background 180ms ease,
+      color 180ms ease;
+  }
+
+  .inner-map__node:hover,
+  .inner-map__node:focus-visible,
+  .inner-map__node.is-active {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--angle))
+      translate(0, -150px)
+      rotate(calc(-1 * var(--angle)));
+  }
+
+  .inner-map__node:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 42%, #fff);
+    outline-offset: 3px;
+  }
+
+  .inner-map__node span {
+    font-size: 0.82rem;
+    font-weight: 750;
+    line-height: 1.1;
+  }
+
+  .inner-map__node small {
+    color: inherit;
+    font-size: 0.62rem;
+    opacity: 0.72;
+  }
+
+  .inner-map__reading {
+    height: 520px;
+    box-sizing: border-box;
+    display: grid;
+    align-content: start;
+    padding: clamp(22px, 5vw, 38px);
+    border-left: 1px solid var(--line);
+    overflow-y: auto;
+    opacity: 1;
+    transition: opacity 220ms ease;
+  }
+
+  .inner-map__reading.is-changing {
+    opacity: 0;
+  }
+
+  .inner-map__state {
+    margin-bottom: 14px;
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .inner-map__reading h3 {
+    max-width: 620px;
+    margin-bottom: 24px;
+    font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .inner-map__lines {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .inner-map__lines p {
+    margin: 0;
+  }
+
+  .inner-map__lines span {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--accent);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .inner-map__lines strong {
+    display: block;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.65;
+  }
+
+  .inner-map__reading a {
+    width: fit-content;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .inner-map__reading a:hover,
+  .inner-map__reading a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 860px) {
+    .inner-map__surface {
+      grid-template-columns: 1fr;
+    }
+
+    .inner-map__diagram {
+      height: 340px;
+    }
+
+    .inner-map__rings {
+      width: min(78vw, 280px);
+    }
+
+    .inner-map__node {
+      width: 88px;
+      transform:
+        translate(-50%, -50%)
+        rotate(var(--angle))
+        translate(0, -128px)
+        rotate(calc(-1 * var(--angle)));
+    }
+
+    .inner-map__node:hover,
+    .inner-map__node:focus-visible,
+    .inner-map__node.is-active {
+      transform:
+        translate(-50%, -50%)
+        rotate(var(--angle))
+        translate(0, -128px)
+        rotate(calc(-1 * var(--angle)));
+    }
+
+    .inner-map__reading {
+      height: 500px;
+      border-top: 1px solid var(--line);
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .inner-map__surface {
+      padding: 18px;
+    }
+
+    .inner-map__diagram {
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0;
+    }
+
+    .inner-map__rings {
+      display: none;
+    }
+
+    .inner-map__node,
+    .inner-map__node:hover,
+    .inner-map__node:focus-visible,
+    .inner-map__node.is-active {
+      position: static;
+      width: auto;
+      min-height: 50px;
+      transform: none;
+    }
+
+    .inner-map__reading {
+      height: 540px;
+      padding: 20px 0 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .inner-map__node,
+    .inner-map__reading {
+      transition: none;
+    }
+  }
+</style>

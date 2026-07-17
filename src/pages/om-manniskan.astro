@@ -1,4 +1,5 @@
 ---
+import InnerMap from "../components/InnerMap.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -26,6 +27,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
       </div>
 
+      <InnerMap />
+
       <ol class="reading-list">
         <li class="reading-item reading-item--published">
           <span class="number">01</span>
@@ -43,7 +46,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             href="/varfor-gor-vi-sadant-vi-inte-vill-gora/"
             aria-label="Läs Varför gör vi sådant vi inte vill göra?"
           >
-            Läs <span aria-hidden="true">→</span>
+            <span aria-hidden="true">→</span>
           </a>
         </li>
         <li class="reading-item reading-item--published">
@@ -61,7 +64,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             href="/ar-jag-mina-tankar/"
             aria-label="Läs Är jag mina tankar?"
           >
-            Läs <span aria-hidden="true">→</span>
+            <span aria-hidden="true">→</span>
           </a>
         </li>
         <li class="reading-item reading-item--published">
@@ -78,7 +81,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             href="/kan-manniskan-forandras/"
             aria-label="Läs Kan människan förändras?"
           >
-            Läs <span aria-hidden="true">→</span>
+            <span aria-hidden="true">→</span>
           </a>
         </li>
       </ol>
@@ -231,10 +234,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .reading-item {
     display: grid;
-    grid-template-columns: 54px minmax(0, 1fr) auto;
-    gap: 22px;
-    align-items: start;
-    padding: 26px 0;
+    grid-template-columns: 34px minmax(0, 1fr) 28px;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 0;
     border-bottom: 1px solid var(--line);
   }
 
@@ -248,7 +251,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .state {
-    margin-bottom: 7px;
+    margin-bottom: 3px;
+    font-size: 0.66rem;
   }
 
   .reading-item h3,
@@ -256,6 +260,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .related-card h3 {
     margin-bottom: 8px;
     font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .reading-item h3 {
+    margin-bottom: 3px;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
     line-height: 1.15;
   }
 
@@ -275,10 +285,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     line-height: 1.65;
   }
 
+  .reading-item div > p:last-child {
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
   .arrow,
   .study-link,
   .related-link {
     color: var(--accent);
+  }
+
+  .arrow {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    font-size: 1.05rem;
   }
 
   .reading-item--planned {
@@ -404,12 +427,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   @media (max-width: 720px) {
     .reading-item {
-      grid-template-columns: 38px minmax(0, 1fr);
-      gap: 14px;
+      grid-template-columns: 24px minmax(0, 1fr) 28px;
+      gap: 10px;
+      padding: 12px 0;
     }
 
     .arrow {
-      grid-column: 2;
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .reading-item div > p:last-child {
+      display: none;
     }
 
     .study-grid {
