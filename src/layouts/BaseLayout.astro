@@ -24,11 +24,13 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     <slot name="head" />
     <script is:inline>
       try {
-        const storedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+        if (!document.documentElement.dataset.theme) {
+          const storedTheme = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+        }
       } catch {
-        document.documentElement.dataset.theme = "light";
+        if (!document.documentElement.dataset.theme) document.documentElement.dataset.theme = "light";
       }
     </script>
   </head>

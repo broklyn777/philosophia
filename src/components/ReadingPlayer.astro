@@ -75,6 +75,7 @@
     };
 
     const speakNext = () => {
+      if (chunks.length === 0) return;
       if (chunkIndex >= chunks.length) {
         updateStatus("Uppläsningen är klar.");
         pauseButton.textContent = "Pausa";
@@ -118,6 +119,7 @@
       speech.cancel();
       chunks = splitText(`${articleTitle}. ${content}`);
       chunkIndex = 0;
+      isPaused = false;
       titleElement.textContent = articleTitle;
       player.hidden = false;
       updateStatus("Förbereder uppläsningen …");
@@ -142,13 +144,12 @@
     });
 
     pauseButton.addEventListener("click", () => {
-      if (!speech.speaking && !speech.paused) return;
-      if (speech.paused) {
+      if (isPaused) {
         speech.resume();
         pauseButton.textContent = "Pausa";
         updateStatus(`Del ${chunkIndex + 1} av ${chunks.length}`);
         isPaused = false;
-      } else {
+      } else if (speech.speaking) {
         speech.pause();
         pauseButton.textContent = "Fortsätt";
         updateStatus("Pausad");
@@ -166,7 +167,7 @@
     });
 
     rateInput.addEventListener("change", () => {
-      if (!speech.speaking && !speech.paused) return;
+      if (!chunks.length || (!speech.speaking && !isPaused)) return;
       const wasPaused = isPaused;
       speech.cancel();
       speakNext();
@@ -175,7 +176,13 @@
 
     if ("mediaSession" in navigator) {
       navigator.mediaSession.setActionHandler("play", () => speech.resume());
-      navigator.mediaSession.setActionHandler("pause", () => speech.pause());
+      navigator.mediaSession.setActionHandler("pause", () => {
+        if (!speech.speaking) return;
+        speech.pause();
+        isPaused = true;
+        pauseButton.textContent = "Fortsätt";
+        updateStatus("Pausad");
+      });
       navigator.mediaSession.setActionHandler("stop", () => speech.cancel());
     }
   }
