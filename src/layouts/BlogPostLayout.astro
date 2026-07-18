@@ -10,6 +10,7 @@ interface Props {
   tags: string[];
   plain?: boolean;
   audioEnabled?: boolean;
+  readingMinutes?: number;
   seriesNavigation?: {
     indexHref: string;
     indexLabel?: string;
@@ -26,6 +27,7 @@ const {
   date,
   tags,
   plain = false,
+  readingMinutes,
   seriesNavigation,
 } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("sv-SE", {
@@ -53,6 +55,7 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
           !plain && (
             <>
               <time datetime={date.toISOString()}>{formattedDate}</time>
+              {readingMinutes && <span class="reading-time">{readingMinutes} min läsning</span>}
               <div class="tags">
                 {tags.map((tag) => <a href={`/amnen/${slugifyTag(tag)}/`}>{tag}</a>)}
               </div>
@@ -93,6 +96,13 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
     display: block;
     margin-top: 18px;
     font-weight: 700;
+  }
+
+  .reading-time {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 0.92rem;
   }
 
   h1 {

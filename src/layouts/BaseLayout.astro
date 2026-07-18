@@ -38,24 +38,32 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     <SiteFooter />
     <ReadingPlayer />
     <script is:inline>
-      const themeButton = document.querySelector("[data-theme-toggle]");
-      const themeLabel = document.querySelector("[data-theme-label]");
-
       function updateThemeLabel() {
         const isDark = document.documentElement.dataset.theme === "dark";
+        const themeButton = document.querySelector("[data-theme-toggle]");
+        const themeLabel = document.querySelector("[data-theme-label]");
         if (themeLabel) themeLabel.textContent = isDark ? "Ljust" : "Mörkt";
         themeButton?.setAttribute("aria-label", isDark ? "Byt till ljust tema" : "Byt till mörkt tema");
       }
 
+      if (!document.documentElement.dataset.themeController) {
+        document.documentElement.dataset.themeController = "ready";
+        document.addEventListener("click", (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
+          const themeButton = target.closest("[data-theme-toggle]");
+          if (!themeButton) return;
+
+          const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+          document.documentElement.dataset.theme = next;
+          try {
+            localStorage.setItem("theme", next);
+          } catch {}
+          updateThemeLabel();
+        });
+      }
+
       updateThemeLabel();
-      themeButton?.addEventListener("click", () => {
-        const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        document.documentElement.dataset.theme = next;
-        try {
-          localStorage.setItem("theme", next);
-        } catch {}
-        updateThemeLabel();
-      });
     </script>
   </body>
 </html>
