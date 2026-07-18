@@ -75,6 +75,7 @@
     };
 
     const speakNext = () => {
+      if (isPaused) return;
       if (chunks.length === 0) return;
       if (chunkIndex >= chunks.length) {
         updateStatus("Uppläsningen är klar.");
@@ -99,6 +100,7 @@
         isPaused = false;
       };
       utterance.onend = () => {
+        if (isPaused) return;
         chunkIndex += 1;
         speakNext();
       };
@@ -145,15 +147,19 @@
 
     pauseButton.addEventListener("click", () => {
       if (isPaused) {
+        // Some mobile browsers leave SpeechSynthesis paused forever. Starting
+        // the current short chunk again is more reliable than calling resume().
+        isPaused = false;
         speech.resume();
+        speech.cancel();
         pauseButton.textContent = "Pausa";
         updateStatus(`Del ${chunkIndex + 1} av ${chunks.length}`);
-        isPaused = false;
+        speakNext();
       } else if (speech.speaking) {
-        speech.pause();
+        isPaused = true;
+        speech.cancel();
         pauseButton.textContent = "Fortsätt";
         updateStatus("Pausad");
-        isPaused = true;
       }
     });
 
@@ -170,8 +176,12 @@
       if (!chunks.length || (!speech.speaking && !isPaused)) return;
       const wasPaused = isPaused;
       speech.cancel();
+      isPaused = false;
       speakNext();
-      if (wasPaused) speech.pause();
+      if (wasPaused) {
+        isPaused = true;
+        speech.cancel();
+      }
     });
 
     if ("mediaSession" in navigator) {

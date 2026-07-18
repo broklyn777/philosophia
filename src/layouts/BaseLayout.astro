@@ -25,7 +25,8 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
     <script is:inline>
       try {
         if (!document.documentElement.dataset.theme) {
-          const storedTheme = localStorage.getItem("theme");
+          const cookieTheme = document.cookie.match(/(?:^|; )theme=(dark|light)/)?.[1];
+          const storedTheme = localStorage.getItem("theme") || cookieTheme;
           const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
           document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
         }
@@ -61,11 +62,13 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
           try {
             localStorage.setItem("theme", next);
           } catch {}
+          document.cookie = `theme=${next}; path=/; max-age=31536000; SameSite=Lax`;
           updateThemeLabel();
         });
       }
 
       updateThemeLabel();
+      document.addEventListener("astro:after-swap", updateThemeLabel);
     </script>
   </body>
 </html>
