@@ -65,6 +65,13 @@ const pageTitle = title === "Philosophia" ? title : `${title} - Philosophia`;
           document.cookie = `theme=${next}; path=/; max-age=31536000; SameSite=Lax`;
           updateThemeLabel();
         });
+
+        document.addEventListener("astro:before-swap", (event) => {
+          const currentTheme = document.documentElement.dataset.theme;
+          if (currentTheme && event.newDocument?.documentElement) {
+            event.newDocument.documentElement.dataset.theme = currentTheme;
+          }
+        });
       }
 
       updateThemeLabel();
