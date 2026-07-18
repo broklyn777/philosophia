@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import ArticleAudioPlayer from "../components/ArticleAudioPlayer.astro";
 import SeriesNavigation from "../components/mdx/SeriesNavigation.astro";
 import { slugifyTag } from "../lib/content";
 
@@ -27,7 +26,6 @@ const {
   date,
   tags,
   plain = false,
-  audioEnabled = false,
   seriesNavigation,
 } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("sv-SE", {
@@ -44,8 +42,13 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
         class:list={["article-header", { "article-header--plain": plain }]}
       >
         {!plain && <p class="eyebrow">Blogg</p>}
-        <h1>{title}</h1>
+        <h1 data-reading-title>{title}</h1>
         {!plain && <p class="lead">{description}</p>}
+        {!plain && (
+          <button class="read-article-button" type="button" data-read-article>
+            ▶ Läs upp artikeln
+          </button>
+        )}
         {
           !plain && (
             <>
@@ -57,8 +60,7 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
           )
         }
       </header>
-      {audioEnabled && <ArticleAudioPlayer />}
-      <div class="prose">
+      <div class="prose" data-reading-content>
         <slot />
       </div>
       <div>
@@ -115,5 +117,29 @@ const formattedDate = new Intl.DateTimeFormat("sv-SE", {
     letter-spacing: 0;
     text-decoration: none;
     text-transform: uppercase;
+  }
+
+  .read-article-button {
+    min-height: 42px;
+    margin-top: 18px;
+    padding: 8px 15px;
+    border: 1px solid var(--accent);
+    border-radius: 7px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .read-article-button:hover,
+  .read-article-button:focus-visible {
+    border-color: var(--accent-strong);
+    background: var(--accent-strong);
+  }
+
+  .read-article-button:focus-visible {
+    outline: 3px solid rgb(20 184 166 / 24%);
+    outline-offset: 2px;
   }
 </style>

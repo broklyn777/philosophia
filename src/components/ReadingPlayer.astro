@@ -1,0 +1,299 @@
+<aside class="reading-player" data-reading-player transition:persist="reading-player" hidden aria-label="Uppläsare">
+  <div class="reading-player__copy">
+    <span class="reading-player__label">Lyssnar nu</span>
+    <strong data-reading-player-title>Ingen artikel vald</strong>
+    <span class="reading-player__status" data-reading-status>Välj en artikel för att börja lyssna.</span>
+  </div>
+  <div class="reading-player__controls">
+    <button type="button" data-reading-pause aria-label="Pausa uppläsningen">Pausa</button>
+    <button type="button" data-reading-stop aria-label="Stoppa uppläsningen">Stoppa</button>
+    <label class="reading-player__speed">
+      <span>Hastighet</span>
+      <select data-reading-rate aria-label="Uppläsningshastighet">
+        <option value="0.8">0,8×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.2">1,2×</option>
+        <option value="1.5">1,5×</option>
+      </select>
+    </label>
+  </div>
+</aside>
+
+<script>
+  const player = document.querySelector<HTMLElement>("[data-reading-player]");
+  const titleElement = player?.querySelector("[data-reading-player-title]");
+  const statusElement = player?.querySelector("[data-reading-status]");
+  const pauseButton = player?.querySelector("[data-reading-pause]");
+  const stopButton = player?.querySelector("[data-reading-stop]");
+  const rateInput = player?.querySelector<HTMLSelectElement>("[data-reading-rate]");
+
+  if (
+    player &&
+    titleElement &&
+    statusElement &&
+    pauseButton &&
+    stopButton &&
+    rateInput &&
+    "speechSynthesis" in window
+  ) {
+    const speech = window.speechSynthesis;
+    let chunks: string[] = [];
+    let chunkIndex = 0;
+    let isPaused = false;
+
+    const updateStatus = (message: string) => {
+      statusElement.textContent = message;
+    };
+
+    const splitText = (text: string) => {
+      const sentences = text.replace(/\s+/g, " ").trim().split(/(?<=[.!?])\s+/);
+      const result = [];
+      let buffer = "";
+
+      for (const sentence of sentences) {
+        if (!sentence) continue;
+        if ((buffer + " " + sentence).trim().length > 220 && buffer) {
+          result.push(buffer.trim());
+          buffer = sentence;
+        } else {
+          buffer = `${buffer} ${sentence}`.trim();
+        }
+      }
+
+      if (buffer) result.push(buffer.trim());
+      return result;
+    };
+
+    const selectVoice = () => {
+      const voices = speech.getVoices();
+      return (
+        voices.find((voice) => voice.lang.toLocaleLowerCase() === "sv-se") ??
+        voices.find((voice) => voice.lang.toLocaleLowerCase().startsWith("sv")) ??
+        voices.find((voice) => voice.default) ??
+        voices[0]
+      );
+    };
+
+    const speakNext = () => {
+      if (chunkIndex >= chunks.length) {
+        updateStatus("Uppläsningen är klar.");
+        pauseButton.textContent = "Pausa";
+        isPaused = false;
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
+      const voice = selectVoice();
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+      } else {
+        utterance.lang = "sv-SE";
+      }
+      utterance.rate = Number(rateInput.value);
+      utterance.pitch = 1;
+      utterance.onstart = () => {
+        updateStatus(`Del ${chunkIndex + 1} av ${chunks.length}`);
+        pauseButton.textContent = "Pausa";
+        isPaused = false;
+      };
+      utterance.onend = () => {
+        chunkIndex += 1;
+        speakNext();
+      };
+      utterance.onerror = (event) => {
+        if (event.error !== "canceled" && event.error !== "interrupted") {
+          updateStatus("Uppläsningen kunde inte fortsätta.");
+        }
+      };
+
+      speech.speak(utterance);
+    };
+
+    const startReading = (article: HTMLElement) => {
+      const articleTitle = article.querySelector("[data-reading-title]")?.textContent?.trim();
+      const content = article.querySelector("[data-reading-content]")?.textContent?.trim();
+      if (!articleTitle || !content) return;
+
+      speech.cancel();
+      chunks = splitText(`${articleTitle}. ${content}`);
+      chunkIndex = 0;
+      titleElement.textContent = articleTitle;
+      player.hidden = false;
+      updateStatus("Förbereder uppläsningen …");
+      speakNext();
+
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: articleTitle,
+          artist: "Philosophia",
+          album: "Uppläsning",
+        });
+      }
+    };
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const readButton = target.closest("[data-read-article]");
+      if (!readButton) return;
+      const article = readButton.closest("article");
+      if (article) startReading(article);
+    });
+
+    pauseButton.addEventListener("click", () => {
+      if (!speech.speaking && !speech.paused) return;
+      if (speech.paused) {
+        speech.resume();
+        pauseButton.textContent = "Pausa";
+        updateStatus(`Del ${chunkIndex + 1} av ${chunks.length}`);
+        isPaused = false;
+      } else {
+        speech.pause();
+        pauseButton.textContent = "Fortsätt";
+        updateStatus("Pausad");
+        isPaused = true;
+      }
+    });
+
+    stopButton.addEventListener("click", () => {
+      speech.cancel();
+      chunks = [];
+      chunkIndex = 0;
+      updateStatus("Uppläsningen stoppad.");
+      pauseButton.textContent = "Pausa";
+      isPaused = false;
+    });
+
+    rateInput.addEventListener("change", () => {
+      if (!speech.speaking && !speech.paused) return;
+      const wasPaused = isPaused;
+      speech.cancel();
+      speakNext();
+      if (wasPaused) speech.pause();
+    });
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.setActionHandler("play", () => speech.resume());
+      navigator.mediaSession.setActionHandler("pause", () => speech.pause());
+      navigator.mediaSession.setActionHandler("stop", () => speech.cancel());
+    }
+  }
+</script>
+
+<style>
+  .reading-player {
+    position: fixed;
+    z-index: 20;
+    bottom: 16px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    width: min(760px, calc(100% - 24px));
+    padding: 13px 16px;
+    transform: translateX(-50%);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 14px 38px rgb(0 0 0 / 18%);
+  }
+
+  .reading-player[hidden] {
+    display: none;
+  }
+
+  .reading-player__copy {
+    display: grid;
+    min-width: 0;
+  }
+
+  .reading-player__copy strong,
+  .reading-player__status {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .reading-player__copy strong {
+    color: var(--ink);
+    font-size: 0.96rem;
+  }
+
+  .reading-player__label,
+  .reading-player__status,
+  .reading-player__speed span {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .reading-player__label {
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .reading-player__controls {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .reading-player button {
+    min-height: 36px;
+    padding: 5px 10px;
+    border: 1px solid var(--accent);
+    border-radius: 7px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 700;
+  }
+
+  .reading-player button:hover,
+  .reading-player button:focus-visible {
+    border-color: var(--accent-strong);
+    background: var(--accent-strong);
+  }
+
+  .reading-player__speed {
+    display: grid;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .reading-player select {
+    min-height: 30px;
+    padding: 2px 5px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.82rem;
+  }
+
+  .reading-player button:focus-visible,
+  .reading-player select:focus-visible {
+    outline: 3px solid rgb(20 184 166 / 24%);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 620px) {
+    .reading-player {
+      bottom: 10px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .reading-player__controls {
+      justify-content: space-between;
+    }
+  }
+</style>
